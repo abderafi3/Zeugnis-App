@@ -19,7 +19,28 @@ public interface IZeugnisService
         CancellationToken cancellationToken = default);
 
     Task<Zeugnis?> GetAsync(Guid zeugnisId, CancellationToken cancellationToken = default);
+
+    /// <summary>Loads the report card's <see cref="Zeugnis.Formular"/> (with its field definitions) and <see cref="Zeugnis.Kind"/>.</summary>
+    Task<Zeugnis?> GetWithContextAsync(Guid zeugnisId, CancellationToken cancellationToken = default);
+
+    /// <summary>Persists scalar edits and the owned Freitexte / Noten collections.</summary>
+    Task SaveAsync(Zeugnis zeugnis, CancellationToken cancellationToken = default);
+
+    Task SetFertiggestelltAsync(Guid zeugnisId, bool fertiggestellt, CancellationToken cancellationToken = default);
+
+    /// <summary>One row per child in the class for the term overview (plan §7.2).</summary>
+    Task<IReadOnlyList<ZeugnisUebersichtZeile>> GetUebersichtForKlasseAsync(
+        Guid klasseId, string schuljahr, Halbjahr halbjahr, CancellationToken cancellationToken = default);
 }
+
+/// <summary>A row in the Zeugnisübersicht (plan §7.2).</summary>
+public sealed record ZeugnisUebersichtZeile(
+    Guid KindId,
+    string AnzeigeName,
+    Guid? ZeugnisId,
+    bool Fertiggestellt,
+    string? FormularName,
+    bool FormularVerfuegbar);
 
 /// <summary>Outcome of <see cref="IZeugnisService.GetOrCreateAsync"/>.</summary>
 public sealed record ZeugnisErgebnis(Zeugnis? Zeugnis, bool WurdeErstellt, SuggestionReason? FormularQuelle, string? Fehler)

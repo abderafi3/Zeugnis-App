@@ -4,8 +4,8 @@ using ZeugnisApp.App.Resources;
 namespace ZeugnisApp.App.Views;
 
 /// <summary>
-/// Temporary shell page for screens that land in a later sprint. Keeps the
-/// navigation walkable from Sprint 0 (plan §Sprint 0 DoD).
+/// Shell page for a not-yet-built screen. Unused now that every navigation target is real; kept
+/// for the next time a screen needs a placeholder during development.
 /// </summary>
 public partial class PlaceholderPage : Page
 {
@@ -17,7 +17,3 @@ public partial class PlaceholderPage : Page
         Info.Message = sprintHinweis;
     }
 }
-
-// One concrete type per navigation target (WPF-UI resolves pages by CLR type).
-
-public sealed class ZeugnissePage() : PlaceholderPage(Strings.Nav_Zeugnisse, Strings.Placeholder_Zeugnisse);

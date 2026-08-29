@@ -1,0 +1,21 @@
+<Page x:Class="ZeugnisApp.App.Views.ZeugnissePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
+      xmlns:vm="clr-namespace:ZeugnisApp.App.ViewModels.Zeugnisse"
+      xmlns:zv="clr-namespace:ZeugnisApp.App.Views.Zeugnisse"
+      Title="{x:Static res:Strings.Nav_Zeugnisse}">
+
+    <Page.Resources>
+        <DataTemplate DataType="{x:Type vm:ZeugnisUebersichtViewModel}">
+            <zv:ZeugnisUebersichtView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ZeugnisEditorViewModel}">
+            <zv:ZeugnisEditorView />
+        </DataTemplate>
+    </Page.Resources>
+
+    <ContentControl Content="{Binding Current}"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch" />
+</Page>

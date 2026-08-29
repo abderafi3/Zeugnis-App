@@ -278,6 +278,42 @@
   <data name="Fehlzeiten_Col_Hinweis"><value>Hinweis</value></data>
   <data name="Fehlzeiten_Error"><value>Unentschuldigte Stunden dürfen die Gesamtstunden nicht übersteigen.</value></data>
 
+  <!-- ================= Zeugnisse ================= -->
+  <data name="Zeugnisse_Title"><value>Zeugnisse</value></data>
+  <data name="Zeugnisse_Intro"><value>Zeugnisse je Kind für das aktuelle Halbjahr ausfüllen. Die Erzeugung der Word-Datei folgt in Sprint 9.</value></data>
+  <data name="Zeugnisse_Klasse"><value>Klasse</value></data>
+  <data name="Zeugnisse_Term"><value>Schuljahr {0} · {1}</value></data>
+  <data name="Zeugnisse_NoKlasse"><value>Bitte zuerst eine Klasse anlegen.</value></data>
+  <data name="Zeugnisse_Empty"><value>Keine Kinder in dieser Klasse.</value></data>
+  <data name="Zeugnisse_Col_Name"><value>Kind</value></data>
+  <data name="Zeugnisse_Col_Formular"><value>Formular</value></data>
+  <data name="Zeugnisse_Col_Status"><value>Status</value></data>
+  <data name="Zeugnisse_Status_Entwurf"><value>Entwurf</value></data>
+  <data name="Zeugnisse_Status_Fertig"><value>fertiggestellt</value></data>
+  <data name="Zeugnisse_Status_KeinFormular"><value>kein Formular</value></data>
+  <data name="Zeugnisse_Open"><value>Öffnen</value></data>
+  <data name="Zeugnisse_MarkDone"><value>Als fertig markieren</value></data>
+  <data name="Zeugnisse_Reopen"><value>Wieder öffnen</value></data>
+
+  <data name="ZeugnisEditor_Title"><value>Zeugnis – {0}</value></data>
+  <data name="ZeugnisEditor_FormularLabel"><value>Formular: {0}</value></data>
+  <data name="ZeugnisEditor_Section_Freitexte"><value>Freitexte</value></data>
+  <data name="ZeugnisEditor_Section_Noten"><value>Noten</value></data>
+  <data name="ZeugnisEditor_Section_Empfehlung"><value>Empfehlung für die weiterführende Schule</value></data>
+  <data name="ZeugnisEditor_Section_Versetzung"><value>Versetzungsvermerk</value></data>
+  <data name="ZeugnisEditor_Section_Fehlstunden"><value>Fehlstunden</value></data>
+  <data name="ZeugnisEditor_Section_Bemerkungen"><value>Bemerkungen</value></data>
+  <data name="ZeugnisEditor_Empfehlung"><value>Schulformempfehlung</value></data>
+  <data name="ZeugnisEditor_Begruendung"><value>Begründung</value></data>
+  <data name="ZeugnisEditor_Fehlstunden_Gesamt"><value>Stunden gesamt</value></data>
+  <data name="ZeugnisEditor_Fehlstunden_Unentschuldigt"><value>davon unentschuldigt</value></data>
+  <data name="ZeugnisEditor_InsertFloskel"><value>Floskel einfügen</value></data>
+  <data name="ZeugnisEditor_CharCount"><value>{0} / {1} Zeichen</value></data>
+  <data name="ZeugnisEditor_CharCountNoLimit"><value>{0} Zeichen</value></data>
+  <data name="ZeugnisEditor_Overflow"><value>Text ist länger als für dieses Feld vorgesehen – bitte kürzen.</value></data>
+  <data name="ZeugnisEditor_Fertiggestellt"><value>Zeugnis fertiggestellt</value></data>
+  <data name="ZeugnisEditor_ZieldifferentAdded"><value>Der vorgeschriebene Hinweis zur zieldifferenten Förderung wurde in die Bemerkungen eingefügt.</value></data>
+
   <!-- ================= Enums ================= -->
   <data name="Geschlecht_Maennlich"><value>männlich</value></data>
   <data name="Geschlecht_Weiblich"><value>weiblich</value></data>

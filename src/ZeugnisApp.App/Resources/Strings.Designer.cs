@@ -246,6 +246,41 @@ public static class Strings
     public static string Fehlzeiten_Col_Hinweis => Get(nameof(Fehlzeiten_Col_Hinweis));
     public static string Fehlzeiten_Error => Get(nameof(Fehlzeiten_Error));
 
+    // ---- Zeugnisse ----
+    public static string Zeugnisse_Title => Get(nameof(Zeugnisse_Title));
+    public static string Zeugnisse_Intro => Get(nameof(Zeugnisse_Intro));
+    public static string Zeugnisse_Klasse => Get(nameof(Zeugnisse_Klasse));
+    public static string Zeugnisse_Term => Get(nameof(Zeugnisse_Term));
+    public static string Zeugnisse_NoKlasse => Get(nameof(Zeugnisse_NoKlasse));
+    public static string Zeugnisse_Empty => Get(nameof(Zeugnisse_Empty));
+    public static string Zeugnisse_Col_Name => Get(nameof(Zeugnisse_Col_Name));
+    public static string Zeugnisse_Col_Formular => Get(nameof(Zeugnisse_Col_Formular));
+    public static string Zeugnisse_Col_Status => Get(nameof(Zeugnisse_Col_Status));
+    public static string Zeugnisse_Status_Entwurf => Get(nameof(Zeugnisse_Status_Entwurf));
+    public static string Zeugnisse_Status_Fertig => Get(nameof(Zeugnisse_Status_Fertig));
+    public static string Zeugnisse_Status_KeinFormular => Get(nameof(Zeugnisse_Status_KeinFormular));
+    public static string Zeugnisse_Open => Get(nameof(Zeugnisse_Open));
+    public static string Zeugnisse_MarkDone => Get(nameof(Zeugnisse_MarkDone));
+    public static string Zeugnisse_Reopen => Get(nameof(Zeugnisse_Reopen));
+    public static string ZeugnisEditor_Title => Get(nameof(ZeugnisEditor_Title));
+    public static string ZeugnisEditor_FormularLabel => Get(nameof(ZeugnisEditor_FormularLabel));
+    public static string ZeugnisEditor_Section_Freitexte => Get(nameof(ZeugnisEditor_Section_Freitexte));
+    public static string ZeugnisEditor_Section_Noten => Get(nameof(ZeugnisEditor_Section_Noten));
+    public static string ZeugnisEditor_Section_Empfehlung => Get(nameof(ZeugnisEditor_Section_Empfehlung));
+    public static string ZeugnisEditor_Section_Versetzung => Get(nameof(ZeugnisEditor_Section_Versetzung));
+    public static string ZeugnisEditor_Section_Fehlstunden => Get(nameof(ZeugnisEditor_Section_Fehlstunden));
+    public static string ZeugnisEditor_Section_Bemerkungen => Get(nameof(ZeugnisEditor_Section_Bemerkungen));
+    public static string ZeugnisEditor_Empfehlung => Get(nameof(ZeugnisEditor_Empfehlung));
+    public static string ZeugnisEditor_Begruendung => Get(nameof(ZeugnisEditor_Begruendung));
+    public static string ZeugnisEditor_Fehlstunden_Gesamt => Get(nameof(ZeugnisEditor_Fehlstunden_Gesamt));
+    public static string ZeugnisEditor_Fehlstunden_Unentschuldigt => Get(nameof(ZeugnisEditor_Fehlstunden_Unentschuldigt));
+    public static string ZeugnisEditor_InsertFloskel => Get(nameof(ZeugnisEditor_InsertFloskel));
+    public static string ZeugnisEditor_CharCount => Get(nameof(ZeugnisEditor_CharCount));
+    public static string ZeugnisEditor_CharCountNoLimit => Get(nameof(ZeugnisEditor_CharCountNoLimit));
+    public static string ZeugnisEditor_Overflow => Get(nameof(ZeugnisEditor_Overflow));
+    public static string ZeugnisEditor_Fertiggestellt => Get(nameof(ZeugnisEditor_Fertiggestellt));
+    public static string ZeugnisEditor_ZieldifferentAdded => Get(nameof(ZeugnisEditor_ZieldifferentAdded));
+
     // ---- Enums ----
     public static string Geschlecht_Maennlich => Get(nameof(Geschlecht_Maennlich));
     public static string Geschlecht_Weiblich => Get(nameof(Geschlecht_Weiblich));

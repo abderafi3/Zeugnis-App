@@ -1,0 +1,72 @@
+<UserControl x:Class="ZeugnisApp.App.Views.Zeugnisse.ZeugnisUebersichtView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:res="clr-namespace:ZeugnisApp.App.Resources">
+
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock FontSize="28" FontWeight="SemiBold" Text="{x:Static res:Strings.Zeugnisse_Title}" />
+            <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                       Text="{x:Static res:Strings.Zeugnisse_Intro}" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,16,0,12">
+            <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Text="{x:Static res:Strings.Zeugnisse_Klasse}" />
+            <ComboBox Margin="8,0,0,0" MinWidth="180"
+                      ItemsSource="{Binding Klassen}" DisplayMemberPath="Name"
+                      SelectedItem="{Binding SelectedKlasse}" />
+            <TextBlock Margin="24,0,0,0" VerticalAlignment="Center"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding TermText}" />
+        </StackPanel>
+
+        <TextBlock Grid.Row="2" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                   Text="{x:Static res:Strings.Zeugnisse_NoKlasse}"
+                   Visibility="{Binding HasKlasse, Converter={StaticResource BoolToVis}, ConverterParameter=invert}" />
+        <TextBlock Grid.Row="2" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                   Text="{x:Static res:Strings.Zeugnisse_Empty}"
+                   Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}}" />
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"
+                      Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}, ConverterParameter=invert}">
+            <ItemsControl ItemsSource="{Binding Rows}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ui:Card Margin="0,0,0,8">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding AnzeigeName}" />
+                                    <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding FormularName}" />
+                                    <Border Margin="0,6,0,0" Padding="6,1" CornerRadius="4" HorizontalAlignment="Left"
+                                            Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                                        <TextBlock FontSize="11" Text="{Binding StatusText}" />
+                                    </Border>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Button Appearance="Primary" Icon="{ui:SymbolIcon Open24}"
+                                               Content="{x:Static res:Strings.Zeugnisse_Open}"
+                                               Command="{Binding OeffnenCommand}"
+                                               IsEnabled="{Binding KannBearbeiten}" />
+                                    <ui:Button Margin="8,0,0,0"
+                                               Content="{Binding StatusToggleText}"
+                                               Command="{Binding StatusUmschaltenCommand}"
+                                               IsEnabled="{Binding KannStatusAendern}" />
+                                </StackPanel>
+                            </Grid>
+                        </ui:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

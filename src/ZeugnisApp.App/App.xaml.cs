@@ -74,6 +74,7 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<ViewModels.Fehlzeiten.FehlzeitenViewModel>();
 
                 services.AddSingleton<ZeugnissePage>();
+                services.AddSingleton<ViewModels.Zeugnisse.ZeugnisseWorkspaceViewModel>();
             })
             .Build();
     }

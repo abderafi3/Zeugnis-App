@@ -77,4 +77,98 @@ internal sealed class ZeugnisService(IDbContextFactory<ZeugnisDbContext> context
             .FirstOrDefaultAsync(z => z.Id == zeugnisId, cancellationToken)
             .ConfigureAwait(false);
     }
+
+    public async Task<Zeugnis?> GetWithContextAsync(Guid zeugnisId, CancellationToken cancellationToken = default)
+    {
+        await using var db = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
+        return await db.Zeugnisse
+            .Include(z => z.Freitexte)
+            .Include(z => z.Noten)
+            .Include(z => z.Kind)
+            .Include(z => z.Formular!).ThenInclude(f => f.Freitextfelder)
+            .FirstOrDefaultAsync(z => z.Id == zeugnisId, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    public async Task SaveAsync(Zeugnis zeugnis, CancellationToken cancellationToken = default)
+    {
+        await using var db = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
+
+        var target = await db.Zeugnisse
+            .Include(z => z.Freitexte)
+            .Include(z => z.Noten)
+            .FirstOrDefaultAsync(z => z.Id == zeugnis.Id, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (target is null)
+        {
+            return;
+        }
+
+        target.Empfehlung = Trim(zeugnis.Empfehlung);
+        target.EmpfehlungBegruendung = Trim(zeugnis.EmpfehlungBegruendung);
+        target.VersetzungsvermerkText = Trim(zeugnis.VersetzungsvermerkText);
+        target.Bemerkungen = Trim(zeugnis.Bemerkungen);
+        target.FehlstundenGesamt = zeugnis.FehlstundenGesamt;
+        target.FehlstundenUnentschuldigt = zeugnis.FehlstundenUnentschuldigt;
+        target.Fertiggestellt = zeugnis.Fertiggestellt;
+
+        target.Freitexte.Clear();
+        target.Freitexte.AddRange(zeugnis.Freitexte.Select(f => new FreitextEintrag { FeldName = f.FeldName, Text = f.Text }));
+
+        target.Noten.Clear();
+        target.Noten.AddRange(zeugnis.Noten.Select(n => new NoteEintrag { Fach = n.Fach, Note = n.Note }));
+
+        await db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task SetFertiggestelltAsync(Guid zeugnisId, bool fertiggestellt, CancellationToken cancellationToken = default)
+    {
+        await using var db = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
+        await db.Zeugnisse
+            .Where(z => z.Id == zeugnisId)
+            .ExecuteUpdateAsync(s => s.SetProperty(z => z.Fertiggestellt, fertiggestellt), cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<IReadOnlyList<ZeugnisUebersichtZeile>> GetUebersichtForKlasseAsync(
+        Guid klasseId, string schuljahr, Halbjahr halbjahr, CancellationToken cancellationToken = default)
+    {
+        await using var db = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
+
+        var kinder = await db.Kinder
+            .Where(k => k.KlasseId == klasseId)
+            .OrderBy(k => k.Nachname).ThenBy(k => k.Vorname)
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        var jahrgang = await db.Klassen.Where(k => k.Id == klasseId).Select(k => k.Jahrgang)
+            .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+
+        var alleFormulare = await db.Formulare.ToListAsync(cancellationToken).ConfigureAwait(false);
+
+        var kindIds = kinder.Select(k => k.Id).ToList();
+        var zeugnisse = await db.Zeugnisse
+            .Where(z => kindIds.Contains(z.KindId) && z.Schuljahr == schuljahr && z.Halbjahr == halbjahr)
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        var rows = new List<ZeugnisUebersichtZeile>();
+        foreach (var kind in kinder)
+        {
+            var zeugnis = zeugnisse.FirstOrDefault(z => z.KindId == kind.Id);
+            var suggestion = FormularSuggester.Suggest(alleFormulare, kind, jahrgang, halbjahr);
+            var formularName = zeugnis is not null
+                ? alleFormulare.FirstOrDefault(f => f.Id == zeugnis.FormularId)?.Anzeigename
+                : suggestion.Formular?.Anzeigename;
+
+            rows.Add(new ZeugnisUebersichtZeile(
+                kind.Id, kind.AnzeigeName, zeugnis?.Id, zeugnis?.Fertiggestellt ?? false,
+                formularName, suggestion.Formular is not null || zeugnis is not null));
+        }
+
+        return rows;
+    }
+
+    private static string? Trim(string? value) => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
 }

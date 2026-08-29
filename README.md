@@ -125,3 +125,13 @@ XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. A
   `FehlzeitenPage` — class picker + term banner + editable DataGrid, invalid rows shaded red,
   debounced autosave. Calendar variant (`Fehltag` + `FehltageAggregator`, pure, 3 tests) modelled
   and migrated but deliberately not surfaced in the UI.
+- **Sprint 8 — Zeugnis-Editor:** done. `IZeugnisService` extended (`GetWithContextAsync`,
+  `SaveAsync` with owned-collection replace, `SetFertiggestelltAsync`, `GetUebersichtForKlasseAsync`).
+  `ZeugnissePage` workspace: per-class **Zeugnisübersicht** (status chip Entwurf / fertiggestellt /
+  kein Formular, quick done↔reopen) → **dynamic editor** whose sections appear per the Formular's
+  switches (Noten / Empfehlung+Begründung / Versetzungsvermerk); one editor per Freitextfeld with a
+  char counter + orange overflow flag + "Floskel einfügen" (opens the Sprint 4 picker with the
+  child as the sample); grade dropdowns per subject; Fehlstunden pre-filled from Sprint 7 and
+  editable; the mandatory **zieldifferent remark** auto-inserted into Bemerkungen for zieldifferente
+  Kinder; "Zeugnis fertiggestellt" toggle; debounced autosave. Generation into a `.docx` is wired
+  into this editor in Sprint 9.
