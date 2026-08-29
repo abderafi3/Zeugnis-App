@@ -8,7 +8,7 @@
     <_IsProductionCode>false</_IsProductionCode>
 
     <!-- Test method names use snake_case_with_underscores by convention. -->
-    <NoWarn>$(NoWarn);CA1707;CA1861;CA2007</NoWarn>
+    <NoWarn>$(NoWarn);CA1707;CA1861;CA2007;CA1826</NoWarn>
   </PropertyGroup>
 
 </Project>

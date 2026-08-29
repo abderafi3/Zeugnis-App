@@ -10,6 +10,7 @@ using ZeugnisApp.App.Services;
 using ZeugnisApp.App.ViewModels;
 using ZeugnisApp.App.Views;
 using ZeugnisApp.Infrastructure;
+using ZeugnisApp.Reporting;
 
 namespace ZeugnisApp.App;
 
@@ -36,6 +37,7 @@ public partial class App : System.Windows.Application
             {
                 // ---- Data + infrastructure (plan §3) ----
                 services.AddZeugnisInfrastructure(ZeugnisAppPaths.BuildConnectionString());
+                services.AddZeugnisReporting();
 
                 // ---- Navigation (WPF-UI) ----
                 services.AddSingleton<IPageService, PageService>();

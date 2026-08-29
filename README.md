@@ -105,3 +105,15 @@ XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. A
   `FormularePage` workspace: overview cards with a ready/"Vorlage fehlt" status chip; edit form
   with the four switches, Fächer (line per subject), an editable Freitextfelder list, autosave.
   No `.docx` linkage yet — that is Sprint 6.
+- **Sprint 6 — Word-Generierungs-Engine (Kern):** done — the MVP release gate (plan §5, §12).
+  `IReportGenerationEngine` / `OpenXmlReportGenerationEngine` in `ZeugnisApp.Reporting`: works on a
+  copy of the template, fills content controls by tag via `ContentControlFiller` (multi-run →
+  single-run collapse preserving the first run's `rPr`, from Spike A), covers body + headers +
+  footers, never opens the template for editing. `FieldMapping` (value-key → tag, JSON in
+  `Formular.FieldMappingJson`, `Default(formular)` builder). `ReportValues` (pure request → value
+  map). `OoxmlCanonicalizer.CompareStructure` — the §5.4 canonical-XML comparison (attributes
+  sorted, whitespace normalised, `<w:sdtContent>` masked) over `document.xml`, `styles.xml`,
+  `numbering.xml`, `settings.xml`, `theme`, headers, footers + a media-hash inventory.
+  **Regression suite (17 tests):** for each of the 7 standard templates, generate from fixed sample
+  data and assert the values landed in the right tags **and** nothing outside the content controls
+  changed. Real school `.docx` files replace the synthetic `TemplateFixture` when available.
