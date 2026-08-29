@@ -53,5 +53,6 @@ internal sealed class SchoolSettingsService(ZeugnisDbContext db) : ISchoolSettin
         to.Konferenzdatum = from.Konferenzdatum;
         to.DatumUnterrichtsWiederbeginn = from.DatumUnterrichtsWiederbeginn;
         to.PapierkorbAufbewahrungTage = from.PapierkorbAufbewahrungTage;
+        to.Design = from.Design;
     }
 }

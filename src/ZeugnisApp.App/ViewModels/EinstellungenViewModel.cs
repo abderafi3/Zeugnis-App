@@ -120,6 +120,33 @@ public sealed partial class EinstellungenViewModel : ViewModelBase
     public int PapierkorbAufbewahrungTage { get => _papierkorbTage; set => SetTracked(ref _papierkorbTage, value); }
     private int _papierkorbTage = 30;
 
+    /// <summary>0 = wie Windows, 1 = hell, 2 = dunkel.</summary>
+    public int DesignIndex
+    {
+        get => (int)_design;
+        set
+        {
+            var neu = (Domain.Enums.AppDesign)Math.Clamp(value, 0, 2);
+            if (_design == neu)
+            {
+                return;
+            }
+
+            _design = neu;
+            OnPropertyChanged();
+            ThemeApplier.Apply(neu, System.Windows.Application.Current.MainWindow);
+
+            if (!_loading)
+            {
+                _saveStatus.MarkDirty();
+                _autosaveTimer.Stop();
+                _autosaveTimer.Start();
+            }
+        }
+    }
+
+    private Domain.Enums.AppDesign _design = Domain.Enums.AppDesign.System;
+
     public override async Task OnNavigatedToAsync()
     {
         _loading = true;
@@ -136,6 +163,7 @@ public sealed partial class EinstellungenViewModel : ViewModelBase
             _konferenzdatum = ToDateTime(s.Konferenzdatum);
             _datumWiederbeginn = ToDateTime(s.DatumUnterrichtsWiederbeginn);
             _papierkorbTage = s.PapierkorbAufbewahrungTage;
+            _design = s.Design;
             OnPropertyChanged(propertyName: null);
         }
         finally
@@ -188,6 +216,7 @@ public sealed partial class EinstellungenViewModel : ViewModelBase
             s.Konferenzdatum = ToDateOnly(Konferenzdatum);
             s.DatumUnterrichtsWiederbeginn = ToDateOnly(DatumUnterrichtsWiederbeginn);
             s.PapierkorbAufbewahrungTage = Math.Clamp(PapierkorbAufbewahrungTage, 1, 3650);
+            s.Design = _design;
 
             await _settingsService.SaveAsync(s);
             _saveStatus.MarkSaved();

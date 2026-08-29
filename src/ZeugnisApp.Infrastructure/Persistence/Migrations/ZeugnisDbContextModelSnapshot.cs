@@ -351,6 +351,11 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                     b.Property<DateOnly?>("DatumUnterrichtsWiederbeginn")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Design")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT");
+
                     b.Property<DateOnly?>("Konferenzdatum")
                         .HasColumnType("TEXT");
 

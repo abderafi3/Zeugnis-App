@@ -23,6 +23,13 @@
             <SolidColorBrush x:Key="ZaErrorBrush" Color="#C50F1F" />
             <SolidColorBrush x:Key="ZaWarningBrush" Color="#9D5D00" />
             <SolidColorBrush x:Key="ZaSuccessBrush" Color="#0F7B0F" />
+
+            <!-- Plain TextBlocks default to black; bind them to the Fluent theme brush so
+                 headings and labels follow light/dark mode. -->
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

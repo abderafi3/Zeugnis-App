@@ -120,6 +120,10 @@
   <data name="Settings_ConferenceDate"><value>Konferenzdatum</value></data>
   <data name="Settings_ResumeDate"><value>Wiederbeginn des Unterrichts</value></data>
   <data name="Settings_RecycleBinDays"><value>Papierkorb: Aufbewahrung (Tage)</value></data>
+  <data name="Settings_Design"><value>Design</value></data>
+  <data name="Settings_Design_System"><value>Wie Windows</value></data>
+  <data name="Settings_Design_Hell"><value>Hell</value></data>
+  <data name="Settings_Design_Dunkel"><value>Dunkel</value></data>
 
   <!-- ================= Klassen ================= -->
   <data name="Klassen_Title"><value>Klassen</value></data>

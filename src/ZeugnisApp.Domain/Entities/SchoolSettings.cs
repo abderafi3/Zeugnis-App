@@ -40,4 +40,7 @@ public class SchoolSettings : EntityBase
     /// (plan §4 / §Sprint 11). Default 30.
     /// </summary>
     public int PapierkorbAufbewahrungTage { get; set; } = 30;
+
+    /// <summary>Light/dark preference for the UI (per device).</summary>
+    public AppDesign Design { get; set; } = AppDesign.System;
 }

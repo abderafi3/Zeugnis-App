@@ -119,6 +119,7 @@ public partial class App : System.Windows.Application
             await _host.Services.GetRequiredService<IPapierkorbService>().PurgeExpiredAsync(settings.PapierkorbAufbewahrungTage);
 
             var window = _host.Services.GetRequiredService<MainWindow>();
+            Services.ThemeApplier.Apply(settings.Design, window);
             window.Show();
 
             if (unlock.ShowRecoveryKey)

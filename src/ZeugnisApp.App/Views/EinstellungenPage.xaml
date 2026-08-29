@@ -61,6 +61,13 @@
             <TextBlock Text="{x:Static res:Strings.Settings_RecycleBinDays}" FontWeight="SemiBold" Margin="0,16,0,4" />
             <ui:NumberBox Value="{Binding PapierkorbAufbewahrungTage}" Minimum="1" Maximum="3650" SmallChange="1" />
 
+            <TextBlock Text="{x:Static res:Strings.Settings_Design}" FontWeight="SemiBold" Margin="0,16,0,4" />
+            <ComboBox MaxWidth="220" HorizontalAlignment="Left" SelectedIndex="{Binding DesignIndex, Mode=TwoWay}">
+                <ComboBoxItem Content="{x:Static res:Strings.Settings_Design_System}" />
+                <ComboBoxItem Content="{x:Static res:Strings.Settings_Design_Hell}" />
+                <ComboBoxItem Content="{x:Static res:Strings.Settings_Design_Dunkel}" />
+            </ComboBox>
+
             <ui:Button Margin="0,24,0,0"
                        Appearance="Primary"
                        Content="{x:Static res:Strings.Common_Save}"

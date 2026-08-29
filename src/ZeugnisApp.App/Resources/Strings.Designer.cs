@@ -89,6 +89,10 @@ public static class Strings
     public static string Settings_ConferenceDate => Get(nameof(Settings_ConferenceDate));
     public static string Settings_ResumeDate => Get(nameof(Settings_ResumeDate));
     public static string Settings_RecycleBinDays => Get(nameof(Settings_RecycleBinDays));
+    public static string Settings_Design => Get(nameof(Settings_Design));
+    public static string Settings_Design_System => Get(nameof(Settings_Design_System));
+    public static string Settings_Design_Hell => Get(nameof(Settings_Design_Hell));
+    public static string Settings_Design_Dunkel => Get(nameof(Settings_Design_Dunkel));
 
     // ---- Klassen ----
     public static string Klassen_Title => Get(nameof(Klassen_Title));
