@@ -87,8 +87,12 @@
             </ItemsControl>
 
             <TextBlock Margin="0,20,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.FormularEdit_WordFile}" />
-            <ui:InfoBar Severity="Informational" IsOpen="True" IsClosable="False"
-                        Message="{Binding WordFileHint}" />
+            <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"
+                       Text="{Binding WordVorlageText}" />
+            <ui:Button Margin="0,8,0,0" Icon="{ui:SymbolIcon ArrowUpload24}"
+                       Content="{x:Static res:Strings.FormularEdit_WordFile_Upload}"
+                       Command="{Binding HochladenCommand}"
+                       IsEnabled="{Binding KannHochladen}" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

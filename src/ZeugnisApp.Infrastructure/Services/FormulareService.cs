@@ -7,6 +7,7 @@ using ZeugnisApp.Application.Validation;
 using ZeugnisApp.Domain.Entities;
 using ZeugnisApp.Domain.Enums;
 using ZeugnisApp.Infrastructure.Persistence;
+using ZeugnisAppPaths = ZeugnisApp.Infrastructure.ZeugnisAppPaths;
 
 namespace ZeugnisApp.Infrastructure.Services;
 
@@ -92,6 +93,34 @@ internal sealed class FormulareService(IDbContextFactory<ZeugnisDbContext> conte
 
         formular.DeletedUtc = clock.UtcNow;
         await db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<string> LinkTemplateAsync(
+        Guid formularId, string sourceDocxPath, string fieldMappingJson, CancellationToken cancellationToken = default)
+    {
+        if (!File.Exists(sourceDocxPath))
+        {
+            throw new FileNotFoundException("Die Vorlagendatei wurde nicht gefunden.", sourceDocxPath);
+        }
+
+        await using var db = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
+        var formular = await db.Formulare.FirstOrDefaultAsync(f => f.Id == formularId, cancellationToken).ConfigureAwait(false)
+            ?? throw new InvalidOperationException($"Formular {formularId} existiert nicht.");
+
+        var safeName = string.Concat(formular.Anzeigename.Select(c =>
+            char.IsLetterOrDigit(c) || c is ' ' or '-' or '_' ? c : '_')).Trim();
+        var target = Path.Combine(ZeugnisAppPaths.TemplatesDirectory, $"{(safeName.Length == 0 ? "Formular" : safeName)}.docx");
+
+        if (!string.Equals(Path.GetFullPath(sourceDocxPath), Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase))
+        {
+            File.Copy(sourceDocxPath, target, overwrite: true);
+        }
+
+        formular.WordFilePath = target;
+        formular.FieldMappingJson = fieldMappingJson;
+        await db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+        return target;
     }
 
     public async Task<FormularSuggestion> SuggestAsync(Guid kindId, Halbjahr halbjahr, CancellationToken cancellationToken = default)

@@ -18,16 +18,20 @@ public sealed partial class FormularEditViewModel : ObservableObject, IAsyncInit
     private readonly IFormulareService _service;
     private readonly ISaveStatusService _saveStatus;
     private readonly IFormulareNavigator _navigator;
+    private readonly ITemplateUploadService _upload;
     private readonly Guid? _formularId;
     private readonly AutosaveDebouncer _autosave = new();
     private Formular _formular = new();
     private bool _loading;
 
-    public FormularEditViewModel(IFormulareService service, ISaveStatusService saveStatus, IFormulareNavigator navigator, Guid? formularId)
+    public FormularEditViewModel(
+        IFormulareService service, ISaveStatusService saveStatus, IFormulareNavigator navigator,
+        Guid? formularId, ITemplateUploadService upload)
     {
         _service = service;
         _saveStatus = saveStatus;
         _navigator = navigator;
+        _upload = upload;
         _formularId = formularId;
         _autosave.Configure(SaveAsync);
         Freitextfelder.CollectionChanged += (_, _) => OnEdited();
@@ -61,8 +65,9 @@ public sealed partial class FormularEditViewModel : ObservableObject, IAsyncInit
     [ObservableProperty] private string _faecherText = string.Empty;
     [ObservableProperty] private string? _anzeigenameError;
     [ObservableProperty] private string? _feldError;
+    [ObservableProperty] private string _wordVorlageText = string.Empty;
 
-    public string WordFileHint => Strings.FormularEdit_WordFile_Hint;
+    public bool KannHochladen => _formularId is not null;
 
     partial void OnFaecherTextChanged(string value) => OnEdited();
 
@@ -83,11 +88,34 @@ public sealed partial class FormularEditViewModel : ObservableObject, IAsyncInit
                 Freitextfelder.Add(new FreitextFeldRowViewModel(feld, OnEdited, Remove));
             }
 
+            RefreshWordVorlageText();
             OnPropertyChanged(propertyName: null);
         }
         finally
         {
             _loading = false;
+        }
+    }
+
+    private void RefreshWordVorlageText()
+        => WordVorlageText = string.IsNullOrWhiteSpace(_formular.WordFilePath)
+            ? Strings.FormularEdit_WordFile_None
+            : string.Format(System.Globalization.CultureInfo.CurrentCulture,
+                Strings.FormularEdit_WordFile_Current, System.IO.Path.GetFileName(_formular.WordFilePath));
+
+    [RelayCommand]
+    private async Task HochladenAsync()
+    {
+        if (_formularId is not { } id)
+        {
+            return;
+        }
+
+        await FlushAsync();
+        if (await _upload.UploadAndMapAsync(id))
+        {
+            _formular = await _service.GetAsync(id) ?? _formular;
+            RefreshWordVorlageText();
         }
     }
 

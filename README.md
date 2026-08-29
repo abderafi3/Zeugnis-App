@@ -146,3 +146,12 @@ XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. A
   (§5.3 — recalibrate against the real templates). End-to-end test: DB-backed Zeugnis → real engine
   → filled `.docx` with correct values and unchanged structure. Fixed: `FormulareService.SaveAsync`
   was dropping `WordFilePath` / `FieldMappingJson`.
+- **Sprint 10 — Eigene Formulare:** done. `ITemplateInspector` / `TemplateInspector` (Reporting) lists
+  every content control (tag, alias, sample, location) in an uploaded `.docx`, rejecting non-OOXML
+  files. `IFormulareService.LinkTemplateAsync` copies the file into the app's template folder and
+  stores `WordFilePath` + `FieldMappingJson`. `FeldZuordnungViewModel` / `FeldZuordnungWindow` — the
+  field-mapping wizard: one row per app value key (grouped Schule / Klasse / Kind / Zeugnis / Noten /
+  Freitexte), each a dropdown of the tags found in the document, pre-selected from the existing
+  mapping then the `Default` tag names; required rows (name, every Fach, every Freitextfeld) gate
+  "Übernehmen". Reachable from `FormularEditView` → "Vorlage hochladen …". Replaces the bootstrapped
+  placeholder for that Formular; generation then works unchanged.

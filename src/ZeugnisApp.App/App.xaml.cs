@@ -50,6 +50,7 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<IClipboardService, ClipboardService>();
                 services.AddSingleton<IFileLauncher, FileLauncher>();
                 services.AddSingleton<IFloskelPickerService, FloskelPickerService>();
+                services.AddSingleton<ITemplateUploadService, TemplateUploadService>();
                 services.AddSingleton<ImportServices>();
                 services.AddSingleton<ReportGenerationServices>();
                 services.AddSingleton<TemplateBootstrapper>();

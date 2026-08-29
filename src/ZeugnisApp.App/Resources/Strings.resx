@@ -260,8 +260,47 @@
   <data name="FormularEdit_Feld_Hinweis"><value>Hinweistext</value></data>
   <data name="FormularEdit_Feld_MaxZeichen"><value>Max. Zeichen</value></data>
   <data name="FormularEdit_Feld_Add"><value>Feld hinzufügen</value></data>
-  <data name="FormularEdit_WordFile"><value>Word-Datei</value></data>
-  <data name="FormularEdit_WordFile_Hint"><value>Die Verknüpfung der offiziellen Word-Vorlage erfolgt in Sprint 6.</value></data>
+  <data name="FormularEdit_WordFile"><value>Word-Vorlage</value></data>
+  <data name="FormularEdit_WordFile_None"><value>Noch keine Vorlage hinterlegt. Beim ersten Start wurde eine Platzhalter-Vorlage erzeugt.</value></data>
+  <data name="FormularEdit_WordFile_Current"><value>Aktuelle Vorlage: {0}</value></data>
+  <data name="FormularEdit_WordFile_Upload"><value>Vorlage hochladen …</value></data>
+
+  <!-- ================= Feld-Zuordnung (Sprint 10) ================= -->
+  <data name="Zuordnung_Title"><value>Felder zuordnen</value></data>
+  <data name="Zuordnung_Intro"><value>Ordne jedem App-Feld ein Inhaltssteuerelement aus der Word-Datei zu. Nicht zugeordnete Felder bleiben im Dokument unverändert.</value></data>
+  <data name="Zuordnung_Hint_NoControls"><value>In der Datei wurden keine Inhaltssteuerelemente gefunden. Fügen Sie in Word über „Entwicklertools“ an den Datenstellen Inhaltssteuerelemente mit einem Tag ein.</value></data>
+  <data name="Zuordnung_Column_Feld"><value>App-Feld</value></data>
+  <data name="Zuordnung_Column_Steuerelement"><value>Inhaltssteuerelement</value></data>
+  <data name="Zuordnung_None"><value>– nicht zuordnen –</value></data>
+  <data name="Zuordnung_Group_Schule"><value>Schule</value></data>
+  <data name="Zuordnung_Group_Klasse"><value>Klasse</value></data>
+  <data name="Zuordnung_Group_Kind"><value>Kind</value></data>
+  <data name="Zuordnung_Group_Zeugnis"><value>Zeugnis</value></data>
+  <data name="Zuordnung_Group_Noten"><value>Noten</value></data>
+  <data name="Zuordnung_Group_Freitexte"><value>Freitexte</value></data>
+  <data name="Zuordnung_Missing"><value>Noch nicht zugeordnet: {0}</value></data>
+  <data name="Zuordnung_Apply"><value>Übernehmen</value></data>
+  <data name="Zuordnung_Error_Invalid"><value>Die Datei ist keine gültige Word-Vorlage: {0}</value></data>
+
+  <data name="Feld_Schule_Name"><value>Schulname</value></data>
+  <data name="Feld_Schule_Zusatz"><value>Zusatzbezeichnung</value></data>
+  <data name="Feld_Schule_Adresse"><value>Adresse</value></data>
+  <data name="Feld_Schule_Leitung"><value>Schulleitung</value></data>
+  <data name="Feld_Schule_Schuljahr"><value>Schuljahr</value></data>
+  <data name="Feld_Schule_Halbjahr"><value>Halbjahr</value></data>
+  <data name="Feld_Klasse_Name"><value>Klassenname</value></data>
+  <data name="Feld_Klasse_Leitung"><value>Klassenleitung</value></data>
+  <data name="Feld_Klasse_Zeugnisdatum"><value>Zeugnisdatum</value></data>
+  <data name="Feld_Kind_Vorname"><value>Vorname</value></data>
+  <data name="Feld_Kind_Nachname"><value>Nachname</value></data>
+  <data name="Feld_Kind_Name"><value>Vor- und Nachname</value></data>
+  <data name="Feld_Kind_Geburtsdatum"><value>Geburtsdatum</value></data>
+  <data name="Feld_Zeugnis_Empfehlung"><value>Schulformempfehlung</value></data>
+  <data name="Feld_Zeugnis_Begruendung"><value>Begründung der Empfehlung</value></data>
+  <data name="Feld_Zeugnis_Versetzung"><value>Versetzungsvermerk</value></data>
+  <data name="Feld_Zeugnis_Bemerkungen"><value>Bemerkungen</value></data>
+  <data name="Feld_Zeugnis_FehlGesamt"><value>Fehlstunden gesamt</value></data>
+  <data name="Feld_Zeugnis_FehlUnentschuldigt"><value>Fehlstunden unentschuldigt</value></data>
   <data name="FormularEdit_Error_NameRequired"><value>Bitte einen Anzeigenamen eingeben.</value></data>
   <data name="FormularEdit_Error_FeldNamesUnique"><value>Die Namen der Freitextfelder müssen eindeutig und nicht leer sein.</value></data>
 

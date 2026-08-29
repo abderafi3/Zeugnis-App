@@ -12,8 +12,9 @@ public interface IFormulareNavigator
     void Edit(Guid? formularId);
 }
 
-/// <summary>Page-level view model for the Formulare area: list ↔ edit (plan §Sprint 5).</summary>
-public sealed partial class FormulareWorkspaceViewModel(IFormulareService service, IDialogService dialogs, ISaveStatusService saveStatus)
+/// <summary>Page-level view model for the Formulare area: list ↔ edit (plan §Sprint 5 / §Sprint 10).</summary>
+public sealed partial class FormulareWorkspaceViewModel(
+    IFormulareService service, IDialogService dialogs, ISaveStatusService saveStatus, ITemplateUploadService templateUpload)
     : ViewModelBase, IFormulareNavigator
 {
     [ObservableProperty]
@@ -31,7 +32,7 @@ public sealed partial class FormulareWorkspaceViewModel(IFormulareService servic
 
     public void ShowListe() => Swap(new FormulareListViewModel(service, dialogs, this));
 
-    public void Edit(Guid? formularId) => Swap(new FormularEditViewModel(service, saveStatus, this, formularId));
+    public void Edit(Guid? formularId) => Swap(new FormularEditViewModel(service, saveStatus, this, formularId, templateUpload));
 
     private async void Swap(ObservableObject next)
     {
