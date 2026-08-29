@@ -3,9 +3,11 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
+      ScrollViewer.CanContentScroll="False"
+      TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="{x:Static res:Strings.Nav_Einstellungen}">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="32" MaxWidth="720" HorizontalAlignment="Left">
 
             <TextBlock FontSize="28" FontWeight="SemiBold" Text="{x:Static res:Strings.Settings_Title}" />

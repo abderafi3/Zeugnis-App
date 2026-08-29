@@ -11,11 +11,11 @@ public sealed class FloskelValidator : AbstractValidator<Floskel>
             .NotEmpty().WithMessage("Bitte einen Text für die Floskel eingeben.")
             .MaximumLength(2000);
 
+        // An empty Bereich means "gilt für alle Bereiche"; Stufe 0 means "gilt für alle Jahrgänge".
         RuleFor(f => f.Bereich)
-            .NotEmpty().WithMessage("Bitte einen Bereich angeben.")
             .MaximumLength(100);
 
         RuleFor(f => f.Stufe)
-            .InclusiveBetween(1, 4).WithMessage("Die Stufe muss zwischen 1 und 4 liegen.");
+            .InclusiveBetween(0, 4).WithMessage("Die Stufe muss zwischen 0 (alle) und 4 liegen.");
     }
 }

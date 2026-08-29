@@ -3,6 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
+      ScrollViewer.CanContentScroll="False"
+      TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="{x:Static res:Strings.Nav_Floskeln}">
 
     <Grid Margin="32">
@@ -75,9 +77,21 @@
                         <DataGridTextColumn Width="*" Header="{x:Static res:Strings.Floskeln_Col_Text}"
                                             Binding="{Binding Text, UpdateSourceTrigger=LostFocus}" />
                         <DataGridTextColumn Width="160" Header="{x:Static res:Strings.Floskeln_Col_Bereich}"
-                                            Binding="{Binding Bereich, UpdateSourceTrigger=LostFocus}" />
-                        <DataGridTextColumn Width="70" Header="{x:Static res:Strings.Floskeln_Col_Stufe}"
-                                            Binding="{Binding Stufe, UpdateSourceTrigger=LostFocus}" />
+                                            Binding="{Binding Bereich, UpdateSourceTrigger=LostFocus, TargetNullValue=''}" />
+                        <DataGridTemplateColumn Width="90" Header="{x:Static res:Strings.Floskeln_Col_Stufe}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox SelectedIndex="{Binding Stufe, UpdateSourceTrigger=PropertyChanged}"
+                                              BorderThickness="0" Background="Transparent">
+                                        <ComboBoxItem Content="{x:Static res:Strings.Floskeln_Filter_All}" />
+                                        <ComboBoxItem Content="1" />
+                                        <ComboBoxItem Content="2" />
+                                        <ComboBoxItem Content="3" />
+                                        <ComboBoxItem Content="4" />
+                                    </ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Width="150" Header="{x:Static res:Strings.Floskeln_Col_Gruppe}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

@@ -38,6 +38,53 @@ public class FloskelnServiceTests
     }
 
     [Fact]
+    public async Task GetMeistgenutzte_matches_the_field_loosely_and_orders_by_usage()
+    {
+        var (db, svc) = await NewAsync();
+        await using var _ = db;
+
+        var selten = await svc.SaveAsync(new Floskel { Text = "[Name] beteiligt sich selten.", Bereich = "Sozialverhalten", Stufe = 3 });
+        var oft = await svc.SaveAsync(new Floskel { Text = "[Name] ist hilfsbereit.", Bereich = "Sozialverhalten", Stufe = 3 });
+        await svc.SaveAsync(new Floskel { Text = "[Name] rechnet sicher.", Bereich = "Mathematik", Stufe = 3 });
+        await svc.SaveAsync(new Floskel { Text = "Falsche Stufe.", Bereich = "Sozialverhalten", Stufe = 1 });
+
+        await svc.RegistriereVerwendungAsync(oft.Id);
+        await svc.RegistriereVerwendungAsync(oft.Id);
+        await svc.RegistriereVerwendungAsync(selten.Id);
+
+        // Field labelled "Arbeits- und Sozialverhalten" must still catch "Sozialverhalten" phrases.
+        var top = await svc.GetMeistgenutzteAsync("Arbeits- und Sozialverhalten", stufe: 3, limit: 5);
+
+        Assert.Equal(2, top.Count);
+        Assert.Equal(oft.Id, top[0].Id);       // most used first
+        Assert.Equal(selten.Id, top[1].Id);
+        Assert.Equal(2, top[0].Verwendungen);
+    }
+
+    [Fact]
+    public async Task Wildcard_floskel_stays_visible_under_every_filter_and_field()
+    {
+        var (db, svc) = await NewAsync();
+        await using var _ = db;
+
+        // Empty Bereich + Stufe 0 = "gilt für alle".
+        var alle = await svc.SaveAsync(new Floskel { Text = "[Name] ist freundlich.", Bereich = "", Stufe = 0 });
+        await svc.SaveAsync(new Floskel { Text = "[Name] rechnet sicher.", Bereich = "Mathematik", Stufe = 3 });
+
+        // Shows up when filtering by a specific Bereich...
+        var mathe = await svc.GetAsync(new FloskelFilter(Bereich: "Mathematik"));
+        Assert.Contains(mathe, f => f.Id == alle.Id);
+
+        // ...and by a specific Stufe.
+        var stufe2 = await svc.GetAsync(new FloskelFilter(Stufe: 2));
+        Assert.Contains(stufe2, f => f.Id == alle.Id);
+
+        // ...and in the editor's "häufig genutzt" list for any field.
+        var top = await svc.GetMeistgenutzteAsync("Deutsch", stufe: 1, limit: 5);
+        Assert.Contains(top, f => f.Id == alle.Id);
+    }
+
+    [Fact]
     public async Task SaveAsync_rejects_an_empty_text()
     {
         var (db, svc) = await NewAsync();

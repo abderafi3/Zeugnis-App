@@ -5,22 +5,22 @@
              xmlns:res="clr-namespace:ZeugnisApp.App.Resources">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="360" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="32,32,32,12">
-            <ui:Button Icon="{ui:SymbolIcon ArrowLeft24}" Content="{x:Static res:Strings.Common_Back}" Command="{Binding ZurueckCommand}" />
-            <StackPanel Margin="16,0,0,0" VerticalAlignment="Center">
-                <TextBlock FontSize="22" FontWeight="SemiBold" Text="{Binding Title}" />
-                <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding FormularLabel}" />
-            </StackPanel>
-        </StackPanel>
+        <!-- ============ Left: the report form ============ -->
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="32" MaxWidth="820" HorizontalAlignment="Left">
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="32,0,32,0">
-            <StackPanel MaxWidth="820" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                    <ui:Button Icon="{ui:SymbolIcon ArrowLeft24}" Content="{x:Static res:Strings.Common_Back}" Command="{Binding ZurueckCommand}" />
+                    <StackPanel Margin="16,0,0,0" VerticalAlignment="Center">
+                        <TextBlock FontSize="22" FontWeight="SemiBold" Text="{Binding Title}" />
+                        <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding FormularLabel}" />
+                    </StackPanel>
+                </StackPanel>
 
                 <ui:InfoBar Margin="0,0,0,12" Severity="Informational" IsClosable="True"
                             IsOpen="{Binding ZieldifferentHinweisEingefuegt}"
@@ -31,14 +31,14 @@
                 <ItemsControl ItemsSource="{Binding Freitexte}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Margin="0,0,0,16">
+                            <StackPanel Margin="0,0,0,18">
                                 <TextBlock FontWeight="SemiBold" Text="{Binding Label}" />
                                 <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontSize="12"
                                            Text="{Binding Hinweis}"
                                            Visibility="{Binding Hinweis, Converter={StaticResource NullToCollapsed}}" />
                                 <ui:TextBox Margin="0,4,0,4"
                                             Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
-                                            AcceptsReturn="True" MinLines="3" MaxLines="10" TextWrapping="Wrap"
+                                            AcceptsReturn="True" MinLines="3" MaxLines="12" TextWrapping="Wrap"
                                             VerticalScrollBarVisibility="Auto" />
                                 <Grid>
                                     <TextBlock FontSize="12" Text="{Binding ZeichenText}">
@@ -54,7 +54,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                    <ui:Button HorizontalAlignment="Right" Icon="{ui:SymbolIcon TextAdd24}"
+                                    <ui:Button HorizontalAlignment="Right" Icon="{ui:SymbolIcon Add24}"
                                                Content="{x:Static res:Strings.ZeugnisEditor_InsertFloskel}"
                                                Command="{Binding FloskelEinfuegenCommand}" />
                                 </Grid>
@@ -109,7 +109,7 @@
 
                 <!-- Fehlstunden -->
                 <TextBlock FontSize="16" FontWeight="SemiBold" Margin="0,12,0,8" Text="{x:Static res:Strings.ZeugnisEditor_Section_Fehlstunden}" />
-                <Grid>
+                <Grid MaxWidth="480" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="16" />
@@ -127,44 +127,78 @@
 
                 <!-- Bemerkungen -->
                 <TextBlock FontSize="16" FontWeight="SemiBold" Margin="0,12,0,8" Text="{x:Static res:Strings.ZeugnisEditor_Section_Bemerkungen}" />
-                <ui:TextBox Margin="0,0,0,24" Text="{Binding Bemerkungen, UpdateSourceTrigger=PropertyChanged}"
+                <ui:TextBox Text="{Binding Bemerkungen, UpdateSourceTrigger=PropertyChanged}"
                             AcceptsReturn="True" MinLines="3" MaxLines="10" TextWrapping="Wrap" />
+                <ui:Button Margin="0,6,0,0" HorizontalAlignment="Left" Icon="{ui:SymbolIcon Add24}"
+                           Content="{x:Static res:Strings.ZeugnisEditor_InsertFloskel}"
+                           Command="{Binding BemerkungFloskelEinfuegenCommand}" />
+
+                <!-- Aktionen -->
+                <Border Margin="0,24,0,0" Padding="0,16,0,0" BorderThickness="0,1,0,0"
+                        BorderBrush="{DynamicResource ControlElevationBorderBrush}">
+                    <StackPanel>
+                        <ui:ToggleSwitch Content="{x:Static res:Strings.ZeugnisEditor_Fertiggestellt}"
+                                         IsChecked="{Binding Fertiggestellt}" />
+                        <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                            <ui:ProgressRing IsIndeterminate="True" Width="20" Height="20" Margin="0,0,8,0"
+                                             VerticalAlignment="Center"
+                                             Visibility="{Binding ErzeugtLaeuft, Converter={StaticResource BoolToVis}}" />
+                            <ui:Button Appearance="Primary" Icon="{ui:SymbolIcon DocumentArrowDown24}"
+                                       Content="{x:Static res:Strings.ZeugnisEditor_Erzeugen}"
+                                       Command="{Binding ErzeugenCommand}" />
+                        </StackPanel>
+                        <TextBlock Margin="0,8,0,0" FontSize="12" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                   Text="{Binding ErzeugenStatus}"
+                                   Visibility="{Binding ErzeugenStatus, Converter={StaticResource NullToCollapsed}}" />
+                        <TextBlock Margin="0,4,0,0" FontSize="12"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                   Text="{Binding ZuletztErzeugt}"
+                                   Visibility="{Binding ZuletztErzeugt, Converter={StaticResource NullToCollapsed}}" />
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </ScrollViewer>
 
-        <Border Grid.Row="2" Padding="32,12" BorderThickness="0,1,0,0"
+        <!-- ============ Right: "häufig genutzt" phrase sidebar ============ -->
+        <Border Grid.Column="1" Width="300" BorderThickness="1,0,0,0"
                 BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                Background="{DynamicResource ApplicationBackgroundBrush}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <ui:ToggleSwitch Grid.Column="0" VerticalAlignment="Center"
-                                 Content="{x:Static res:Strings.ZeugnisEditor_Fertiggestellt}"
-                                 IsChecked="{Binding Fertiggestellt}" />
-
-                <StackPanel Grid.Column="1" Margin="16,0" VerticalAlignment="Center">
-                    <TextBlock FontSize="12" TextWrapping="Wrap"
+                Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                Visibility="{Binding HatVorschlaege, Converter={StaticResource BoolToVis}}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="16,32,16,32">
+                    <TextBlock FontSize="16" FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="{x:Static res:Strings.ZeugnisEditor_HaeufigGenutzt}" />
+                    <TextBlock Margin="0,0,0,14" FontSize="12" TextWrapping="Wrap"
                                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               Text="{Binding ErzeugenStatus}"
-                               Visibility="{Binding ErzeugenStatus, Converter={StaticResource NullToCollapsed}}" />
-                    <TextBlock FontSize="12"
-                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               Text="{Binding ZuletztErzeugt}"
-                               Visibility="{Binding ZuletztErzeugt, Converter={StaticResource NullToCollapsed}}" />
-                </StackPanel>
+                               Text="{x:Static res:Strings.ZeugnisEditor_HaeufigGenutzt_Hint}" />
 
-                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <ui:ProgressRing IsIndeterminate="True" Width="20" Height="20" Margin="0,0,8,0"
-                                     Visibility="{Binding ErzeugtLaeuft, Converter={StaticResource BoolToVis}}" />
-                    <ui:Button Appearance="Primary" Icon="{ui:SymbolIcon DocumentArrowDown24}"
-                               Content="{x:Static res:Strings.ZeugnisEditor_Erzeugen}"
-                               Command="{Binding ErzeugenCommand}" />
+                    <ItemsControl ItemsSource="{Binding Freitexte}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,18"
+                                            Visibility="{Binding HatVorschlaege, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"
+                                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                               Text="{Binding Label}" />
+                                    <ItemsControl ItemsSource="{Binding Vorschlaege}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <ui:Button Margin="0,0,0,4" Padding="10,6"
+                                                           HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                                           ToolTip="{Binding VollText}"
+                                                           Command="{Binding EinfuegenCommand}">
+                                                    <TextBlock Text="{Binding Kurztext}" TextWrapping="Wrap" FontSize="12" />
+                                                </ui:Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
-            </Grid>
+            </ScrollViewer>
         </Border>
     </Grid>
 </UserControl>

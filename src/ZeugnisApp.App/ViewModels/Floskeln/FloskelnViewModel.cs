@@ -42,11 +42,15 @@ public sealed partial class FloskelnViewModel(
 
     public bool IsEmpty => Loaded && Floskeln.Count == 0;
 
+    private int _reloadGeneration;
+
     public override async Task OnNavigatedToAsync()
     {
+        var bereiche = await service.GetBereicheAsync();
+
         Bereiche.Clear();
         Bereiche.Add(Strings.Floskeln_Filter_All);
-        foreach (var b in await service.GetBereicheAsync())
+        foreach (var b in bereiche)
         {
             Bereiche.Add(b);
         }
@@ -59,28 +63,48 @@ public sealed partial class FloskelnViewModel(
     partial void OnStufeFilterChanged(int value) => _ = ReloadAsync();
     partial void OnSearchTextChanged(string value) => _ = ReloadAsync();
 
+    /// <summary>The currently filtered category, or null when "all" is selected.</summary>
+    private string? ActiveBereich
+        => string.IsNullOrEmpty(SelectedBereich) || SelectedBereich == Strings.Floskeln_Filter_All
+            ? null
+            : SelectedBereich;
+
     private async Task ReloadAsync()
     {
+        // Typing in the search box fires a reload per keystroke; only the last one wins
+        // and it replaces the list in a single step so rows never half-populate.
+        var generation = ++_reloadGeneration;
+
+        var filter = new FloskelFilter(
+            Bereich: ActiveBereich,
+            Stufe: StufeFilter == 0 ? null : StufeFilter,
+            SearchText: string.IsNullOrWhiteSpace(SearchText) ? null : SearchText);
+
+        List<FloskelRowViewModel> neu;
         try
         {
-            var filter = new FloskelFilter(
-                Bereich: string.IsNullOrEmpty(SelectedBereich) || SelectedBereich == Strings.Floskeln_Filter_All ? null : SelectedBereich,
-                Stufe: StufeFilter == 0 ? null : StufeFilter,
-                SearchText: string.IsNullOrWhiteSpace(SearchText) ? null : SearchText);
-
-            Floskeln.Clear();
-            foreach (var f in await service.GetAsync(filter))
-            {
-                Floskeln.Add(new FloskelRowViewModel(f, service, dialogs, saveStatus, ReloadAsync));
-            }
-
-            Loaded = true;
-            OnPropertyChanged(nameof(IsEmpty));
+            var treffer = await service.GetAsync(filter);
+            neu = [.. treffer.Select(f => new FloskelRowViewModel(f, service, dialogs, saveStatus, ReloadAsync))];
         }
         catch (Exception ex)
         {
             Log.Error(ex, "Floskeln konnten nicht geladen werden");
+            return;
         }
+
+        if (generation != _reloadGeneration)
+        {
+            return;
+        }
+
+        Floskeln.Clear();
+        foreach (var row in neu)
+        {
+            Floskeln.Add(row);
+        }
+
+        Loaded = true;
+        OnPropertyChanged(nameof(IsEmpty));
     }
 
     [RelayCommand]
@@ -91,8 +115,9 @@ public sealed partial class FloskelnViewModel(
             var floskel = new Floskel
             {
                 Text = "[Name] …",
-                Bereich = FloskelBereiche.Sozialverhalten,
-                Stufe = StufeFilter == 0 ? 1 : StufeFilter,
+                // Follow the active filter: "alle" -> empty Bereich / Stufe 0 = gilt für alle.
+                Bereich = ActiveBereich ?? string.Empty,
+                Stufe = StufeFilter,
                 Klassengruppe = Klassengruppe.Beide,
             };
             await service.SaveAsync(floskel);
@@ -158,8 +183,9 @@ public sealed partial class FloskelRowViewModel(
 
     public int Stufe
     {
+        // 0 = "gilt für alle Jahrgänge".
         get => floskel.Stufe;
-        set => SetField(floskel.Stufe, Math.Clamp(value, 1, 4), v => floskel.Stufe = v);
+        set => SetField(floskel.Stufe, Math.Clamp(value, 0, 4), v => floskel.Stufe = v);
     }
 
     public Klassengruppe Klassengruppe

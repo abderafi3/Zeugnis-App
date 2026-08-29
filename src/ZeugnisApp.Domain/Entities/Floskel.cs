@@ -19,6 +19,12 @@ public class Floskel : EntityBase, ISoftDeletable
 
     public Klassengruppe Klassengruppe { get; set; } = Klassengruppe.Beide;
 
+    /// <summary>
+    /// How often this phrase has been inserted from the Zeugnis-Editor. Drives the
+    /// "häufig genutzt" shortcut list next to each free-text field (plan §7.2).
+    /// </summary>
+    public int Verwendungen { get; set; }
+
     public DateTime? DeletedUtc { get; set; }
 }
 

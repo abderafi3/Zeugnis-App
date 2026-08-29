@@ -5,6 +5,7 @@
                  xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
                  xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
                  Title="{x:Static res:Strings.Zuordnung_Title}"
+                 Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                  Width="820"
                  Height="640"
                  WindowStartupLocation="CenterOwner"

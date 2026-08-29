@@ -6,6 +6,8 @@
       xmlns:iv="clr-namespace:ZeugnisApp.App.ViewModels.Import"
       xmlns:kv="clr-namespace:ZeugnisApp.App.Views.Klassen"
       xmlns:iw="clr-namespace:ZeugnisApp.App.Views.Import"
+      ScrollViewer.CanContentScroll="False"
+      TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="{x:Static res:Strings.Nav_Klassen}">
 
     <Page.Resources>

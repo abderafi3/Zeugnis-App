@@ -1,16 +1,23 @@
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Serilog;
+using Wpf.Ui;
 using ZeugnisApp.App.Resources;
+using ZeugnisApp.App.Views;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Domain.Enums;
 
 namespace ZeugnisApp.App.ViewModels;
 
 /// <summary>
-/// Start screen: five large tiles with live counts (plan §7.2).
+/// Start screen: five large tiles with live counts (plan §7.2). Each tile is a
+/// clickable shortcut into the matching workspace.
 /// </summary>
-public sealed partial class DashboardViewModel(IDashboardService dashboardService, ISchoolSettingsService settingsService)
+public sealed partial class DashboardViewModel(
+    IDashboardService dashboardService,
+    ISchoolSettingsService settingsService,
+    INavigationService navigationService)
     : ViewModelBase
 {
     [ObservableProperty] private string _schulname = string.Empty;
@@ -55,6 +62,21 @@ public sealed partial class DashboardViewModel(IDashboardService dashboardServic
             IsBusy = false;
         }
     }
+
+    [RelayCommand]
+    private void OeffneKlassen() => navigationService.Navigate(typeof(KlassenPage));
+
+    [RelayCommand]
+    private void OeffneZeugnisse() => navigationService.Navigate(typeof(ZeugnissePage));
+
+    [RelayCommand]
+    private void OeffneFormulare() => navigationService.Navigate(typeof(FormularePage));
+
+    [RelayCommand]
+    private void OeffneFloskeln() => navigationService.Navigate(typeof(FloskelnPage));
+
+    [RelayCommand]
+    private void OeffneFehlzeiten() => navigationService.Navigate(typeof(FehlzeitenPage));
 
     private static string Fmt(string format, params object[] args)
         => string.Format(CultureInfo.CurrentCulture, format, args);

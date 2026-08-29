@@ -41,6 +41,8 @@ public sealed partial class KlasseEditViewModel : ObservableObject, IAsyncInitia
         set => SetOnEntity(_klasse.Zeugnisdatum, value is { } v ? DateOnly.FromDateTime(v) : null, x => _klasse.Zeugnisdatum = x);
     }
 
+    public IReadOnlyList<int> StundenOptionen { get; } = Enumerable.Range(0, 21).ToArray();
+
     public int Mo { get => _klasse.Wochenstundenplan.Montag; set => SetOnEntity(_klasse.Wochenstundenplan.Montag, value, v => _klasse.Wochenstundenplan.Montag = v); }
     public int Di { get => _klasse.Wochenstundenplan.Dienstag; set => SetOnEntity(_klasse.Wochenstundenplan.Dienstag, value, v => _klasse.Wochenstundenplan.Dienstag = v); }
     public int Mi { get => _klasse.Wochenstundenplan.Mittwoch; set => SetOnEntity(_klasse.Wochenstundenplan.Mittwoch, value, v => _klasse.Wochenstundenplan.Mittwoch = v); }

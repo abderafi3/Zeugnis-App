@@ -20,6 +20,7 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
     private readonly IZeugnisService _zeugnisse;
     private readonly IKlassenService _klassen;
     private readonly ISchoolSettingsService _settings;
+    private readonly IFloskelnService _floskeln;
     private readonly IFloskelPickerService _picker;
     private readonly ISaveStatusService _saveStatus;
     private readonly IDialogService _dialogs;
@@ -30,26 +31,38 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
 
     public ZeugnisseWorkspaceViewModel(
         IZeugnisService zeugnisse, IKlassenService klassen, ISchoolSettingsService settings,
-        IFloskelPickerService picker, ISaveStatusService saveStatus, IDialogService dialogs,
-        ReportGenerationServices reporting)
+        IFloskelnService floskeln, IFloskelPickerService picker, ISaveStatusService saveStatus,
+        IDialogService dialogs, ReportGenerationServices reporting)
     {
         _zeugnisse = zeugnisse;
         _klassen = klassen;
         _settings = settings;
+        _floskeln = floskeln;
         _picker = picker;
         _saveStatus = saveStatus;
         _dialogs = dialogs;
         _reporting = reporting;
     }
 
-    public override Task OnNavigatedToAsync()
+    public override async Task OnNavigatedToAsync()
     {
+        // Re-entering the area refreshes the overview (new classes, changed templates); the
+        // editor keeps its state so a half-finished report is never dropped on navigation.
         if (Current is null)
         {
             ShowUebersicht();
         }
-
-        return Task.CompletedTask;
+        else if (Current is ZeugnisUebersichtViewModel uebersicht)
+        {
+            try
+            {
+                await uebersicht.InitializeAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Zeugnisübersicht konnte nicht aktualisiert werden");
+            }
+        }
     }
 
     public void ShowUebersicht()
@@ -71,7 +84,7 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
             return;
         }
 
-        Swap(new ZeugnisEditorViewModel(full, _zeugnisse, _picker, _saveStatus, this, _reporting));
+        Swap(new ZeugnisEditorViewModel(full, _zeugnisse, _floskeln, _picker, _saveStatus, this, _reporting));
     }
 
     private async void Swap(ObservableObject next)

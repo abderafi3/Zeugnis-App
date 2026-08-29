@@ -3,6 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
+      ScrollViewer.CanContentScroll="False"
+      TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="{x:Static res:Strings.Nav_Papierkorb}">
 
     <Grid Margin="32">

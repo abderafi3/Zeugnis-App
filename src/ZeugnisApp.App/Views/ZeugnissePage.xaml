@@ -4,6 +4,8 @@
       xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
       xmlns:vm="clr-namespace:ZeugnisApp.App.ViewModels.Zeugnisse"
       xmlns:zv="clr-namespace:ZeugnisApp.App.Views.Zeugnisse"
+      ScrollViewer.CanContentScroll="False"
+      TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="{x:Static res:Strings.Nav_Zeugnisse}">
 
     <Page.Resources>

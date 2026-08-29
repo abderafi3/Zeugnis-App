@@ -10,6 +10,7 @@ using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Application.Zeugnisse;
 using ZeugnisApp.Domain.Entities;
 using ZeugnisApp.Domain.Enums;
+using ZeugnisApp.Domain.Floskeln;
 using WpfFilePicker = ZeugnisApp.App.Services.FilePickerService;
 
 namespace ZeugnisApp.App.ViewModels.Zeugnisse;
@@ -25,6 +26,7 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     private readonly Formular _formular;
     private readonly Kind _kind;
     private readonly IZeugnisService _service;
+    private readonly IFloskelnService _floskeln;
     private readonly IFloskelPickerService _picker;
     private readonly ISaveStatusService _saveStatus;
     private readonly IZeugnisseNavigator _navigator;
@@ -33,13 +35,14 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     private bool _loading;
 
     public ZeugnisEditorViewModel(
-        Zeugnis zeugnis, IZeugnisService service, IFloskelPickerService picker,
+        Zeugnis zeugnis, IZeugnisService service, IFloskelnService floskeln, IFloskelPickerService picker,
         ISaveStatusService saveStatus, IZeugnisseNavigator navigator, ReportGenerationServices reporting)
     {
         _zeugnis = zeugnis;
         _formular = zeugnis.Formular ?? new Formular();
         _kind = zeugnis.Kind ?? new Kind();
         _service = service;
+        _floskeln = floskeln;
         _picker = picker;
         _saveStatus = saveStatus;
         _navigator = navigator;
@@ -52,6 +55,9 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
 
     public ObservableCollection<FreitextEditorViewModel> Freitexte { get; } = [];
     public ObservableCollection<NoteEditorViewModel> Noten { get; } = [];
+
+    /// <summary>True once any field has "häufig genutzt" phrases — drives the right-hand sidebar.</summary>
+    public bool HatVorschlaege => Freitexte.Any(f => f.HatVorschlaege);
 
     public bool ShowNoten => _formular.HatNotenblock;
     public bool ShowEmpfehlung => _formular.HatBegruendeteEmpfehlung;
@@ -89,7 +95,7 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
         : string.Format(CultureInfo.CurrentCulture, Strings.ZeugnisEditor_LastGenerated,
             System.IO.Path.GetFileName(_zeugnis.GeneratedFilePath));
 
-    public Task InitializeAsync()
+    public async Task InitializeAsync()
     {
         _loading = true;
         try
@@ -105,7 +111,7 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
                     _zeugnis.Freitexte.Add(eintrag);
                 }
 
-                Freitexte.Add(new FreitextEditorViewModel(eintrag, feld, _picker, _kind, OnEdited));
+                Freitexte.Add(new FreitextEditorViewModel(eintrag, feld, _picker, _floskeln, _kind, _formular.Jahrgang, OnEdited));
             }
 
             // One grade row per template subject.
@@ -143,7 +149,11 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
         }
 
         // Persist the scaffolded Freitext/Noten entries and any auto-inserted zieldifferent remark.
-        return FlushAsync();
+        await FlushAsync();
+
+        // Fill the "häufig genutzt" shortcut list shown in the sidebar.
+        await Task.WhenAll(Freitexte.Select(f => f.LadeVorschlaegeAsync()));
+        OnPropertyChanged(nameof(HatVorschlaege));
     }
 
     [RelayCommand]
@@ -151,6 +161,18 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     {
         await FlushAsync();
         _navigator.ShowUebersicht();
+    }
+
+    [RelayCommand]
+    private async Task BemerkungFloskelEinfuegenAsync()
+    {
+        var text = await _picker.PickAsync(_kind.Vorname, _kind.Geschlecht);
+        if (string.IsNullOrEmpty(text))
+        {
+            return;
+        }
+
+        Bemerkungen = string.IsNullOrWhiteSpace(Bemerkungen) ? text : Bemerkungen!.TrimEnd() + " " + text;
     }
 
     private bool CanErzeugen() => KannErzeugen && !ErzeugtLaeuft;
@@ -273,28 +295,65 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     }
 }
 
-/// <summary>One free-text field: char counter, overflow flag, and a Floskel-picker button.</summary>
+/// <summary>
+/// One free-text field: char counter, overflow flag, a Floskel-picker button, and the
+/// "häufig genutzt" shortcut list for this field's Bereich (plan §7.2).
+/// </summary>
 public sealed partial class FreitextEditorViewModel : ObservableObject
 {
     private readonly FreitextEintrag _eintrag;
     private readonly FreitextFeldDefinition _feld;
     private readonly IFloskelPickerService _picker;
+    private readonly IFloskelnService _floskeln;
     private readonly Kind _kind;
+    private readonly int _stufe;
     private readonly Action _onEdited;
 
     public FreitextEditorViewModel(FreitextEintrag eintrag, FreitextFeldDefinition feld,
-        IFloskelPickerService picker, Kind kind, Action onEdited)
+        IFloskelPickerService picker, IFloskelnService floskeln, Kind kind, int stufe, Action onEdited)
     {
         _eintrag = eintrag;
         _feld = feld;
         _picker = picker;
+        _floskeln = floskeln;
         _kind = kind;
+        _stufe = stufe;
         _onEdited = onEdited;
     }
 
     public string Label => _feld.Name;
     public string? Hinweis => _feld.Hinweistext;
     public int? MaxZeichen => _feld.MaxZeichen;
+
+    /// <summary>Most-used phrases for this field, resolved for the current child.</summary>
+    public ObservableCollection<FloskelVorschlagViewModel> Vorschlaege { get; } = [];
+
+    public bool HatVorschlaege => Vorschlaege.Count > 0;
+
+    public async Task LadeVorschlaegeAsync()
+    {
+        Vorschlaege.Clear();
+        try
+        {
+            foreach (var f in await _floskeln.GetMeistgenutzteAsync(_feld.Name, _stufe, 5))
+            {
+                var aufgeloest = PlaceholderEngine.Resolve(f.Text, _kind.Vorname, _kind.Geschlecht);
+                Vorschlaege.Add(new FloskelVorschlagViewModel(f.Id, aufgeloest, EinfuegenVorschlag));
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Floskel-Vorschläge für {Feld} konnten nicht geladen werden", _feld.Name);
+        }
+
+        OnPropertyChanged(nameof(HatVorschlaege));
+    }
+
+    private void EinfuegenVorschlag(string aufgeloesterText, Guid floskelId)
+    {
+        Text = string.IsNullOrWhiteSpace(Text) ? aufgeloesterText : Text.TrimEnd() + " " + aufgeloesterText;
+        _ = _floskeln.RegistriereVerwendungAsync(floskelId);
+    }
 
     public string Text
     {
@@ -331,6 +390,20 @@ public sealed partial class FreitextEditorViewModel : ObservableObject
 
         Text = string.IsNullOrWhiteSpace(Text) ? text : Text.TrimEnd() + " " + text;
     }
+}
+
+/// <summary>One "häufig genutzt" shortcut beside a free-text field: click to append it.</summary>
+public sealed partial class FloskelVorschlagViewModel(Guid id, string aufgeloesterText, Action<string, Guid> einfuegen)
+    : ObservableObject
+{
+    public string VollText => aufgeloesterText;
+
+    public string Kurztext => aufgeloesterText.Length <= 90
+        ? aufgeloesterText
+        : aufgeloesterText[..90].TrimEnd() + "…";
+
+    [RelayCommand]
+    private void Einfuegen() => einfuegen(aufgeloesterText, id);
 }
 
 /// <summary>One subject grade dropdown.</summary>

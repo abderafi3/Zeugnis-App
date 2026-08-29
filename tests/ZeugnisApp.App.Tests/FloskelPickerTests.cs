@@ -16,6 +16,9 @@ public class FloskelPickerTests
         public Task DeleteAsync(Guid id, CancellationToken ct = default) => Task.CompletedTask;
         public Task<IReadOnlyList<string>> GetBereicheAsync(CancellationToken ct = default)
             => Task.FromResult<IReadOnlyList<string>>(["Sozialverhalten"]);
+        public Task<IReadOnlyList<Floskel>> GetMeistgenutzteAsync(string feldName, int stufe, int limit, CancellationToken ct = default)
+            => Task.FromResult<IReadOnlyList<Floskel>>(floskeln);
+        public Task RegistriereVerwendungAsync(Guid floskelId, CancellationToken ct = default) => Task.CompletedTask;
     }
 
     [Fact]

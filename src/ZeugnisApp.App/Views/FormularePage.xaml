@@ -4,6 +4,8 @@
       xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
       xmlns:vm="clr-namespace:ZeugnisApp.App.ViewModels.Formulare"
       xmlns:fv="clr-namespace:ZeugnisApp.App.Views.Formulare"
+      ScrollViewer.CanContentScroll="False"
+      TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="{x:Static res:Strings.Nav_Formulare}">
 
     <Page.Resources>

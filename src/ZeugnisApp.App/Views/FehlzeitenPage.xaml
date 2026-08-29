@@ -3,6 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
+      ScrollViewer.CanContentScroll="False"
+      TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="{x:Static res:Strings.Nav_Fehlzeiten}">
 
     <Grid Margin="32">
@@ -56,12 +58,24 @@
                 <DataGridTextColumn Width="*" IsReadOnly="True"
                                     Header="{x:Static res:Strings.Fehlzeiten_Col_Name}"
                                     Binding="{Binding AnzeigeName}" />
-                <DataGridTextColumn Width="160"
-                                    Header="{x:Static res:Strings.Fehlzeiten_Col_Gesamt}"
-                                    Binding="{Binding Gesamt, UpdateSourceTrigger=LostFocus, TargetNullValue=0}" />
-                <DataGridTextColumn Width="180"
-                                    Header="{x:Static res:Strings.Fehlzeiten_Col_Unentschuldigt}"
-                                    Binding="{Binding Unentschuldigt, UpdateSourceTrigger=LostFocus, TargetNullValue=0}" />
+                <DataGridTemplateColumn Width="160" Header="{x:Static res:Strings.Fehlzeiten_Col_Gesamt}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ui:NumberBox Margin="4,3" Minimum="0" SmallChange="1"
+                                          ClearButtonEnabled="False"
+                                          Value="{Binding Gesamt, Mode=TwoWay, UpdateSourceTrigger=LostFocus, TargetNullValue=0}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="180" Header="{x:Static res:Strings.Fehlzeiten_Col_Unentschuldigt}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ui:NumberBox Margin="4,3" Minimum="0" SmallChange="1"
+                                          ClearButtonEnabled="False"
+                                          Value="{Binding Unentschuldigt, Mode=TwoWay, UpdateSourceTrigger=LostFocus, TargetNullValue=0}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Width="2*" IsReadOnly="True"
                                     Header="{x:Static res:Strings.Fehlzeiten_Col_Hinweis}"
                                     Binding="{Binding ErrorText}" />

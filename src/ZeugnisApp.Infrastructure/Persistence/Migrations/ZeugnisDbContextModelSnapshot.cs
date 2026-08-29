@@ -166,6 +166,9 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Verwendungen")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Bereich", "Stufe", "Klassengruppe");

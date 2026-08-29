@@ -4,7 +4,7 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:res="clr-namespace:ZeugnisApp.App.Resources">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="32" MaxWidth="640" HorizontalAlignment="Left">
 
             <StackPanel Orientation="Horizontal">
@@ -38,23 +38,23 @@
             <StackPanel Orientation="Horizontal">
                 <StackPanel Margin="0,0,12,0">
                     <TextBlock HorizontalAlignment="Center" Text="{x:Static res:Strings.KlasseEdit_Mo}" />
-                    <ui:NumberBox Width="70" Value="{Binding Mo}" Minimum="0" Maximum="20" SmallChange="1" />
+                    <ComboBox Width="70" ItemsSource="{Binding StundenOptionen}" SelectedItem="{Binding Mo}" />
                 </StackPanel>
                 <StackPanel Margin="0,0,12,0">
                     <TextBlock HorizontalAlignment="Center" Text="{x:Static res:Strings.KlasseEdit_Di}" />
-                    <ui:NumberBox Width="70" Value="{Binding Di}" Minimum="0" Maximum="20" SmallChange="1" />
+                    <ComboBox Width="70" ItemsSource="{Binding StundenOptionen}" SelectedItem="{Binding Di}" />
                 </StackPanel>
                 <StackPanel Margin="0,0,12,0">
                     <TextBlock HorizontalAlignment="Center" Text="{x:Static res:Strings.KlasseEdit_Mi}" />
-                    <ui:NumberBox Width="70" Value="{Binding Mi}" Minimum="0" Maximum="20" SmallChange="1" />
+                    <ComboBox Width="70" ItemsSource="{Binding StundenOptionen}" SelectedItem="{Binding Mi}" />
                 </StackPanel>
                 <StackPanel Margin="0,0,12,0">
                     <TextBlock HorizontalAlignment="Center" Text="{x:Static res:Strings.KlasseEdit_Do}" />
-                    <ui:NumberBox Width="70" Value="{Binding Do}" Minimum="0" Maximum="20" SmallChange="1" />
+                    <ComboBox Width="70" ItemsSource="{Binding StundenOptionen}" SelectedItem="{Binding Do}" />
                 </StackPanel>
                 <StackPanel>
                     <TextBlock HorizontalAlignment="Center" Text="{x:Static res:Strings.KlasseEdit_Fr}" />
-                    <ui:NumberBox Width="70" Value="{Binding Fr}" Minimum="0" Maximum="20" SmallChange="1" />
+                    <ComboBox Width="70" ItemsSource="{Binding StundenOptionen}" SelectedItem="{Binding Fr}" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

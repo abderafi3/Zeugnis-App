@@ -3,84 +3,88 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
+      ScrollViewer.CanContentScroll="False"
+      TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="{x:Static res:Strings.Nav_Start}">
 
-    <Grid Margin="32">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="32">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="0,0,0,4">
-            <TextBlock FontSize="28" FontWeight="SemiBold" Text="{Binding Schulname}" />
-            <TextBlock FontSize="14"
-                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                       Text="{Binding SchuljahrHalbjahr}" />
-        </StackPanel>
+            <StackPanel Grid.Row="0" Margin="0,0,0,4">
+                <TextBlock FontSize="28" FontWeight="SemiBold" Text="{Binding Schulname}" />
+                <TextBlock FontSize="14"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                           Text="{Binding SchuljahrHalbjahr}" />
+            </StackPanel>
 
-        <TextBlock Grid.Row="1"
-                   Margin="0,24,0,12"
-                   FontSize="18"
-                   FontWeight="SemiBold"
-                   Text="{x:Static res:Strings.Dashboard_Areas}" />
+            <TextBlock Grid.Row="1"
+                       Margin="0,24,0,12"
+                       FontSize="18"
+                       FontWeight="SemiBold"
+                       Text="{x:Static res:Strings.Dashboard_Areas}" />
 
-        <ItemsControl Grid.Row="2">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+            <ItemsControl Grid.Row="2">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-            <ui:Card Width="260" Height="140" Margin="0,0,16,16">
-                <StackPanel>
-                    <ui:SymbolIcon Symbol="People24" FontSize="28" />
-                    <TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Tile_Klassen}" />
-                    <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               Text="{x:Static res:Strings.Tile_Klassen_Desc}" TextWrapping="Wrap" />
-                    <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="Bold" Text="{Binding KlassenText}" />
-                </StackPanel>
-            </ui:Card>
+                <ui:CardAction Width="260" Height="140" Margin="0,0,16,16" Command="{Binding OeffneKlassenCommand}">
+                    <StackPanel>
+                        <ui:SymbolIcon Symbol="People24" FontSize="28" />
+                        <TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Tile_Klassen}" />
+                        <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Static res:Strings.Tile_Klassen_Desc}" TextWrapping="Wrap" />
+                        <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="Bold" Text="{Binding KlassenText}" />
+                    </StackPanel>
+                </ui:CardAction>
 
-            <ui:Card Width="260" Height="140" Margin="0,0,16,16">
-                <StackPanel>
-                    <ui:SymbolIcon Symbol="DocumentText24" FontSize="28" />
-                    <TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Tile_Zeugnisse}" />
-                    <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               Text="{x:Static res:Strings.Tile_Zeugnisse_Desc}" TextWrapping="Wrap" />
-                    <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="Bold" Text="{Binding OffeneZeugnisseText}" />
-                </StackPanel>
-            </ui:Card>
+                <ui:CardAction Width="260" Height="140" Margin="0,0,16,16" Command="{Binding OeffneZeugnisseCommand}">
+                    <StackPanel>
+                        <ui:SymbolIcon Symbol="DocumentText24" FontSize="28" />
+                        <TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Tile_Zeugnisse}" />
+                        <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Static res:Strings.Tile_Zeugnisse_Desc}" TextWrapping="Wrap" />
+                        <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="Bold" Text="{Binding OffeneZeugnisseText}" />
+                    </StackPanel>
+                </ui:CardAction>
 
-            <ui:Card Width="260" Height="140" Margin="0,0,16,16">
-                <StackPanel>
-                    <ui:SymbolIcon Symbol="DocumentBulletList24" FontSize="28" />
-                    <TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Tile_Formulare}" />
-                    <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               Text="{x:Static res:Strings.Tile_Formulare_Desc}" TextWrapping="Wrap" />
-                    <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="Bold" Text="{Binding FormulareText}" />
-                </StackPanel>
-            </ui:Card>
+                <ui:CardAction Width="260" Height="140" Margin="0,0,16,16" Command="{Binding OeffneFormulareCommand}">
+                    <StackPanel>
+                        <ui:SymbolIcon Symbol="DocumentBulletList24" FontSize="28" />
+                        <TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Tile_Formulare}" />
+                        <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Static res:Strings.Tile_Formulare_Desc}" TextWrapping="Wrap" />
+                        <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="Bold" Text="{Binding FormulareText}" />
+                    </StackPanel>
+                </ui:CardAction>
 
-            <ui:Card Width="260" Height="140" Margin="0,0,16,16">
-                <StackPanel>
-                    <ui:SymbolIcon Symbol="TextBulletListSquare24" FontSize="28" />
-                    <TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Tile_Floskeln}" />
-                    <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               Text="{x:Static res:Strings.Tile_Floskeln_Desc}" TextWrapping="Wrap" />
-                    <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="Bold" Text="{Binding FloskelnText}" />
-                </StackPanel>
-            </ui:Card>
+                <ui:CardAction Width="260" Height="140" Margin="0,0,16,16" Command="{Binding OeffneFloskelnCommand}">
+                    <StackPanel>
+                        <ui:SymbolIcon Symbol="TextBulletListSquare24" FontSize="28" />
+                        <TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Tile_Floskeln}" />
+                        <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Static res:Strings.Tile_Floskeln_Desc}" TextWrapping="Wrap" />
+                        <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="Bold" Text="{Binding FloskelnText}" />
+                    </StackPanel>
+                </ui:CardAction>
 
-            <ui:Card Width="260" Height="140" Margin="0,0,16,16">
-                <StackPanel>
-                    <ui:SymbolIcon Symbol="CalendarClock24" FontSize="28" />
-                    <TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Tile_Fehlzeiten}" />
-                    <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               Text="{x:Static res:Strings.Tile_Fehlzeiten_Desc}" TextWrapping="Wrap" />
-                    <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="Bold" Text="{Binding KinderText}" />
-                </StackPanel>
-            </ui:Card>
-        </ItemsControl>
-    </Grid>
+                <ui:CardAction Width="260" Height="140" Margin="0,0,16,16" Command="{Binding OeffneFehlzeitenCommand}">
+                    <StackPanel>
+                        <ui:SymbolIcon Symbol="CalendarClock24" FontSize="28" />
+                        <TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Tile_Fehlzeiten}" />
+                        <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Static res:Strings.Tile_Fehlzeiten_Desc}" TextWrapping="Wrap" />
+                        <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="Bold" Text="{Binding KinderText}" />
+                    </StackPanel>
+                </ui:CardAction>
+            </ItemsControl>
+        </Grid>
+    </ScrollViewer>
 </Page>

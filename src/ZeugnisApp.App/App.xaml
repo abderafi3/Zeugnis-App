@@ -24,10 +24,11 @@
             <SolidColorBrush x:Key="ZaWarningBrush" Color="#9D5D00" />
             <SolidColorBrush x:Key="ZaSuccessBrush" Color="#0F7B0F" />
 
-            <!-- Plain TextBlocks default to black; bind them to the Fluent theme brush so
-                 headings and labels follow light/dark mode. -->
+            <!-- Crisper text rendering for the small Fluent type ramp. The default text
+                 colour is set as an inherited Foreground on each window root (see
+                 MainWindow.xaml et al.) so it reaches bare TextBlocks without also
+                 overriding the on-accent text inside buttons. -->
             <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
                 <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
             </Style>
         </ResourceDictionary>

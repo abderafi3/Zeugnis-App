@@ -17,6 +17,7 @@ public class ZeugnisEditorTests
         public Task<Zeugnis?> GetAsync(Guid id, CancellationToken ct = default) => throw new NotSupportedException();
         public Task<Zeugnis?> GetWithContextAsync(Guid id, CancellationToken ct = default) => throw new NotSupportedException();
         public Task SetFertiggestelltAsync(Guid id, bool v, CancellationToken ct = default) => throw new NotSupportedException();
+        public Task SetManuellesFormularAsync(Guid kindId, Guid? formularId, CancellationToken ct = default) => throw new NotSupportedException();
         public Task<IReadOnlyList<ZeugnisUebersichtZeile>> GetUebersichtForKlasseAsync(Guid k, string s, Halbjahr h, CancellationToken ct = default) => throw new NotSupportedException();
     }
 
@@ -90,9 +91,22 @@ public class ZeugnisEditorTests
         IReportGenerationEngine engine, IFilePickerService picker, IFileLauncher launcher)
         => new(engine, picker, launcher, new StubSettings(new SchoolSettings { Name = "GS Wehringhausen" }));
 
+    private sealed class NoFloskeln : IFloskelnService
+    {
+        public Task<IReadOnlyList<Floskel>> GetAsync(FloskelFilter filter, CancellationToken ct = default)
+            => Task.FromResult<IReadOnlyList<Floskel>>([]);
+        public Task<Floskel> SaveAsync(Floskel floskel, CancellationToken ct = default) => Task.FromResult(floskel);
+        public Task DeleteAsync(Guid id, CancellationToken ct = default) => Task.CompletedTask;
+        public Task<IReadOnlyList<string>> GetBereicheAsync(CancellationToken ct = default)
+            => Task.FromResult<IReadOnlyList<string>>([]);
+        public Task<IReadOnlyList<Floskel>> GetMeistgenutzteAsync(string feldName, int stufe, int limit, CancellationToken ct = default)
+            => Task.FromResult<IReadOnlyList<Floskel>>([]);
+        public Task RegistriereVerwendungAsync(Guid floskelId, CancellationToken ct = default) => Task.CompletedTask;
+    }
+
     private static ZeugnisEditorViewModel NewEditor(Zeugnis z, IZeugnisService service,
         IFloskelPickerService picker, ReportGenerationServices reporting)
-        => new(z, service, picker, new SaveStatusService(new TestClock()), new NullNavigator(), reporting);
+        => new(z, service, new NoFloskeln(), picker, new SaveStatusService(new TestClock()), new NullNavigator(), reporting);
 
     [Fact]
     public async Task Editor_shows_only_the_sections_the_formular_switches_enable()

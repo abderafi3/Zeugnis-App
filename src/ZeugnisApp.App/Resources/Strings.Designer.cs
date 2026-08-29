@@ -301,6 +301,8 @@ public static class Strings
     public static string Zeugnisse_Status_Entwurf => Get(nameof(Zeugnisse_Status_Entwurf));
     public static string Zeugnisse_Status_Fertig => Get(nameof(Zeugnisse_Status_Fertig));
     public static string Zeugnisse_Status_KeinFormular => Get(nameof(Zeugnisse_Status_KeinFormular));
+    public static string Zeugnisse_Formular_Auto => Get(nameof(Zeugnisse_Formular_Auto));
+    public static string Zeugnisse_Formular_Hint => Get(nameof(Zeugnisse_Formular_Hint));
     public static string Zeugnisse_Open => Get(nameof(Zeugnisse_Open));
     public static string Zeugnisse_MarkDone => Get(nameof(Zeugnisse_MarkDone));
     public static string Zeugnisse_Reopen => Get(nameof(Zeugnisse_Reopen));
@@ -317,6 +319,8 @@ public static class Strings
     public static string ZeugnisEditor_Fehlstunden_Gesamt => Get(nameof(ZeugnisEditor_Fehlstunden_Gesamt));
     public static string ZeugnisEditor_Fehlstunden_Unentschuldigt => Get(nameof(ZeugnisEditor_Fehlstunden_Unentschuldigt));
     public static string ZeugnisEditor_InsertFloskel => Get(nameof(ZeugnisEditor_InsertFloskel));
+    public static string ZeugnisEditor_HaeufigGenutzt => Get(nameof(ZeugnisEditor_HaeufigGenutzt));
+    public static string ZeugnisEditor_HaeufigGenutzt_Hint => Get(nameof(ZeugnisEditor_HaeufigGenutzt_Hint));
     public static string ZeugnisEditor_CharCount => Get(nameof(ZeugnisEditor_CharCount));
     public static string ZeugnisEditor_CharCountNoLimit => Get(nameof(ZeugnisEditor_CharCountNoLimit));
     public static string ZeugnisEditor_Overflow => Get(nameof(ZeugnisEditor_Overflow));

@@ -23,6 +23,8 @@ public sealed partial class FehlzeitenViewModel(
 {
     private string _schuljahr = string.Empty;
     private Halbjahr _halbjahr = Halbjahr.Erstes;
+    private int _reloadGeneration;
+    private bool _suppressReload;
 
     public ObservableCollection<KlasseListItem> Klassen { get; } = [];
     public ObservableCollection<FehlzeitRowViewModel> Rows { get; } = [];
@@ -49,34 +51,61 @@ public sealed partial class FehlzeitenViewModel(
             string.IsNullOrWhiteSpace(_schuljahr) ? "—" : _schuljahr,
             _halbjahr == Halbjahr.Erstes ? Strings.Halbjahr_First : Strings.Halbjahr_Second);
 
+        var geladen = await klassenService.GetKlassenAsync();
+
         Klassen.Clear();
-        foreach (var k in await klassenService.GetKlassenAsync())
+        foreach (var k in geladen)
         {
             Klassen.Add(k);
         }
 
+        _suppressReload = true;
         SelectedKlasse ??= Klassen.FirstOrDefault();
+        _suppressReload = false;
+
         await ReloadRowsAsync();
     }
 
-    partial void OnSelectedKlasseChanged(KlasseListItem? value) => _ = ReloadRowsAsync();
+    partial void OnSelectedKlasseChanged(KlasseListItem? value)
+    {
+        if (!_suppressReload)
+        {
+            _ = ReloadRowsAsync();
+        }
+    }
 
     private async Task ReloadRowsAsync()
     {
-        Rows.Clear();
-        if (SelectedKlasse is { } klasse)
+        // Overlapping selection changes: only the newest run writes Rows, and in one step.
+        var generation = ++_reloadGeneration;
+        var klasse = SelectedKlasse;
+
+        var neu = new List<FehlzeitRowViewModel>();
+        if (klasse is not null)
         {
             try
             {
                 foreach (var zeile in await fehlzeitenService.GetForKlasseAsync(klasse.Id, _schuljahr, _halbjahr))
                 {
-                    Rows.Add(new FehlzeitRowViewModel(zeile, _schuljahr, _halbjahr, fehlzeitenService, saveStatus));
+                    neu.Add(new FehlzeitRowViewModel(zeile, _schuljahr, _halbjahr, fehlzeitenService, saveStatus));
                 }
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Fehlzeiten konnten nicht geladen werden");
+                return;
             }
+        }
+
+        if (generation != _reloadGeneration)
+        {
+            return;
+        }
+
+        Rows.Clear();
+        foreach (var row in neu)
+        {
+            Rows.Add(row);
         }
 
         Loaded = true;

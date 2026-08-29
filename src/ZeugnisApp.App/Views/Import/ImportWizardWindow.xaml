@@ -4,6 +4,7 @@
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:iw="clr-namespace:ZeugnisApp.App.Views.Import"
                  Title="{Binding Title}"
+                 Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                  Width="960"
                  Height="680"
                  MinWidth="760"

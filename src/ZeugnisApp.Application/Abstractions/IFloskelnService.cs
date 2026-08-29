@@ -15,6 +15,16 @@ public interface IFloskelnService
 
     /// <summary>Distinct Bereich values currently in use, merged with the well-known ones, for the filter.</summary>
     Task<IReadOnlyList<string>> GetBereicheAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// The phrases most often inserted for a given free-text field, matched loosely by Bereich and
+    /// year group, most-used first. Feeds the "häufig genutzt" shortcuts in the Zeugnis-Editor.
+    /// </summary>
+    Task<IReadOnlyList<Floskel>> GetMeistgenutzteAsync(
+        string feldName, int stufe, int limit, CancellationToken cancellationToken = default);
+
+    /// <summary>Records one insertion of a phrase from the Zeugnis-Editor (bumps its usage count).</summary>
+    Task RegistriereVerwendungAsync(Guid floskelId, CancellationToken cancellationToken = default);
 }
 
 /// <summary>Filter for the phrase-library screen. A null field means "all".</summary>

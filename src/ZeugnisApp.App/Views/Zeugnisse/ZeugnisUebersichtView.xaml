@@ -4,11 +4,12 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:res="clr-namespace:ZeugnisApp.App.Resources">
 
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
     <Grid Margin="32">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
@@ -33,9 +34,8 @@
                    Text="{x:Static res:Strings.Zeugnisse_Empty}"
                    Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}}" />
 
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding Rows}"
                       Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}, ConverterParameter=invert}">
-            <ItemsControl ItemsSource="{Binding Rows}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <ui:Card Margin="0,0,0,8">
@@ -51,6 +51,21 @@
                                             Background="{DynamicResource ControlFillColorSecondaryBrush}">
                                         <TextBlock FontSize="11" Text="{Binding StatusText}" />
                                     </Border>
+                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                        <TextBlock VerticalAlignment="Center" FontSize="12"
+                                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                   Text="{x:Static res:Strings.Zeugnisse_Col_Formular}" />
+                                        <ComboBox Margin="8,0,0,0" MinWidth="240"
+                                                  ItemsSource="{Binding FormularOptionen}"
+                                                  DisplayMemberPath="Anzeigename"
+                                                  SelectedValuePath="Id"
+                                                  SelectedValue="{Binding SelectedFormularId, Mode=TwoWay}" />
+                                    </StackPanel>
+                                    <TextBlock Margin="0,6,0,0" FontSize="11" TextWrapping="Wrap" MaxWidth="520"
+                                               HorizontalAlignment="Left"
+                                               Foreground="{DynamicResource ZaWarningBrush}"
+                                               Text="{x:Static res:Strings.Zeugnisse_Formular_Hint}"
+                                               Visibility="{Binding KannBearbeiten, Converter={StaticResource BoolToVis}, ConverterParameter=invert}" />
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                                     <ui:Button Appearance="Primary" Icon="{ui:SymbolIcon Open24}"
@@ -67,6 +82,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </ScrollViewer>
     </Grid>
+    </ScrollViewer>
 </UserControl>

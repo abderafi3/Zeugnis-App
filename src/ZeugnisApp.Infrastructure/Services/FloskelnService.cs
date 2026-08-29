@@ -20,12 +20,14 @@ internal sealed class FloskelnService(IDbContextFactory<ZeugnisDbContext> contex
 
         if (!string.IsNullOrWhiteSpace(filter.Bereich))
         {
-            query = query.Where(f => f.Bereich == filter.Bereich);
+            // Phrases with an empty Bereich are "gilt für alle Bereiche" and stay visible under every filter.
+            query = query.Where(f => f.Bereich == filter.Bereich || f.Bereich == null || f.Bereich == "");
         }
 
         if (filter.Stufe is { } stufe)
         {
-            query = query.Where(f => f.Stufe == stufe);
+            // Stufe 0 = "gilt für alle Jahrgänge".
+            query = query.Where(f => f.Stufe == stufe || f.Stufe == 0);
         }
 
         if (filter.Klassengruppe is { } gruppe)
@@ -92,6 +94,35 @@ internal sealed class FloskelnService(IDbContextFactory<ZeugnisDbContext> contex
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .OrderBy(b => b, StringComparer.CurrentCulture)
             .ToList();
+    }
+
+    public async Task<IReadOnlyList<Floskel>> GetMeistgenutzteAsync(
+        string feldName, int stufe, int limit, CancellationToken cancellationToken = default)
+    {
+        await using var db = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
+
+        // Load the plausible year-group set, then narrow by the fuzzy Bereich match in memory
+        // (the matcher is pure and not translatable to SQL).
+        var kandidaten = await db.Floskeln
+            .Where(f => f.Stufe == stufe || f.Stufe <= 0)
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        return kandidaten
+            .Where(f => Domain.Floskeln.FloskelBereichMatcher.Matches(feldName, f.Bereich))
+            .OrderByDescending(f => f.Verwendungen)
+            .ThenBy(f => f.Text, StringComparer.CurrentCulture)
+            .Take(Math.Max(0, limit))
+            .ToList();
+    }
+
+    public async Task RegistriereVerwendungAsync(Guid floskelId, CancellationToken cancellationToken = default)
+    {
+        await using var db = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
+        await db.Floskeln
+            .Where(f => f.Id == floskelId)
+            .ExecuteUpdateAsync(s => s.SetProperty(f => f.Verwendungen, f => f.Verwendungen + 1), cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private static void Validate(Floskel floskel)

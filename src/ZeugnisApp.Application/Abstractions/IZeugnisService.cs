@@ -28,6 +28,12 @@ public interface IZeugnisService
 
     Task SetFertiggestelltAsync(Guid zeugnisId, bool fertiggestellt, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Pins (or clears, when <paramref name="formularId"/> is null) the report template for a child.
+    /// Used from the term overview when auto-suggestion finds nothing suitable (plan §4 / §5.1).
+    /// </summary>
+    Task SetManuellesFormularAsync(Guid kindId, Guid? formularId, CancellationToken cancellationToken = default);
+
     /// <summary>One row per child in the class for the term overview (plan §7.2).</summary>
     Task<IReadOnlyList<ZeugnisUebersichtZeile>> GetUebersichtForKlasseAsync(
         Guid klasseId, string schuljahr, Halbjahr halbjahr, CancellationToken cancellationToken = default);
@@ -40,7 +46,8 @@ public sealed record ZeugnisUebersichtZeile(
     Guid? ZeugnisId,
     bool Fertiggestellt,
     string? FormularName,
-    bool FormularVerfuegbar);
+    bool FormularVerfuegbar,
+    Guid? ManuellesFormularId = null);
 
 /// <summary>Outcome of <see cref="IZeugnisService.GetOrCreateAsync"/>.</summary>
 public sealed record ZeugnisErgebnis(Zeugnis? Zeugnis, bool WurdeErstellt, SuggestionReason? FormularQuelle, string? Fehler)

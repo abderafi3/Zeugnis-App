@@ -209,7 +209,7 @@
 
   <!-- ================= Floskeln ================= -->
   <data name="Floskeln_Title"><value>Floskeln-Bibliothek</value></data>
-  <data name="Floskeln_Intro"><value>Textbausteine mit Platzhaltern [Name], [er/sie], [sein/ihr] … Diese werden pro Kind aufgelöst.</value></data>
+  <data name="Floskeln_Intro"><value>Textbausteine mit Platzhaltern [Name], [er/sie], [sein/ihr] … Diese werden pro Kind aufgelöst. Bereich leer lassen = gilt für alle Bereiche; Stufe „alle“ = gilt für alle Jahrgänge.</value></data>
   <data name="Floskeln_New"><value>Neue Floskel</value></data>
   <data name="Floskeln_Import"><value>Aus Excel importieren</value></data>
   <data name="Floskeln_TestPicker"><value>Auswahl testen</value></data>
@@ -312,7 +312,7 @@
 
   <!-- ================= Fehlzeiten ================= -->
   <data name="Fehlzeiten_Title"><value>Fehlzeiten</value></data>
-  <data name="Fehlzeiten_Intro"><value>Fehlstunden je Kind für das aktuelle Halbjahr. Werden beim Erstellen eines Zeugnisses übernommen und bleiben dort einzeln änderbar.</value></data>
+  <data name="Fehlzeiten_Intro"><value>Fehlstunden je Kind für das aktuelle Halbjahr – Werte direkt in der Tabelle eintragen. Sie werden beim Erstellen eines Zeugnisses übernommen und bleiben dort einzeln änderbar.</value></data>
   <data name="Fehlzeiten_Klasse"><value>Klasse</value></data>
   <data name="Fehlzeiten_Term"><value>Schuljahr {0} · {1}</value></data>
   <data name="Fehlzeiten_Empty"><value>Keine Kinder in dieser Klasse.</value></data>
@@ -325,7 +325,7 @@
 
   <!-- ================= Zeugnisse ================= -->
   <data name="Zeugnisse_Title"><value>Zeugnisse</value></data>
-  <data name="Zeugnisse_Intro"><value>Zeugnisse je Kind für das aktuelle Halbjahr ausfüllen. Die Erzeugung der Word-Datei folgt in Sprint 9.</value></data>
+  <data name="Zeugnisse_Intro"><value>Zeugnisse je Kind für das aktuelle Halbjahr ausfüllen.</value></data>
   <data name="Zeugnisse_Klasse"><value>Klasse</value></data>
   <data name="Zeugnisse_Term"><value>Schuljahr {0} · {1}</value></data>
   <data name="Zeugnisse_NoKlasse"><value>Bitte zuerst eine Klasse anlegen.</value></data>
@@ -336,6 +336,8 @@
   <data name="Zeugnisse_Status_Entwurf"><value>Entwurf</value></data>
   <data name="Zeugnisse_Status_Fertig"><value>fertiggestellt</value></data>
   <data name="Zeugnisse_Status_KeinFormular"><value>kein Formular</value></data>
+  <data name="Zeugnisse_Formular_Auto"><value>Automatisch (nach Jahrgang/Halbjahr)</value></data>
+  <data name="Zeugnisse_Formular_Hint"><value>Kein Formular passt automatisch – hier eins zuweisen oder unter „Formulare“ eins für diesen Jahrgang und dieses Halbjahr anlegen.</value></data>
   <data name="Zeugnisse_Open"><value>Öffnen</value></data>
   <data name="Zeugnisse_MarkDone"><value>Als fertig markieren</value></data>
   <data name="Zeugnisse_Reopen"><value>Wieder öffnen</value></data>
@@ -353,6 +355,8 @@
   <data name="ZeugnisEditor_Fehlstunden_Gesamt"><value>Stunden gesamt</value></data>
   <data name="ZeugnisEditor_Fehlstunden_Unentschuldigt"><value>davon unentschuldigt</value></data>
   <data name="ZeugnisEditor_InsertFloskel"><value>Floskel einfügen</value></data>
+  <data name="ZeugnisEditor_HaeufigGenutzt"><value>Häufig genutzt</value></data>
+  <data name="ZeugnisEditor_HaeufigGenutzt_Hint"><value>Anklicken, um die Floskel in das jeweilige Feld zu übernehmen.</value></data>
   <data name="ZeugnisEditor_CharCount"><value>{0} / {1} Zeichen</value></data>
   <data name="ZeugnisEditor_CharCountNoLimit"><value>{0} Zeichen</value></data>
   <data name="ZeugnisEditor_Overflow"><value>Text ist länger als für dieses Feld vorgesehen – bitte kürzen.</value></data>

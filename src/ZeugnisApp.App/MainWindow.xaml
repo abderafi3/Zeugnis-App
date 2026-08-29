@@ -5,6 +5,7 @@
                  xmlns:views="clr-namespace:ZeugnisApp.App.Views"
                  xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
                  Title="{x:Static res:Strings.App_Title}"
+                 Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                  Width="1200"
                  Height="800"
                  MinWidth="900"

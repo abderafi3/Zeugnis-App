@@ -132,6 +132,15 @@ internal sealed class ZeugnisService(IDbContextFactory<ZeugnisDbContext> context
             .ConfigureAwait(false);
     }
 
+    public async Task SetManuellesFormularAsync(Guid kindId, Guid? formularId, CancellationToken cancellationToken = default)
+    {
+        await using var db = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
+        await db.Kinder
+            .Where(k => k.Id == kindId)
+            .ExecuteUpdateAsync(s => s.SetProperty(k => k.ManuellesFormularId, formularId), cancellationToken)
+            .ConfigureAwait(false);
+    }
+
     public async Task<IReadOnlyList<ZeugnisUebersichtZeile>> GetUebersichtForKlasseAsync(
         Guid klasseId, string schuljahr, Halbjahr halbjahr, CancellationToken cancellationToken = default)
     {
@@ -165,7 +174,8 @@ internal sealed class ZeugnisService(IDbContextFactory<ZeugnisDbContext> context
 
             rows.Add(new ZeugnisUebersichtZeile(
                 kind.Id, kind.AnzeigeName, zeugnis?.Id, zeugnis?.Fertiggestellt ?? false,
-                formularName, suggestion.Formular is not null || zeugnis is not null));
+                formularName, suggestion.Formular is not null || zeugnis is not null,
+                kind.ManuellesFormularId));
         }
 
         return rows;
