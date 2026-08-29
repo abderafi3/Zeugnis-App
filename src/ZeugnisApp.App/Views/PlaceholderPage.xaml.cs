@@ -21,5 +21,3 @@ public partial class PlaceholderPage : Page
 // One concrete type per navigation target (WPF-UI resolves pages by CLR type).
 
 public sealed class ZeugnissePage() : PlaceholderPage(Strings.Nav_Zeugnisse, Strings.Placeholder_Zeugnisse);
-
-public sealed class FehlzeitenPage() : PlaceholderPage(Strings.Nav_Fehlzeiten, Strings.Placeholder_Fehlzeiten);

@@ -117,3 +117,11 @@ XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. A
   **Regression suite (17 tests):** for each of the 7 standard templates, generate from fixed sample
   data and assert the values landed in the right tags **and** nothing outside the content controls
   changed. Real school `.docx` files replace the synthetic `TemplateFixture` when available.
+- **Sprint 7 — Fehlzeiten:** done. `IFehlzeitenService` — per-class rows for the current term
+  (zeros when nothing entered), upsert with `unentschuldigt ≤ gesamt` validation.
+  `IZeugnisService.GetOrCreateAsync` — creates the report card if absent (template auto-suggested,
+  manual override respected) and **copies the current absence totals into it once**; a later
+  correction of the class table does not touch an already-created report (plan §Sprint 7 DoD).
+  `FehlzeitenPage` — class picker + term banner + editable DataGrid, invalid rows shaded red,
+  debounced autosave. Calendar variant (`Fehltag` + `FehltageAggregator`, pure, 3 tests) modelled
+  and migrated but deliberately not surfaced in the UI.

@@ -59,6 +59,41 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                     b.ToTable("AuditTrail");
                 });
 
+            modelBuilder.Entity("ZeugnisApp.Domain.Entities.Fehltag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Bemerkung")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("Datum")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("KindId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ModifiedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Stunden")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Unentschuldigt")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KindId", "Datum");
+
+                    b.ToTable("Fehltage");
+                });
+
             modelBuilder.Entity("ZeugnisApp.Domain.Entities.Fehlzeit", b =>
                 {
                     b.Property<Guid>("Id")
@@ -420,6 +455,17 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Zeugnisse");
+                });
+
+            modelBuilder.Entity("ZeugnisApp.Domain.Entities.Fehltag", b =>
+                {
+                    b.HasOne("ZeugnisApp.Domain.Entities.Kind", "Kind")
+                        .WithMany()
+                        .HasForeignKey("KindId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Kind");
                 });
 
             modelBuilder.Entity("ZeugnisApp.Domain.Entities.Fehlzeit", b =>

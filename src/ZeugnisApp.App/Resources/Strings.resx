@@ -265,6 +265,19 @@
   <data name="FormularEdit_Error_NameRequired"><value>Bitte einen Anzeigenamen eingeben.</value></data>
   <data name="FormularEdit_Error_FeldNamesUnique"><value>Die Namen der Freitextfelder müssen eindeutig und nicht leer sein.</value></data>
 
+  <!-- ================= Fehlzeiten ================= -->
+  <data name="Fehlzeiten_Title"><value>Fehlzeiten</value></data>
+  <data name="Fehlzeiten_Intro"><value>Fehlstunden je Kind für das aktuelle Halbjahr. Werden beim Erstellen eines Zeugnisses übernommen und bleiben dort einzeln änderbar.</value></data>
+  <data name="Fehlzeiten_Klasse"><value>Klasse</value></data>
+  <data name="Fehlzeiten_Term"><value>Schuljahr {0} · {1}</value></data>
+  <data name="Fehlzeiten_Empty"><value>Keine Kinder in dieser Klasse.</value></data>
+  <data name="Fehlzeiten_NoKlasse"><value>Bitte zuerst eine Klasse anlegen.</value></data>
+  <data name="Fehlzeiten_Col_Name"><value>Kind</value></data>
+  <data name="Fehlzeiten_Col_Gesamt"><value>Stunden gesamt</value></data>
+  <data name="Fehlzeiten_Col_Unentschuldigt"><value>davon unentschuldigt</value></data>
+  <data name="Fehlzeiten_Col_Hinweis"><value>Hinweis</value></data>
+  <data name="Fehlzeiten_Error"><value>Unentschuldigte Stunden dürfen die Gesamtstunden nicht übersteigen.</value></data>
+
   <!-- ================= Enums ================= -->
   <data name="Geschlecht_Maennlich"><value>männlich</value></data>
   <data name="Geschlecht_Weiblich"><value>weiblich</value></data>

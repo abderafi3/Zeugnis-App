@@ -20,6 +20,7 @@ public sealed class ZeugnisDbContext(DbContextOptions<ZeugnisDbContext> options,
     public DbSet<Floskel> Floskeln => Set<Floskel>();
     public DbSet<Formular> Formulare => Set<Formular>();
     public DbSet<Fehlzeit> Fehlzeiten => Set<Fehlzeit>();
+    public DbSet<Fehltag> Fehltage => Set<Fehltag>();
     public DbSet<Zeugnis> Zeugnisse => Set<Zeugnis>();
     public DbSet<AuditTrailEntry> AuditTrail => Set<AuditTrailEntry>();
 
@@ -119,6 +120,15 @@ public sealed class ZeugnisDbContext(DbContextOptions<ZeugnisDbContext> options,
             e.HasOne(x => x.Kind).WithMany().HasForeignKey(x => x.KindId).OnDelete(DeleteBehavior.Cascade);
             e.HasIndex(x => new { x.KindId, x.Schuljahr, x.Halbjahr }).IsUnique();
             e.Ignore(x => x.IstGueltig);
+        });
+
+        // ---------- Fehltag (calendar variant — modelled, UI not linked, plan §4) ----------
+        b.Entity<Fehltag>(e =>
+        {
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Bemerkung).HasMaxLength(500);
+            e.HasOne(x => x.Kind).WithMany().HasForeignKey(x => x.KindId).OnDelete(DeleteBehavior.Cascade);
+            e.HasIndex(x => new { x.KindId, x.Datum });
         });
 
         // ---------- Zeugnis ----------

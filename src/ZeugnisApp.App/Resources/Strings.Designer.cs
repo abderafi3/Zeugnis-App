@@ -233,6 +233,19 @@ public static class Strings
     public static string FormularEdit_Error_NameRequired => Get(nameof(FormularEdit_Error_NameRequired));
     public static string FormularEdit_Error_FeldNamesUnique => Get(nameof(FormularEdit_Error_FeldNamesUnique));
 
+    // ---- Fehlzeiten ----
+    public static string Fehlzeiten_Title => Get(nameof(Fehlzeiten_Title));
+    public static string Fehlzeiten_Intro => Get(nameof(Fehlzeiten_Intro));
+    public static string Fehlzeiten_Klasse => Get(nameof(Fehlzeiten_Klasse));
+    public static string Fehlzeiten_Term => Get(nameof(Fehlzeiten_Term));
+    public static string Fehlzeiten_Empty => Get(nameof(Fehlzeiten_Empty));
+    public static string Fehlzeiten_NoKlasse => Get(nameof(Fehlzeiten_NoKlasse));
+    public static string Fehlzeiten_Col_Name => Get(nameof(Fehlzeiten_Col_Name));
+    public static string Fehlzeiten_Col_Gesamt => Get(nameof(Fehlzeiten_Col_Gesamt));
+    public static string Fehlzeiten_Col_Unentschuldigt => Get(nameof(Fehlzeiten_Col_Unentschuldigt));
+    public static string Fehlzeiten_Col_Hinweis => Get(nameof(Fehlzeiten_Col_Hinweis));
+    public static string Fehlzeiten_Error => Get(nameof(Fehlzeiten_Error));
+
     // ---- Enums ----
     public static string Geschlecht_Maennlich => Get(nameof(Geschlecht_Maennlich));
     public static string Geschlecht_Weiblich => Get(nameof(Geschlecht_Weiblich));

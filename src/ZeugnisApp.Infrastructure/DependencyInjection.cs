@@ -37,6 +37,8 @@ public static class DependencyInjection
         services.AddScoped<IKlassenService, KlassenService>();
         services.AddScoped<IFloskelnService, FloskelnService>();
         services.AddScoped<IFormulareService, FormulareService>();
+        services.AddScoped<IFehlzeitenService, FehlzeitenService>();
+        services.AddScoped<IZeugnisService, ZeugnisService>();
         services.AddSingleton<ITabularImport, TabularImport>();
         services.AddScoped<IKinderImportService, KinderImportService>();
         services.AddScoped<IFloskelImportService, FloskelImportService>();

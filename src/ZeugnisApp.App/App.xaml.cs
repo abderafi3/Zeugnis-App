@@ -70,8 +70,10 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<FormularePage>();
                 services.AddSingleton<ViewModels.Formulare.FormulareWorkspaceViewModel>();
 
-                services.AddSingleton<ZeugnissePage>();
                 services.AddSingleton<FehlzeitenPage>();
+                services.AddSingleton<ViewModels.Fehlzeiten.FehlzeitenViewModel>();
+
+                services.AddSingleton<ZeugnissePage>();
             })
             .Build();
     }
