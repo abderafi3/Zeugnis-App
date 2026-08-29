@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\src\ZeugnisApp.Infrastructure\ZeugnisApp.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\ZeugnisApp.Application\ZeugnisApp.Application.csproj" />
     <ProjectReference Include="..\..\src\ZeugnisApp.Domain\ZeugnisApp.Domain.csproj" />
+    <ProjectReference Include="..\..\src\ZeugnisApp.Reporting\ZeugnisApp.Reporting.csproj" />
   </ItemGroup>
 
   <ItemGroup>

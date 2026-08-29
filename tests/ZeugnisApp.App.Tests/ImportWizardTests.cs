@@ -38,6 +38,7 @@ public class ImportWizardTests
     private sealed class NullFilePicker : IFilePickerService
     {
         public string? PickFile(string title, string filter) => null;
+        public string? PickSaveFile(string title, string filter, string defaultFileName) => null;
     }
 
     private sealed class NullNavigator : IKlassenNavigator

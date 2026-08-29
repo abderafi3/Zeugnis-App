@@ -9,6 +9,8 @@ using ZeugnisApp.App.ViewModels.Klassen;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Application.Zeugnisse;
 using ZeugnisApp.Domain.Entities;
+using ZeugnisApp.Domain.Enums;
+using WpfFilePicker = ZeugnisApp.App.Services.FilePickerService;
 
 namespace ZeugnisApp.App.ViewModels.Zeugnisse;
 
@@ -26,12 +28,13 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     private readonly IFloskelPickerService _picker;
     private readonly ISaveStatusService _saveStatus;
     private readonly IZeugnisseNavigator _navigator;
+    private readonly ReportGenerationServices _reporting;
     private readonly AutosaveDebouncer _autosave = new();
     private bool _loading;
 
     public ZeugnisEditorViewModel(
         Zeugnis zeugnis, IZeugnisService service, IFloskelPickerService picker,
-        ISaveStatusService saveStatus, IZeugnisseNavigator navigator)
+        ISaveStatusService saveStatus, IZeugnisseNavigator navigator, ReportGenerationServices reporting)
     {
         _zeugnis = zeugnis;
         _formular = zeugnis.Formular ?? new Formular();
@@ -40,6 +43,7 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
         _picker = picker;
         _saveStatus = saveStatus;
         _navigator = navigator;
+        _reporting = reporting;
         _autosave.Configure(SaveAsync);
     }
 
@@ -71,6 +75,19 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     }
 
     [ObservableProperty] private bool _zieldifferentHinweisEingefuegt;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ErzeugenCommand))]
+    private bool _erzeugtLaeuft;
+
+    [ObservableProperty] private string? _erzeugenStatus;
+
+    public bool KannErzeugen => _formular.IstGenerierungsbereit;
+
+    public string? ZuletztErzeugt => string.IsNullOrWhiteSpace(_zeugnis.GeneratedFilePath)
+        ? null
+        : string.Format(CultureInfo.CurrentCulture, Strings.ZeugnisEditor_LastGenerated,
+            System.IO.Path.GetFileName(_zeugnis.GeneratedFilePath));
 
     public Task InitializeAsync()
     {
@@ -135,6 +152,77 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
         await FlushAsync();
         _navigator.ShowUebersicht();
     }
+
+    private bool CanErzeugen() => KannErzeugen && !ErzeugtLaeuft;
+
+    [RelayCommand(CanExecute = nameof(CanErzeugen))]
+    private async Task ErzeugenAsync()
+    {
+        ErzeugenStatus = null;
+
+        if (!_formular.IstGenerierungsbereit)
+        {
+            ErzeugenStatus = Strings.ZeugnisEditor_Erzeugen_NoTemplate;
+            return;
+        }
+
+        await FlushAsync();
+
+        var schule = await _reporting.Settings.GetAsync();
+        var request = new ReportRenderRequest(_zeugnis, _kind, _kind.Klasse ?? new Klasse(), _formular, schule);
+
+        var vorschlag = $"Zeugnis_{Sanitize(_kind.Nachname)}_{Sanitize(_kind.Vorname)}_" +
+                        $"{Sanitize(_zeugnis.Schuljahr)}_{(_zeugnis.Halbjahr == Halbjahr.Erstes ? "HJ1" : "HJ2")}.docx";
+
+        var ziel = _reporting.FilePicker.PickSaveFile(
+            Strings.ZeugnisEditor_Erzeugen_Dialog_Title, WpfFilePicker.WordFilter, vorschlag);
+        if (ziel is null)
+        {
+            return;
+        }
+
+        ErzeugtLaeuft = true;
+        try
+        {
+            var result = await _reporting.Engine.GenerateAsync(request, ziel);
+            if (!result.Success)
+            {
+                ErzeugenStatus = result.ErrorMessage;
+                return;
+            }
+
+            _zeugnis.GeneratedFilePath = result.FilePath;
+            await _service.SaveAsync(_zeugnis);
+            OnPropertyChanged(nameof(ZuletztErzeugt));
+
+            ErzeugenStatus = result.Overflows.Count == 0
+                ? Strings.ZeugnisEditor_Erzeugen_Ok
+                : string.Format(CultureInfo.CurrentCulture, Strings.ZeugnisEditor_Erzeugen_OkOverflow, result.Overflows.Count);
+
+            try
+            {
+                _reporting.FileLauncher.Open(result.FilePath!);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Erzeugtes Zeugnis konnte nicht automatisch geöffnet werden");
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Zeugnis-Erzeugung fehlgeschlagen");
+            ErzeugenStatus = ex.Message;
+        }
+        finally
+        {
+            ErzeugtLaeuft = false;
+        }
+    }
+
+    private static string Sanitize(string value)
+        => string.Concat((value ?? string.Empty).Where(c => char.IsLetterOrDigit(c) || c is '-' or '_')) is { Length: > 0 } s
+            ? s
+            : "X";
 
     public async Task FlushAsync()
     {

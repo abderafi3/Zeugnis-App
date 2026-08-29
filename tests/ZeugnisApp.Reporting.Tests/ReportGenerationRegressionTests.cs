@@ -7,6 +7,7 @@ using ZeugnisApp.Domain.Entities;
 using ZeugnisApp.Domain.Enums;
 using ZeugnisApp.Reporting;
 using ZeugnisApp.Reporting.Ooxml;
+using ZeugnisApp.Reporting.Templates;
 
 namespace ZeugnisApp.Reporting.Tests;
 
@@ -40,7 +41,7 @@ public sealed class ReportGenerationRegressionTests : IDisposable
         var pristine = Path.Combine(_work, $"{Sanitize(anzeigename)}.pristine.docx");
         var filled = Path.Combine(_work, $"{Sanitize(anzeigename)}.filled.docx");
 
-        TemplateFixture.Build(pristine, formular, mapping);
+        PlaceholderTemplateBuilder.Build(pristine, formular, mapping);
         formular.WordFilePath = pristine;
         formular.FieldMappingJson = mapping.ToJson();
 
@@ -64,7 +65,7 @@ public sealed class ReportGenerationRegressionTests : IDisposable
         var pristine = Path.Combine(_work, $"{Sanitize(anzeigename)}.v.pristine.docx");
         var filled = Path.Combine(_work, $"{Sanitize(anzeigename)}.v.filled.docx");
 
-        TemplateFixture.Build(pristine, formular, mapping);
+        PlaceholderTemplateBuilder.Build(pristine, formular, mapping);
         formular.WordFilePath = pristine;
         formular.FieldMappingJson = mapping.ToJson();
 
@@ -97,7 +98,7 @@ public sealed class ReportGenerationRegressionTests : IDisposable
         var pristine = Path.Combine(_work, "collapse.pristine.docx");
         var filled = Path.Combine(_work, "collapse.filled.docx");
 
-        TemplateFixture.Build(pristine, formular, mapping);
+        PlaceholderTemplateBuilder.Build(pristine, formular, mapping);
         formular.WordFilePath = pristine;
         formular.FieldMappingJson = mapping.ToJson();
 

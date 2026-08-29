@@ -135,7 +135,36 @@
         <Border Grid.Row="2" Padding="32,12" BorderThickness="0,1,0,0"
                 BorderBrush="{DynamicResource ControlElevationBorderBrush}"
                 Background="{DynamicResource ApplicationBackgroundBrush}">
-            <ui:ToggleSwitch Content="{x:Static res:Strings.ZeugnisEditor_Fertiggestellt}" IsChecked="{Binding Fertiggestellt}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ui:ToggleSwitch Grid.Column="0" VerticalAlignment="Center"
+                                 Content="{x:Static res:Strings.ZeugnisEditor_Fertiggestellt}"
+                                 IsChecked="{Binding Fertiggestellt}" />
+
+                <StackPanel Grid.Column="1" Margin="16,0" VerticalAlignment="Center">
+                    <TextBlock FontSize="12" TextWrapping="Wrap"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                               Text="{Binding ErzeugenStatus}"
+                               Visibility="{Binding ErzeugenStatus, Converter={StaticResource NullToCollapsed}}" />
+                    <TextBlock FontSize="12"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                               Text="{Binding ZuletztErzeugt}"
+                               Visibility="{Binding ZuletztErzeugt, Converter={StaticResource NullToCollapsed}}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:ProgressRing IsIndeterminate="True" Width="20" Height="20" Margin="0,0,8,0"
+                                     Visibility="{Binding ErzeugtLaeuft, Converter={StaticResource BoolToVis}}" />
+                    <ui:Button Appearance="Primary" Icon="{ui:SymbolIcon DocumentArrowDown24}"
+                               Content="{x:Static res:Strings.ZeugnisEditor_Erzeugen}"
+                               Command="{Binding ErzeugenCommand}" />
+                </StackPanel>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>

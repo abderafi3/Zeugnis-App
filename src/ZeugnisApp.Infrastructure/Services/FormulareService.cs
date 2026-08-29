@@ -62,6 +62,8 @@ internal sealed class FormulareService(IDbContextFactory<ZeugnisDbContext> conte
         target.HatBegruendeteEmpfehlung = formular.HatBegruendeteEmpfehlung;
         target.HatVersetzungsvermerk = formular.HatVersetzungsvermerk;
         target.IstZieldifferent = formular.IstZieldifferent;
+        target.WordFilePath = string.IsNullOrWhiteSpace(formular.WordFilePath) ? null : formular.WordFilePath.Trim();
+        target.FieldMappingJson = formular.FieldMappingJson;
         target.Faecher = [.. formular.Faecher.Select(x => x.Trim()).Where(x => x.Length > 0)];
 
         target.Freitextfelder.Clear();

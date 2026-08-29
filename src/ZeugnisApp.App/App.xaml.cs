@@ -48,8 +48,11 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<IDialogService, DialogService>();
                 services.AddSingleton<IFilePickerService, FilePickerService>();
                 services.AddSingleton<IClipboardService, ClipboardService>();
+                services.AddSingleton<IFileLauncher, FileLauncher>();
                 services.AddSingleton<IFloskelPickerService, FloskelPickerService>();
                 services.AddSingleton<ImportServices>();
+                services.AddSingleton<ReportGenerationServices>();
+                services.AddSingleton<TemplateBootstrapper>();
 
                 // ---- Shell ----
                 services.AddSingleton<MainWindow>();
@@ -87,6 +90,10 @@ public partial class App : System.Windows.Application
 
             // Apply pending migrations before any screen opens (plan §2).
             await _host.Services.GetRequiredService<DatabaseInitializer>().InitializeAsync();
+
+            // Give every Formular a usable Word template (placeholders until the school's files
+            // are uploaded in Sprint 10) so "Zeugnis erzeugen" works from the start.
+            await _host.Services.GetRequiredService<Services.TemplateBootstrapper>().EnsureTemplatesAsync();
 
             var window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();

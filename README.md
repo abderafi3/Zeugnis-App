@@ -135,3 +135,14 @@ XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. A
   editable; the mandatory **zieldifferent remark** auto-inserted into Bemerkungen for zieldifferente
   Kinder; "Zeugnis fertiggestellt" toggle; debounced autosave. Generation into a `.docx` is wired
   into this editor in Sprint 9.
+- **Sprint 9 — Word-Generierung (Integration):** done — **MVP functionally complete**.
+  "Zeugnis erzeugen" in the editor: flush → assemble `ReportRenderRequest` (Zeugnis + Kind + Klasse
+  + SchoolSettings) → save-location dialog → `IReportGenerationEngine.GenerateAsync` → store
+  `GeneratedFilePath` → open with the OS handler; progress ring + result/overflow status; button
+  disabled without a linked template. `PlaceholderTemplateBuilder` promoted from the test fixture
+  into `ZeugnisApp.Reporting` (covered by the 17-test regression); `TemplateBootstrapper` generates
+  a placeholder `.docx` per Formular on startup so generation works before the school's official
+  files are uploaded (Sprint 10). `StandardFormulare` now carry **estimated** `MaxZeichen` budgets
+  (§5.3 — recalibrate against the real templates). End-to-end test: DB-backed Zeugnis → real engine
+  → filled `.docx` with correct values and unchanged structure. Fixed: `FormulareService.SaveAsync`
+  was dropping `WordFilePath` / `FieldMappingJson`.

@@ -4,18 +4,27 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using ZeugnisApp.Application.Reporting;
 using ZeugnisApp.Domain.Entities;
 
-namespace ZeugnisApp.Reporting.Tests;
+namespace ZeugnisApp.Reporting.Templates;
 
 /// <summary>
-/// Builds a synthetic, content-controlled <c>.docx</c> for a template (the school's real templates
-/// are not in the repo). Deliberately includes: a styled heading, a bordered grade table, block and
-/// inline content controls each holding <em>two</em> runs (to exercise the run-collapse), a header
-/// with a content control, a footer without one, and an orphan media part — so the canonical-XML
-/// regression (plan §5.4) has real structure to protect.
+/// Builds a plain, content-controlled <c>.docx</c> for a template so the app can generate real
+/// report cards before the school's official templates are dropped in (plan §Sprint 6 preparation).
+/// It has a styled heading, a bordered grade table, block and inline content controls (each with
+/// two runs, to exercise the run-collapse), a header with a control, a footer without one, and an
+/// orphan media part — enough structure for the canonical-XML regression (plan §5.4) to protect.
+/// The Sprint 10 upload replaces these files with the official ones.
 /// </summary>
-internal static class TemplateFixture
+public static class PlaceholderTemplateBuilder
 {
     private static int _sdtId = 1000;
+
+    /// <summary>Builds a template using the <see cref="FieldMapping.Default"/> mapping for the formular.</summary>
+    public static FieldMapping Build(string path, Formular formular)
+    {
+        var mapping = FieldMapping.Default(formular);
+        Build(path, formular, mapping);
+        return mapping;
+    }
 
     public static void Build(string path, Formular formular, FieldMapping mapping)
     {

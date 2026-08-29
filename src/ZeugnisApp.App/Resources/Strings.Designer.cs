@@ -280,6 +280,13 @@ public static class Strings
     public static string ZeugnisEditor_Overflow => Get(nameof(ZeugnisEditor_Overflow));
     public static string ZeugnisEditor_Fertiggestellt => Get(nameof(ZeugnisEditor_Fertiggestellt));
     public static string ZeugnisEditor_ZieldifferentAdded => Get(nameof(ZeugnisEditor_ZieldifferentAdded));
+    public static string ZeugnisEditor_Erzeugen => Get(nameof(ZeugnisEditor_Erzeugen));
+    public static string ZeugnisEditor_Erzeugen_Running => Get(nameof(ZeugnisEditor_Erzeugen_Running));
+    public static string ZeugnisEditor_Erzeugen_Ok => Get(nameof(ZeugnisEditor_Erzeugen_Ok));
+    public static string ZeugnisEditor_Erzeugen_OkOverflow => Get(nameof(ZeugnisEditor_Erzeugen_OkOverflow));
+    public static string ZeugnisEditor_Erzeugen_Dialog_Title => Get(nameof(ZeugnisEditor_Erzeugen_Dialog_Title));
+    public static string ZeugnisEditor_Erzeugen_NoTemplate => Get(nameof(ZeugnisEditor_Erzeugen_NoTemplate));
+    public static string ZeugnisEditor_LastGenerated => Get(nameof(ZeugnisEditor_LastGenerated));
 
     // ---- Enums ----
     public static string Geschlecht_Maennlich => Get(nameof(Geschlecht_Maennlich));

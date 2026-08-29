@@ -2,11 +2,14 @@ using Microsoft.Win32;
 
 namespace ZeugnisApp.App.Services;
 
-/// <summary>Open-file dialog, abstracted so import view models stay testable.</summary>
+/// <summary>Open/save file dialogs, abstracted so view models stay testable.</summary>
 public interface IFilePickerService
 {
     /// <summary>Returns the chosen path, or null if the teacher cancelled.</summary>
     string? PickFile(string title, string filter);
+
+    /// <summary>Returns the chosen save path, or null if cancelled.</summary>
+    string? PickSaveFile(string title, string filter, string defaultFileName);
 }
 
 public sealed class FilePickerService : IFilePickerService
@@ -23,6 +26,20 @@ public sealed class FilePickerService : IFilePickerService
             Filter = filter,
             CheckFileExists = true,
             Multiselect = false,
+        };
+
+        return dialog.ShowDialog() == true ? dialog.FileName : null;
+    }
+
+    public string? PickSaveFile(string title, string filter, string defaultFileName)
+    {
+        var dialog = new SaveFileDialog
+        {
+            Title = title,
+            Filter = filter,
+            FileName = defaultFileName,
+            AddExtension = true,
+            OverwritePrompt = true,
         };
 
         return dialog.ShowDialog() == true ? dialog.FileName : null;

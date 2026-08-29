@@ -23,13 +23,15 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
     private readonly IFloskelPickerService _picker;
     private readonly ISaveStatusService _saveStatus;
     private readonly IDialogService _dialogs;
+    private readonly ReportGenerationServices _reporting;
 
     [ObservableProperty]
     private ObservableObject? _current;
 
     public ZeugnisseWorkspaceViewModel(
         IZeugnisService zeugnisse, IKlassenService klassen, ISchoolSettingsService settings,
-        IFloskelPickerService picker, ISaveStatusService saveStatus, IDialogService dialogs)
+        IFloskelPickerService picker, ISaveStatusService saveStatus, IDialogService dialogs,
+        ReportGenerationServices reporting)
     {
         _zeugnisse = zeugnisse;
         _klassen = klassen;
@@ -37,6 +39,7 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
         _picker = picker;
         _saveStatus = saveStatus;
         _dialogs = dialogs;
+        _reporting = reporting;
     }
 
     public override Task OnNavigatedToAsync()
@@ -68,7 +71,7 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
             return;
         }
 
-        Swap(new ZeugnisEditorViewModel(full, _zeugnisse, _picker, _saveStatus, this));
+        Swap(new ZeugnisEditorViewModel(full, _zeugnisse, _picker, _saveStatus, this, _reporting));
     }
 
     private async void Swap(ObservableObject next)

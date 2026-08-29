@@ -84,7 +84,7 @@ internal sealed class ZeugnisService(IDbContextFactory<ZeugnisDbContext> context
         return await db.Zeugnisse
             .Include(z => z.Freitexte)
             .Include(z => z.Noten)
-            .Include(z => z.Kind)
+            .Include(z => z.Kind!).ThenInclude(k => k.Klasse)
             .Include(z => z.Formular!).ThenInclude(f => f.Freitextfelder)
             .FirstOrDefaultAsync(z => z.Id == zeugnisId, cancellationToken)
             .ConfigureAwait(false);
@@ -112,6 +112,7 @@ internal sealed class ZeugnisService(IDbContextFactory<ZeugnisDbContext> context
         target.FehlstundenGesamt = zeugnis.FehlstundenGesamt;
         target.FehlstundenUnentschuldigt = zeugnis.FehlstundenUnentschuldigt;
         target.Fertiggestellt = zeugnis.Fertiggestellt;
+        target.GeneratedFilePath = Trim(zeugnis.GeneratedFilePath);
 
         target.Freitexte.Clear();
         target.Freitexte.AddRange(zeugnis.Freitexte.Select(f => new FreitextEintrag { FeldName = f.FeldName, Text = f.Text }));

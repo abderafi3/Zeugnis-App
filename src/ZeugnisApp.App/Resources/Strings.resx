@@ -313,6 +313,13 @@
   <data name="ZeugnisEditor_Overflow"><value>Text ist länger als für dieses Feld vorgesehen – bitte kürzen.</value></data>
   <data name="ZeugnisEditor_Fertiggestellt"><value>Zeugnis fertiggestellt</value></data>
   <data name="ZeugnisEditor_ZieldifferentAdded"><value>Der vorgeschriebene Hinweis zur zieldifferenten Förderung wurde in die Bemerkungen eingefügt.</value></data>
+  <data name="ZeugnisEditor_Erzeugen"><value>Zeugnis erzeugen</value></data>
+  <data name="ZeugnisEditor_Erzeugen_Running"><value>Word-Dokument wird erstellt …</value></data>
+  <data name="ZeugnisEditor_Erzeugen_Ok"><value>Zeugnis erzeugt und geöffnet.</value></data>
+  <data name="ZeugnisEditor_Erzeugen_OkOverflow"><value>Zeugnis erzeugt und geöffnet. {0} Feld(er) länger als vorgesehen – bitte im Dokument prüfen.</value></data>
+  <data name="ZeugnisEditor_Erzeugen_Dialog_Title"><value>Zeugnis speichern unter</value></data>
+  <data name="ZeugnisEditor_Erzeugen_NoTemplate"><value>Für dieses Formular ist noch keine Word-Vorlage hinterlegt.</value></data>
+  <data name="ZeugnisEditor_LastGenerated"><value>Zuletzt erzeugt: {0}</value></data>
 
   <!-- ================= Enums ================= -->
   <data name="Geschlecht_Maennlich"><value>männlich</value></data>

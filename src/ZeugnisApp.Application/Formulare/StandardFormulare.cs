@@ -53,6 +53,23 @@ public static class StandardFormulare
         Freitextfelder = ToFelder(NotenFelder),
     };
 
+    // Placeholder character budgets (plan §5.3). These are ESTIMATES — recalibrate against the
+    // school's real templates by generating test documents and checking the fit (Sprint 9 note).
+    private static readonly Dictionary<string, int> Budgets = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["Deutsch"] = 1400,
+        ["Mathematik"] = 1400,
+        ["Sachunterricht"] = 1200,
+        ["Englisch"] = 900,
+        ["Arbeits- und Sozialverhalten"] = 1200,
+        ["Bemerkungen"] = 700,
+    };
+
     private static List<FreitextFeldDefinition> ToFelder(IReadOnlyList<string> namen) =>
-        [.. namen.Select((n, i) => new FreitextFeldDefinition { Name = n, Reihenfolge = i })];
+        [.. namen.Select((n, i) => new FreitextFeldDefinition
+        {
+            Name = n,
+            Reihenfolge = i,
+            MaxZeichen = Budgets.TryGetValue(n, out var budget) ? budget : null,
+        })];
 }
