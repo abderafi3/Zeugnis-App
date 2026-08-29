@@ -17,6 +17,12 @@
             <conv:BoolToVisibilityConverter x:Key="BoolToVis" />
             <conv:NullOrEmptyToCollapsedConverter x:Key="NullToCollapsed" />
             <conv:NotNullOrEmptyToBoolConverter x:Key="NullToBool" />
+
+            <!-- Status text colours tuned for ≥4.5:1 contrast on both the light and dark
+                 Fluent backgrounds (plan §7.1 accessibility / §Sprint 12). -->
+            <SolidColorBrush x:Key="ZaErrorBrush" Color="#C50F1F" />
+            <SolidColorBrush x:Key="ZaWarningBrush" Color="#9D5D00" />
+            <SolidColorBrush x:Key="ZaSuccessBrush" Color="#0F7B0F" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

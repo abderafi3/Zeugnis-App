@@ -18,13 +18,13 @@
             <TextBlock Margin="0,24,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.KlasseEdit_Name}" />
             <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                         PlaceholderText="{x:Static res:Strings.KlasseEdit_Name_Ph}" />
-            <TextBlock Margin="0,4,0,0" Foreground="#D13438" FontSize="12"
+            <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource ZaErrorBrush}" FontSize="12"
                        Text="{Binding NameError}"
                        Visibility="{Binding NameError, Converter={StaticResource NullToCollapsed}}" />
 
             <TextBlock Margin="0,16,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.KlasseEdit_Jahrgang}" />
             <ui:NumberBox Value="{Binding Jahrgang}" Minimum="1" Maximum="4" SmallChange="1" MaxWidth="120" HorizontalAlignment="Left" />
-            <TextBlock Margin="0,4,0,0" Foreground="#D13438" FontSize="12"
+            <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource ZaErrorBrush}" FontSize="12"
                        Text="{Binding JahrgangError}"
                        Visibility="{Binding JahrgangError, Converter={StaticResource NullToCollapsed}}" />
 

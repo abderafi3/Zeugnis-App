@@ -70,10 +70,10 @@
                                 <TextBlock FontSize="11" Text="{Binding StatusText}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
-                                            <Setter Property="Foreground" Value="#10893E" />
+                                            <Setter Property="Foreground" Value="{DynamicResource ZaSuccessBrush}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IstVollstaendig}" Value="False">
-                                                    <Setter Property="Foreground" Value="#D13438" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource ZaErrorBrush}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -87,8 +87,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <ui:Button Icon="{ui:SymbolIcon Edit24}" Command="{Binding BearbeitenCommand}" />
-                                <ui:Button Margin="6,0,0,0" Icon="{ui:SymbolIcon Delete24}" Command="{Binding LoeschenCommand}" />
+                                <ui:Button Icon="{ui:SymbolIcon Edit24}" ToolTip="{x:Static res:Strings.Common_Edit}" AutomationProperties.Name="{x:Static res:Strings.Common_Edit}" Command="{Binding BearbeitenCommand}" />
+                                <ui:Button Margin="6,0,0,0" Icon="{ui:SymbolIcon Delete24}" ToolTip="{x:Static res:Strings.Common_Delete}" AutomationProperties.Name="{x:Static res:Strings.Common_Delete}" Command="{Binding LoeschenCommand}" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

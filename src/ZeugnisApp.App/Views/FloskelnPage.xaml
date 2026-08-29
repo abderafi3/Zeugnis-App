@@ -92,7 +92,7 @@
                         <DataGridTemplateColumn Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ui:Button Icon="{ui:SymbolIcon Delete24}" Command="{Binding LoeschenCommand}" />
+                                    <ui:Button Icon="{ui:SymbolIcon Delete24}" ToolTip="{x:Static res:Strings.Common_Delete}" AutomationProperties.Name="{x:Static res:Strings.Common_Delete}" Command="{Binding LoeschenCommand}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

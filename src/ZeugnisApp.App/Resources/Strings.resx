@@ -67,6 +67,7 @@
   <data name="Common_Save"><value>Jetzt speichern</value></data>
   <data name="Common_Cancel"><value>Abbrechen</value></data>
   <data name="Common_Delete"><value>Löschen</value></data>
+  <data name="Common_Edit"><value>Bearbeiten</value></data>
   <data name="Common_Back"><value>Zurück</value></data>
   <data name="Common_Yes"><value>Ja</value></data>
   <data name="Common_No"><value>Nein</value></data>

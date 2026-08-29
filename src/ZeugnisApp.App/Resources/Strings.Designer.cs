@@ -36,6 +36,7 @@ public static class Strings
     public static string Common_Save => Get(nameof(Common_Save));
     public static string Common_Cancel => Get(nameof(Common_Cancel));
     public static string Common_Delete => Get(nameof(Common_Delete));
+    public static string Common_Edit => Get(nameof(Common_Edit));
     public static string Common_Back => Get(nameof(Common_Back));
     public static string Common_Yes => Get(nameof(Common_Yes));
     public static string Common_No => Get(nameof(Common_No));

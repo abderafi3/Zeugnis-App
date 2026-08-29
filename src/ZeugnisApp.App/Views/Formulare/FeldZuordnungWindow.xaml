@@ -60,7 +60,7 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="{Binding Label}" />
-                            <TextBlock Margin="4,0,0,0" Foreground="#D13438" Text="*"
+                            <TextBlock Margin="4,0,0,0" Foreground="{DynamicResource ZaErrorBrush}" Text="*"
                                        Visibility="{Binding IstPflicht, Converter={StaticResource BoolToVis}}" />
                         </StackPanel>
                         <ComboBox Grid.Column="2"
@@ -80,7 +80,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" Foreground="#B75B00"
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Foreground="{DynamicResource ZaWarningBrush}"
                            TextWrapping="Wrap" Text="{Binding Hinweis}" />
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                     <ui:Button Content="{x:Static res:Strings.Common_Cancel}" Command="{Binding AbbrechenCommand}" />

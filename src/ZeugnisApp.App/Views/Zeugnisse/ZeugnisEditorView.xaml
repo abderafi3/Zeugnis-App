@@ -47,7 +47,7 @@
                                                 <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IstUeberlauf}" Value="True">
-                                                        <Setter Property="Foreground" Value="#B75B00" />
+                                                        <Setter Property="Foreground" Value="{DynamicResource ZaWarningBrush}" />
                                                         <Setter Property="FontWeight" Value="SemiBold" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -58,7 +58,7 @@
                                                Content="{x:Static res:Strings.ZeugnisEditor_InsertFloskel}"
                                                Command="{Binding FloskelEinfuegenCommand}" />
                                 </Grid>
-                                <TextBlock Margin="0,4,0,0" FontSize="12" Foreground="#B75B00"
+                                <TextBlock Margin="0,4,0,0" FontSize="12" Foreground="{DynamicResource ZaWarningBrush}"
                                            Text="{x:Static res:Strings.ZeugnisEditor_Overflow}"
                                            Visibility="{Binding IstUeberlauf, Converter={StaticResource BoolToVis}}" />
                             </StackPanel>

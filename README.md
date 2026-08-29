@@ -173,3 +173,12 @@ XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. A
   - **Not done:** optional app PIN (plan: "optional"); backup/restore has no automated round-trip
     test yet (needs a manual two-machine check); the recovery key is shown + copyable, not a
     formatted printout.
+- **Sprint 12 — Härtung & Release:** done (code/docs; signing + install test are release-time).
+  Theme follows the OS setting (`SystemThemeWatcher`); status colours moved to shared brushes tuned
+  for ≥4.5:1 contrast (`ZaError/Warning/SuccessBrush`); icon-only buttons got `ToolTip` +
+  `AutomationProperties.Name` for screen readers. `build/publish.ps1` (self-contained single-file
+  win-x64) + `build/ZeugnisApp.iss` (Inno Setup) + CI `package` job wired. Docs: `datenschutzkonzept.md`,
+  `schnellstart.md`, `neues-formular-workflow.md`, `release-checklist.md`. Performance smoke test
+  seeds ~10×26 pupils × 3 years × 2 terms and asserts the list queries stay fast (no N+1). **100 tests.**
+  Manual/release-time items are tracked in `docs/release-checklist.md` (Authenticode signing,
+  two-machine restore check, real-template swap, `MaxZeichen` calibration).

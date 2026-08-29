@@ -63,16 +63,27 @@ jobs:
           global-json-file: global.json
 
       - name: Publish self-contained (win-x64)
-        run: >
-          dotnet publish src/ZeugnisApp.App/ZeugnisApp.App.csproj
-          -c Release -r win-x64 --self-contained true
-          -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
-          -o publish/win-x64
+        shell: pwsh
+        run: ./build/publish.ps1
 
-      # TODO (Sprint 12): Inno Setup packaging + Authenticode signing of the .exe (plan §2, §Sprint 12).
+      - name: Build installer (Inno Setup)
+        shell: pwsh
+        run: |
+          choco install innosetup --no-progress -y
+          & "$env:ProgramFiles(x86)\Inno Setup 6\ISCC.exe" build/ZeugnisApp.iss
+
+      # Authenticode signing is a manual release step — the certificate is not stored in CI.
+      # See docs/release-checklist.md.
 
       - name: Upload app build
         uses: actions/upload-artifact@v4
         with:
           name: ZeugnisApp-win-x64
           path: publish/win-x64
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZeugnisApp-Setup
+          path: build/Output/*.exe
+          if-no-files-found: warn

@@ -60,8 +60,8 @@
                                     </StackPanel>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <ui:Button Icon="{ui:SymbolIcon Edit24}" Command="{Binding BearbeitenCommand}" />
-                                    <ui:Button Margin="8,0,0,0" Icon="{ui:SymbolIcon Delete24}" Command="{Binding LoeschenCommand}" />
+                                    <ui:Button Icon="{ui:SymbolIcon Edit24}" ToolTip="{x:Static res:Strings.Common_Edit}" AutomationProperties.Name="{x:Static res:Strings.Common_Edit}" Command="{Binding BearbeitenCommand}" />
+                                    <ui:Button Margin="8,0,0,0" Icon="{ui:SymbolIcon Delete24}" ToolTip="{x:Static res:Strings.Common_Delete}" AutomationProperties.Name="{x:Static res:Strings.Common_Delete}" Command="{Binding LoeschenCommand}" />
                                 </StackPanel>
                             </Grid>
                         </ui:Card>

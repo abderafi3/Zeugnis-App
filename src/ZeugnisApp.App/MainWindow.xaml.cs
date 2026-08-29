@@ -1,6 +1,7 @@
 using System.Windows;
 using Serilog;
 using Wpf.Ui;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using ZeugnisApp.App.ViewModels;
 using ZeugnisApp.App.Views;
@@ -24,6 +25,9 @@ public partial class MainWindow : FluentWindow
 
         RootNavigation.SetPageService(pageService);
         navigationService.SetNavigationControl(RootNavigation);
+
+        // Follow the OS light/dark setting and react to changes (plan §7.1).
+        SystemThemeWatcher.Watch(this);
 
         RootNavigation.Navigated += OnNavigated;
         Loaded += (_, _) => RootNavigation.Navigate(typeof(DashboardPage));

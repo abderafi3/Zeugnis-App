@@ -42,7 +42,7 @@
                            Text="{x:Static res:Strings.Import_DropHint}" />
             </Border>
 
-            <TextBlock Margin="0,12,0,0" Foreground="#D13438"
+            <TextBlock Margin="0,12,0,0" Foreground="{DynamicResource ZaErrorBrush}"
                        Text="{Binding SourceError}"
                        Visibility="{Binding SourceError, Converter={StaticResource NullToCollapsed}}" />
         </StackPanel>
@@ -135,7 +135,7 @@
 
             <StackPanel Grid.Row="3" Margin="0,12,0,0">
                 <TextBlock Margin="0,0,0,8" FontWeight="SemiBold"
-                           Foreground="#10893E"
+                           Foreground="{DynamicResource ZaSuccessBrush}"
                            Text="{Binding ResultSummary}"
                            Visibility="{Binding ResultSummary, Converter={StaticResource NullToCollapsed}}" />
                 <StackPanel Orientation="Horizontal">

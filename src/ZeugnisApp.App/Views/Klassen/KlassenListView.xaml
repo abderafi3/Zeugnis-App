@@ -62,7 +62,7 @@
                                         Background="#33D13438"
                                         CornerRadius="4"
                                         Visibility="{Binding HasIncomplete, Converter={StaticResource BoolToVis}}">
-                                    <TextBlock FontSize="11" Foreground="#D13438" Text="{Binding IncompleteText}" />
+                                    <TextBlock FontSize="11" Foreground="{DynamicResource ZaErrorBrush}" Text="{Binding IncompleteText}" />
                                 </Border>
 
                                 <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
@@ -72,9 +72,13 @@
                                                Command="{Binding OeffnenCommand}" />
                                     <ui:Button Margin="8,0,0,0"
                                                Icon="{ui:SymbolIcon Edit24}"
+                                               ToolTip="{x:Static res:Strings.Common_Edit}"
+                                               AutomationProperties.Name="{x:Static res:Strings.Common_Edit}"
                                                Command="{Binding BearbeitenCommand}" />
                                     <ui:Button Margin="8,0,0,0"
                                                Icon="{ui:SymbolIcon Delete24}"
+                                               ToolTip="{x:Static res:Strings.Common_Delete}"
+                                               AutomationProperties.Name="{x:Static res:Strings.Common_Delete}"
                                                Command="{Binding LoeschenCommand}" />
                                 </StackPanel>
                             </StackPanel>

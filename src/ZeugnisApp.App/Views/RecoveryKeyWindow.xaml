@@ -26,7 +26,7 @@
             <TextBox x:Name="KeyBox" Margin="0,16,0,0" FontFamily="Consolas" FontSize="14"
                      TextWrapping="Wrap" AcceptsReturn="False" />
 
-            <TextBlock x:Name="ErrorText" Margin="0,8,0,0" Foreground="#D13438"
+            <TextBlock x:Name="ErrorText" Margin="0,8,0,0" Foreground="{DynamicResource ZaErrorBrush}"
                        Visibility="Collapsed" TextWrapping="Wrap" />
         </StackPanel>
 

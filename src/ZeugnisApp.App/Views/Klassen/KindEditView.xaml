@@ -24,14 +24,14 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Margin="0,0,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.KindEdit_Vorname}" />
                     <ui:TextBox Text="{Binding Vorname, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Margin="0,4,0,0" Foreground="#D13438" FontSize="12"
+                    <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource ZaErrorBrush}" FontSize="12"
                                Text="{Binding VornameError}"
                                Visibility="{Binding VornameError, Converter={StaticResource NullToCollapsed}}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <TextBlock Margin="0,0,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.KindEdit_Nachname}" />
                     <ui:TextBox Text="{Binding Nachname, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Margin="0,4,0,0" Foreground="#D13438" FontSize="12"
+                    <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource ZaErrorBrush}" FontSize="12"
                                Text="{Binding NachnameError}"
                                Visibility="{Binding NachnameError, Converter={StaticResource NullToCollapsed}}" />
                 </StackPanel>

@@ -14,7 +14,7 @@
 
             <TextBlock Margin="0,24,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.FormularEdit_Anzeigename}" />
             <ui:TextBox Text="{Binding Anzeigename, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Margin="0,4,0,0" Foreground="#D13438" FontSize="12"
+            <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource ZaErrorBrush}" FontSize="12"
                        Text="{Binding AnzeigenameError}"
                        Visibility="{Binding AnzeigenameError, Converter={StaticResource NullToCollapsed}}" />
 
@@ -57,7 +57,7 @@
                 <ui:Button Margin="12,0,0,0" Icon="{ui:SymbolIcon Add24}"
                            Content="{x:Static res:Strings.FormularEdit_Feld_Add}" Command="{Binding FeldHinzufuegenCommand}" />
             </StackPanel>
-            <TextBlock Margin="0,0,0,6" Foreground="#D13438" FontSize="12"
+            <TextBlock Margin="0,0,0,6" Foreground="{DynamicResource ZaErrorBrush}" FontSize="12"
                        Text="{Binding FeldError}"
                        Visibility="{Binding FeldError, Converter={StaticResource NullToCollapsed}}" />
 
@@ -80,7 +80,7 @@
                                         Text="{Binding Hinweistext, UpdateSourceTrigger=PropertyChanged}" />
                             <ui:NumberBox Grid.Column="4" PlaceholderText="{x:Static res:Strings.FormularEdit_Feld_MaxZeichen}"
                                           Value="{Binding MaxZeichen}" Minimum="1" SmallChange="50" ClearButtonEnabled="True" />
-                            <ui:Button Grid.Column="6" Icon="{ui:SymbolIcon Delete24}" Command="{Binding EntfernenCommand}" />
+                            <ui:Button Grid.Column="6" Icon="{ui:SymbolIcon Delete24}" ToolTip="{x:Static res:Strings.Common_Delete}" AutomationProperties.Name="{x:Static res:Strings.Common_Delete}" Command="{Binding EntfernenCommand}" />
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
