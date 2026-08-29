@@ -1,5 +1,6 @@
 using System.IO;
 using ZeugnisApp.App.Services;
+using ZeugnisApp.App.ViewModels.Import;
 using ZeugnisApp.App.ViewModels.Klassen;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Application.Import;
@@ -51,7 +52,7 @@ public class ImportWizardTests
     private static TabularGrid Grid(params string[][] rows)
         => new(rows.Select(r => (IReadOnlyList<string>)r).ToList());
 
-    private static KinderImportViewModel NewWizard(TabularGrid grid, string? clipboard, RecordingCommitter committer)
+    private static KinderImportWizardViewModel NewWizard(TabularGrid grid, string? clipboard, RecordingCommitter committer)
         => new(new FakeParser(grid), committer, new NullFilePicker(), new FakeClipboard(clipboard),
             new NullNavigator(), Guid.NewGuid(), "E1");
 
@@ -122,7 +123,7 @@ public class ImportWizardTests
 
         Assert.False(vm.IsValid);
 
-        vm.Nachname = "Nachname";
+        vm.Cells.First(c => c.FieldKey == ImportFieldKeys.Nachname).Value = "Nachname";
 
         Assert.True(vm.IsValid);
         Assert.Equal(string.Empty, vm.ErrorText);

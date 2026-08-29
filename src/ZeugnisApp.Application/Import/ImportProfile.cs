@@ -8,6 +8,12 @@ public static class ImportFieldKeys
     public const string Nachname = "nachname";
     public const string Geburtsdatum = "geburtsdatum";
     public const string Geschlecht = "geschlecht";
+
+    // Floskeln import
+    public const string FloskelText = "text";
+    public const string FloskelBereich = "bereich";
+    public const string FloskelStufe = "stufe";
+    public const string FloskelKlassengruppe = "klassengruppe";
 }
 
 /// <summary>One target column of an import (plan §6, step 2).</summary>

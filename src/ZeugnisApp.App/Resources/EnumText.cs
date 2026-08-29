@@ -13,6 +13,21 @@ public static class EnumText
         _ => Strings.Geschlecht_Unset,
     };
 
+    public static string For(Klassengruppe value) => value switch
+    {
+        Klassengruppe.Eingangsstufe => Strings.Klassengruppe_E,
+        Klassengruppe.Folgestufe => Strings.Klassengruppe_F,
+        Klassengruppe.Beide => Strings.Klassengruppe_Beide,
+        _ => value.ToString(),
+    };
+
+    public static IReadOnlyList<EnumOption<Klassengruppe>> KlassengruppeOptions { get; } =
+    [
+        new(Klassengruppe.Eingangsstufe, Strings.Klassengruppe_E),
+        new(Klassengruppe.Folgestufe, Strings.Klassengruppe_F),
+        new(Klassengruppe.Beide, Strings.Klassengruppe_Beide),
+    ];
+
     public static string For(Foerderstatus value) => value switch
     {
         Foerderstatus.Regel => Strings.Foerderstatus_Regel,

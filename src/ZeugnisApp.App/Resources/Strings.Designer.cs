@@ -170,6 +170,36 @@ public static class Strings
     public static string Import_Done => Get(nameof(Import_Done));
     public static string Import_ResultSummary => Get(nameof(Import_ResultSummary));
 
+    // ---- Floskeln ----
+    public static string Floskeln_Title => Get(nameof(Floskeln_Title));
+    public static string Floskeln_Intro => Get(nameof(Floskeln_Intro));
+    public static string Floskeln_New => Get(nameof(Floskeln_New));
+    public static string Floskeln_Import => Get(nameof(Floskeln_Import));
+    public static string Floskeln_TestPicker => Get(nameof(Floskeln_TestPicker));
+    public static string Floskeln_Empty => Get(nameof(Floskeln_Empty));
+    public static string Floskeln_Filter_Bereich => Get(nameof(Floskeln_Filter_Bereich));
+    public static string Floskeln_Filter_Stufe => Get(nameof(Floskeln_Filter_Stufe));
+    public static string Floskeln_Filter_Gruppe => Get(nameof(Floskeln_Filter_Gruppe));
+    public static string Floskeln_Filter_Search => Get(nameof(Floskeln_Filter_Search));
+    public static string Floskeln_Filter_All => Get(nameof(Floskeln_Filter_All));
+    public static string Floskeln_Col_Text => Get(nameof(Floskeln_Col_Text));
+    public static string Floskeln_Col_Bereich => Get(nameof(Floskeln_Col_Bereich));
+    public static string Floskeln_Col_Stufe => Get(nameof(Floskeln_Col_Stufe));
+    public static string Floskeln_Col_Gruppe => Get(nameof(Floskeln_Col_Gruppe));
+    public static string Floskeln_DeleteConfirm_Title => Get(nameof(Floskeln_DeleteConfirm_Title));
+    public static string Floskeln_DeleteConfirm_Body => Get(nameof(Floskeln_DeleteConfirm_Body));
+    public static string Floskeln_PickerResult => Get(nameof(Floskeln_PickerResult));
+    public static string Klassengruppe_E => Get(nameof(Klassengruppe_E));
+    public static string Klassengruppe_F => Get(nameof(Klassengruppe_F));
+    public static string Klassengruppe_Beide => Get(nameof(Klassengruppe_Beide));
+
+    // ---- Floskel-Auswahl (Picker) ----
+    public static string Picker_Title => Get(nameof(Picker_Title));
+    public static string Picker_SampleName => Get(nameof(Picker_SampleName));
+    public static string Picker_SampleGeschlecht => Get(nameof(Picker_SampleGeschlecht));
+    public static string Picker_Preview => Get(nameof(Picker_Preview));
+    public static string Picker_Insert => Get(nameof(Picker_Insert));
+
     // ---- Enums ----
     public static string Geschlecht_Maennlich => Get(nameof(Geschlecht_Maennlich));
     public static string Geschlecht_Weiblich => Get(nameof(Geschlecht_Weiblich));

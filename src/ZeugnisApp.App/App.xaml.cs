@@ -46,6 +46,7 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<IDialogService, DialogService>();
                 services.AddSingleton<IFilePickerService, FilePickerService>();
                 services.AddSingleton<IClipboardService, ClipboardService>();
+                services.AddSingleton<IFloskelPickerService, FloskelPickerService>();
                 services.AddSingleton<ImportServices>();
 
                 // ---- Shell ----
@@ -60,9 +61,12 @@ public partial class App : System.Windows.Application
 
                 services.AddSingleton<KlassenPage>();
                 services.AddSingleton<ViewModels.Klassen.KlassenWorkspaceViewModel>();
+                services.AddSingleton<FloskelnPage>();
+                services.AddSingleton<ViewModels.Floskeln.FloskelnViewModel>();
+                services.AddTransient<ViewModels.Floskeln.FloskelPickerViewModel>();
+
                 services.AddSingleton<ZeugnissePage>();
                 services.AddSingleton<FormularePage>();
-                services.AddSingleton<FloskelnPage>();
                 services.AddSingleton<FehlzeitenPage>();
             })
             .Build();

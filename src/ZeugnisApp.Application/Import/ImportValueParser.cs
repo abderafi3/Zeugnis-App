@@ -27,6 +27,36 @@ public static class ImportValueParser
     public static bool LooksLikeGeschlecht(string value)
         => TryParseGeschlecht(value, out _);
 
+    private static readonly HashSet<string> Eingangsstufe =
+        new(StringComparer.OrdinalIgnoreCase) { "e", "eingangsstufe", "sep", "1-2", "1/2", "1", "2" };
+
+    private static readonly HashSet<string> Folgestufe =
+        new(StringComparer.OrdinalIgnoreCase) { "f", "folgestufe", "3-4", "3/4", "3", "4" };
+
+    private static readonly HashSet<string> Beide =
+        new(StringComparer.OrdinalIgnoreCase) { "b", "beide", "alle", "all", "1-4", "*" };
+
+    public static bool LooksLikeStufe(string value)
+        => int.TryParse(value.Trim(), out var n) && n is >= 1 and <= 4;
+
+    public static bool LooksLikeKlassengruppe(string value)
+        => TryParseKlassengruppe(value, out _);
+
+    public static bool TryParseKlassengruppe(string value, out Klassengruppe gruppe)
+    {
+        gruppe = Klassengruppe.Beide;
+        var token = value.Trim();
+        if (token.Length == 0 || Beide.Contains(token))
+        {
+            return true;
+        }
+
+        if (Eingangsstufe.Contains(token)) { gruppe = Klassengruppe.Eingangsstufe; return true; }
+        if (Folgestufe.Contains(token)) { gruppe = Klassengruppe.Folgestufe; return true; }
+
+        return false;
+    }
+
     public static bool TryParseDate(string value, out DateOnly date)
     {
         date = default;

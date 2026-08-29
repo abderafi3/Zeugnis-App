@@ -201,6 +201,36 @@
   <data name="Import_Done"><value>Fertig</value></data>
   <data name="Import_ResultSummary"><value>{0} Kinder importiert, {1} übersprungen.</value></data>
 
+  <!-- ================= Floskeln ================= -->
+  <data name="Floskeln_Title"><value>Floskeln-Bibliothek</value></data>
+  <data name="Floskeln_Intro"><value>Textbausteine mit Platzhaltern [Name], [er/sie], [sein/ihr] … Diese werden pro Kind aufgelöst.</value></data>
+  <data name="Floskeln_New"><value>Neue Floskel</value></data>
+  <data name="Floskeln_Import"><value>Aus Excel importieren</value></data>
+  <data name="Floskeln_TestPicker"><value>Auswahl testen</value></data>
+  <data name="Floskeln_Empty"><value>Keine Floskeln gefunden.</value></data>
+  <data name="Floskeln_Filter_Bereich"><value>Bereich</value></data>
+  <data name="Floskeln_Filter_Stufe"><value>Stufe</value></data>
+  <data name="Floskeln_Filter_Gruppe"><value>Klassengruppe</value></data>
+  <data name="Floskeln_Filter_Search"><value>Suchen …</value></data>
+  <data name="Floskeln_Filter_All"><value>alle</value></data>
+  <data name="Floskeln_Col_Text"><value>Text</value></data>
+  <data name="Floskeln_Col_Bereich"><value>Bereich</value></data>
+  <data name="Floskeln_Col_Stufe"><value>Stufe</value></data>
+  <data name="Floskeln_Col_Gruppe"><value>Gruppe</value></data>
+  <data name="Floskeln_DeleteConfirm_Title"><value>Floskel löschen?</value></data>
+  <data name="Floskeln_DeleteConfirm_Body"><value>Die Floskel wird in den Papierkorb verschoben.</value></data>
+  <data name="Floskeln_PickerResult"><value>Eingefügt: {0}</value></data>
+  <data name="Klassengruppe_E"><value>Eingangsstufe</value></data>
+  <data name="Klassengruppe_F"><value>Folgestufe</value></data>
+  <data name="Klassengruppe_Beide"><value>beide</value></data>
+
+  <!-- ================= Floskel-Auswahl (Picker) ================= -->
+  <data name="Picker_Title"><value>Floskel auswählen</value></data>
+  <data name="Picker_SampleName"><value>Beispiel-Name</value></data>
+  <data name="Picker_SampleGeschlecht"><value>Beispiel-Geschlecht</value></data>
+  <data name="Picker_Preview"><value>Vorschau</value></data>
+  <data name="Picker_Insert"><value>Einfügen</value></data>
+
   <!-- ================= Enums ================= -->
   <data name="Geschlecht_Maennlich"><value>männlich</value></data>
   <data name="Geschlecht_Weiblich"><value>weiblich</value></data>

@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Serilog;
 using ZeugnisApp.App.Services;
+using ZeugnisApp.App.ViewModels.Import;
 using ZeugnisApp.Application.Abstractions;
 
 namespace ZeugnisApp.App.ViewModels.Klassen;
@@ -52,8 +53,8 @@ public sealed partial class KlassenWorkspaceViewModel : ViewModelBase, IKlassenN
         => Swap(new KindEditViewModel(_service, _saveStatus, this, klasseId, klasseName, kindId));
 
     public void ImportKinder(Guid klasseId, string klasseName)
-        => Swap(new KinderImportViewModel(
-            _import.Parser, _import.Committer, _import.FilePicker, _import.Clipboard, this, klasseId, klasseName));
+        => Swap(new KinderImportWizardViewModel(
+            _import.Parser, _import.KinderCommitter, _import.FilePicker, _import.Clipboard, this, klasseId, klasseName));
 
     private async void Swap(ObservableObject next)
     {

@@ -1,0 +1,22 @@
+<ui:FluentWindow x:Class="ZeugnisApp.App.Views.Import.ImportWizardWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:iw="clr-namespace:ZeugnisApp.App.Views.Import"
+                 Title="{Binding Title}"
+                 Width="960"
+                 Height="680"
+                 MinWidth="760"
+                 MinHeight="520"
+                 WindowStartupLocation="CenterOwner"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowBackdropType="Mica">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ui:TitleBar Grid.Row="0" Title="{Binding Title}" ShowMaximize="False" />
+        <iw:ImportWizardView Grid.Row="1" />
+    </Grid>
+</ui:FluentWindow>

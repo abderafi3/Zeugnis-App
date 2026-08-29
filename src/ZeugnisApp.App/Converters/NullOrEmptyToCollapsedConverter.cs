@@ -16,3 +16,13 @@ public sealed class NullOrEmptyToCollapsedConverter : IValueConverter
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => throw new NotSupportedException();
 }
+
+/// <summary>null / whitespace-only string → <c>false</c>; anything else → <c>true</c>.</summary>
+public sealed class NotNullOrEmptyToBoolConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => !string.IsNullOrWhiteSpace(value as string);
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}

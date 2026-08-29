@@ -9,38 +9,34 @@ using ZeugnisApp.App.Services;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Application.Import;
 
-namespace ZeugnisApp.App.ViewModels.Klassen;
+namespace ZeugnisApp.App.ViewModels.Import;
 
 /// <summary>
-/// The 3-step import wizard (plan §6 / §7.2): Quelle wählen → Spalten prüfen → Vorschau/Korrektur.
-/// Hosted in the Klassen workspace; commits into the class it was opened from.
+/// The reusable 3-step import wizard (plan §6 / §7.2): Quelle wählen → Spalten prüfen →
+/// Vorschau/Korrektur. Subclasses supply the <see cref="Profile"/>, the commit and the exit.
 /// </summary>
-public sealed partial class KinderImportViewModel : ObservableObject
+public abstract partial class ImportWizardViewModel : ObservableObject
 {
     private readonly ITabularImport _parser;
-    private readonly IKinderImportService _committer;
     private readonly IFilePickerService _filePicker;
     private readonly IClipboardService _clipboard;
-    private readonly IKlassenNavigator _navigator;
-    private readonly Guid _klasseId;
-    private readonly string _klasseName;
 
-    private ImportSession? _session;
-
-    public KinderImportViewModel(
-        ITabularImport parser, IKinderImportService committer, IFilePickerService filePicker,
-        IClipboardService clipboard, IKlassenNavigator navigator, Guid klasseId, string klasseName)
+    protected ImportWizardViewModel(ITabularImport parser, IFilePickerService filePicker, IClipboardService clipboard)
     {
         _parser = parser;
-        _committer = committer;
         _filePicker = filePicker;
         _clipboard = clipboard;
-        _navigator = navigator;
-        _klasseId = klasseId;
-        _klasseName = klasseName;
     }
 
-    public string Title => string.Format(CultureInfo.CurrentCulture, Strings.Import_Title, _klasseName);
+    protected ImportSession? Session { get; private set; }
+
+    public abstract string Title { get; }
+
+    public abstract ImportProfile Profile { get; }
+
+    protected abstract Task<ImportSummary> CommitCoreAsync(IReadOnlyList<ImportRow> rows, int uebersprungen);
+
+    protected abstract void OnFinished();
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsStep1), nameof(IsStep2), nameof(IsStep3))]
@@ -55,21 +51,18 @@ public sealed partial class KinderImportViewModel : ObservableObject
     // ---- Step 2 ----
     public ObservableCollection<ColumnMappingViewModel> ColumnMappings { get; } = [];
 
-    [ObservableProperty]
-    private bool _hasHeaderRow;
+    [ObservableProperty] private bool _hasHeaderRow;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CanContinueToPreview))]
     private string _mappingHint = string.Empty;
 
-    public bool CanContinueToPreview => _session?.AllRequiredMapped == true;
+    public bool CanContinueToPreview => Session?.AllRequiredMapped == true;
 
     // ---- Step 3 ----
     public ObservableCollection<ImportRowViewModel> PreviewRows { get; } = [];
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasImported))]
-    private string _previewSummary = string.Empty;
+    [ObservableProperty] private string _previewSummary = string.Empty;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasImported))]
@@ -80,25 +73,16 @@ public sealed partial class KinderImportViewModel : ObservableObject
     // ================= Step 1 =================
 
     [RelayCommand]
-    private void LoadExcel() => LoadFromFile(Strings.Import_FromExcel, FilePickerService.ExcelFilter, p =>
-    {
-        using var stream = File.OpenRead(p);
-        return _parser.FromExcel(stream);
-    });
+    private void LoadExcel() => LoadFromFile(Strings.Import_FromExcel, FilePickerService.ExcelFilter,
+        p => { using var s = File.OpenRead(p); return _parser.FromExcel(s); });
 
     [RelayCommand]
-    private void LoadWord() => LoadFromFile(Strings.Import_FromWord, FilePickerService.WordFilter, p =>
-    {
-        using var stream = File.OpenRead(p);
-        return _parser.FromWordTable(stream);
-    });
+    private void LoadWord() => LoadFromFile(Strings.Import_FromWord, FilePickerService.WordFilter,
+        p => { using var s = File.OpenRead(p); return _parser.FromWordTable(s); });
 
     [RelayCommand]
-    private void LoadCsv() => LoadFromFile(Strings.Import_FromCsv, FilePickerService.CsvFilter, p =>
-    {
-        using var stream = File.OpenRead(p);
-        return _parser.FromCsv(stream);
-    });
+    private void LoadCsv() => LoadFromFile(Strings.Import_FromCsv, FilePickerService.CsvFilter,
+        p => { using var s = File.OpenRead(p); return _parser.FromCsv(s); });
 
     [RelayCommand]
     private void PasteFromClipboard()
@@ -147,12 +131,10 @@ public sealed partial class KinderImportViewModel : ObservableObject
     {
         SourceError = null;
         var path = _filePicker.PickFile(title, filter);
-        if (path is null)
+        if (path is not null)
         {
-            return;
+            RunRead(read, path);
         }
-
-        RunRead(read, path);
     }
 
     private void RunRead(Func<string, TabularGrid> read, string path)
@@ -177,8 +159,8 @@ public sealed partial class KinderImportViewModel : ObservableObject
             return;
         }
 
-        _session = new ImportSession(grid, ImportProfiles.Kinder);
-        HasHeaderRow = _session.HasHeaderRow;
+        Session = new ImportSession(grid, Profile);
+        HasHeaderRow = Session.HasHeaderRow;
         RebuildColumnMappings();
         Step = 2;
     }
@@ -187,31 +169,31 @@ public sealed partial class KinderImportViewModel : ObservableObject
 
     partial void OnHasHeaderRowChanged(bool value)
     {
-        if (_session is null || _session.HasHeaderRow == value)
+        if (Session is null || Session.HasHeaderRow == value)
         {
             return;
         }
 
-        _session.HasHeaderRow = value;
+        Session.HasHeaderRow = value;
         RebuildColumnMappings();
     }
 
     private void RebuildColumnMappings()
     {
-        if (_session is null)
+        if (Session is null)
         {
             return;
         }
 
         var options = new List<EnumOption<string>> { new(ImportFieldKeys.Ignore, Strings.Import_Role_Ignore) };
-        options.AddRange(_session.Profile.Fields.Select(f => new EnumOption<string>(f.Key, f.DisplayName)));
+        options.AddRange(Session.Profile.Fields.Select(f => new EnumOption<string>(f.Key, f.DisplayName)));
 
         ColumnMappings.Clear();
-        for (var col = 0; col < _session.Grid.ColumnCount; col++)
+        for (var col = 0; col < Session.Grid.ColumnCount; col++)
         {
-            var role = _session.ColumnRoles.GetValueOrDefault(col, ImportFieldKeys.Ignore);
-            var sample = string.Join(" · ", _session.SampleValues(col));
-            ColumnMappings.Add(new ColumnMappingViewModel(col, _session.ColumnHeader(col), sample, role, options, OnColumnRoleChanged));
+            var role = Session.ColumnRoles.GetValueOrDefault(col, ImportFieldKeys.Ignore);
+            var sample = string.Join(" · ", Session.SampleValues(col));
+            ColumnMappings.Add(new ColumnMappingViewModel(col, Session.ColumnHeader(col), sample, role, options, OnColumnRoleChanged));
         }
 
         UpdateMappingHint();
@@ -219,12 +201,11 @@ public sealed partial class KinderImportViewModel : ObservableObject
 
     private void OnColumnRoleChanged(int column, string roleKey)
     {
-        if (_session is null)
+        if (Session is null)
         {
             return;
         }
 
-        // A role can be assigned to only one column: clear it elsewhere.
         if (roleKey != ImportFieldKeys.Ignore)
         {
             foreach (var other in ColumnMappings.Where(m => m.Index != column && m.SelectedRoleKey == roleKey))
@@ -233,21 +214,21 @@ public sealed partial class KinderImportViewModel : ObservableObject
             }
         }
 
-        _session.ColumnRoles[column] = roleKey;
+        Session.ColumnRoles[column] = roleKey;
         UpdateMappingHint();
     }
 
     private void UpdateMappingHint()
     {
-        if (_session is null)
+        if (Session is null)
         {
             return;
         }
 
-        MappingHint = _session.AllRequiredMapped
+        MappingHint = Session.AllRequiredMapped
             ? Strings.Import_MappingOk
             : string.Format(CultureInfo.CurrentCulture, Strings.Import_MappingMissing,
-                string.Join(", ", _session.UnmappedRequiredFields));
+                string.Join(", ", Session.UnmappedRequiredFields));
 
         OnPropertyChanged(nameof(CanContinueToPreview));
         ContinueToPreviewCommand.NotifyCanExecuteChanged();
@@ -257,22 +238,22 @@ public sealed partial class KinderImportViewModel : ObservableObject
     private void BackToSource()
     {
         Step = 1;
-        _session = null;
+        Session = null;
         ColumnMappings.Clear();
     }
 
     [RelayCommand(CanExecute = nameof(CanContinueToPreview))]
     private void ContinueToPreview()
     {
-        if (_session is null)
+        if (Session is null)
         {
             return;
         }
 
         PreviewRows.Clear();
-        foreach (var row in _session.BuildRows())
+        foreach (var row in Session.BuildRows())
         {
-            PreviewRows.Add(new ImportRowViewModel(row, _session.Profile));
+            PreviewRows.Add(new ImportRowViewModel(row, Session.Profile));
         }
 
         UpdatePreviewSummary();
@@ -297,12 +278,12 @@ public sealed partial class KinderImportViewModel : ObservableObject
     {
         UpdatePreviewSummary();
 
-        var chosen = PreviewRows.Where(r => r.Included && r.IsValid).Select(r => KinderImportMapper.Map(r.Model)).ToList();
+        var chosen = PreviewRows.Where(r => r.Included && r.IsValid).Select(r => r.Model).ToList();
         var skipped = PreviewRows.Count - chosen.Count;
 
         try
         {
-            var summary = await _committer.CommitAsync(_klasseId, chosen, skipped);
+            var summary = await CommitCoreAsync(chosen, skipped);
             ResultSummary = string.Format(CultureInfo.CurrentCulture, Strings.Import_ResultSummary,
                 summary.Importiert, summary.Uebersprungen);
         }
@@ -314,5 +295,5 @@ public sealed partial class KinderImportViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Finish() => _navigator.ShowKinder(_klasseId, _klasseName);
+    private void Finish() => OnFinished();
 }

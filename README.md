@@ -89,3 +89,11 @@ XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. A
   drag-and-drop) → Spalten prüfen → Vorschau/Korrektur (editable DataGrid, invalid rows red,
   skipped on commit) → one-transaction commit with an "N importiert, M übersprungen" summary.
   Reusable for the Floskeln import (Sprint 4) via a different `ImportProfile`.
+- **Sprint 4 — Floskeln:** done. `PlaceholderEngine` (Domain): `[Name]` → real name first, pronoun
+  after; `[er/sie]`, `[ihn/sie]`, `[ihm/ihr]`, `[sein/ihr]`, `[seine/ihre]`; auto-capitalisation at
+  sentence start; `divers`/unknown falls back to the name. `IFloskelnService` (filter by
+  Bereich/Stufe/Klassengruppe + text search). Phrase-library screen (`FloskelnPage`): filter panel +
+  editable DataGrid with inline autosave, "Neue Floskel", Excel import (the Sprint 3 wizard, now
+  profile-generic, in a modal `ImportWizardWindow`). Standalone Floskel-Auswahl dialog
+  (`FloskelPickerWindow`) with a live preview resolved for a sample child — reused by the
+  Zeugnis-Editor in Sprint 9.
