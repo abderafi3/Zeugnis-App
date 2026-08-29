@@ -29,6 +29,7 @@ public static class Strings
     public static string Nav_Floskeln => Get(nameof(Nav_Floskeln));
     public static string Nav_Fehlzeiten => Get(nameof(Nav_Fehlzeiten));
     public static string Nav_Einstellungen => Get(nameof(Nav_Einstellungen));
+    public static string Nav_Papierkorb => Get(nameof(Nav_Papierkorb));
     public static string Save_Active => Get(nameof(Save_Active));
     public static string Save_Unsaved => Get(nameof(Save_Unsaved));
     public static string Save_At => Get(nameof(Save_At));
@@ -323,6 +324,35 @@ public static class Strings
     public static string ZeugnisEditor_Erzeugen_Dialog_Title => Get(nameof(ZeugnisEditor_Erzeugen_Dialog_Title));
     public static string ZeugnisEditor_Erzeugen_NoTemplate => Get(nameof(ZeugnisEditor_Erzeugen_NoTemplate));
     public static string ZeugnisEditor_LastGenerated => Get(nameof(ZeugnisEditor_LastGenerated));
+
+    // ---- Recovery ----
+    public static string Recovery_Title => Get(nameof(Recovery_Title));
+    public static string Recovery_ShowIntro => Get(nameof(Recovery_ShowIntro));
+    public static string Recovery_EnterIntro => Get(nameof(Recovery_EnterIntro));
+    public static string Recovery_Copy => Get(nameof(Recovery_Copy));
+    public static string Recovery_Continue => Get(nameof(Recovery_Continue));
+    public static string Recovery_Unlock => Get(nameof(Recovery_Unlock));
+    public static string Recovery_Empty => Get(nameof(Recovery_Empty));
+
+    // ---- Papierkorb ----
+    public static string Papierkorb_Title => Get(nameof(Papierkorb_Title));
+    public static string Papierkorb_Intro => Get(nameof(Papierkorb_Intro));
+    public static string Papierkorb_Empty => Get(nameof(Papierkorb_Empty));
+    public static string Papierkorb_Col_Typ => Get(nameof(Papierkorb_Col_Typ));
+    public static string Papierkorb_Col_Bezeichnung => Get(nameof(Papierkorb_Col_Bezeichnung));
+    public static string Papierkorb_Col_Datum => Get(nameof(Papierkorb_Col_Datum));
+    public static string Papierkorb_Restore => Get(nameof(Papierkorb_Restore));
+
+    // ---- Einstellungen: Sicherung ----
+    public static string Settings_Backup_Section => Get(nameof(Settings_Backup_Section));
+    public static string Settings_Backup_Intro => Get(nameof(Settings_Backup_Intro));
+    public static string Settings_Backup_Create => Get(nameof(Settings_Backup_Create));
+    public static string Settings_Backup_Restore => Get(nameof(Settings_Backup_Restore));
+    public static string Settings_Backup_Ok => Get(nameof(Settings_Backup_Ok));
+    public static string Settings_Backup_RestoreOk => Get(nameof(Settings_Backup_RestoreOk));
+    public static string Settings_Backup_Error => Get(nameof(Settings_Backup_Error));
+    public static string Settings_Backup_Filter => Get(nameof(Settings_Backup_Filter));
+    public static string Settings_Backup_DefaultName => Get(nameof(Settings_Backup_DefaultName));
 
     // ---- Enums ----
     public static string Geschlecht_Maennlich => Get(nameof(Geschlecht_Maennlich));

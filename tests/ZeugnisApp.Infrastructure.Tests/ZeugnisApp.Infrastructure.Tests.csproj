@@ -11,7 +11,9 @@
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
     <PackageReference Include="coverlet.collector" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <!-- Match Infrastructure's SQLCipher stack — a plain bundle_e_sqlite3 alongside it would clash. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" />
     <PackageReference Include="ClosedXML" />
     <PackageReference Include="DocumentFormat.OpenXml" />
   </ItemGroup>

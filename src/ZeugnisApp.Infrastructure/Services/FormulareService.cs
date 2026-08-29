@@ -92,6 +92,7 @@ internal sealed class FormulareService(IDbContextFactory<ZeugnisDbContext> conte
         }
 
         formular.DeletedUtc = clock.UtcNow;
+        AuditTrailWriter.Record(db, PapierkorbTypen.Formular, formular.Id, formular.Anzeigename, clock);
         await db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 

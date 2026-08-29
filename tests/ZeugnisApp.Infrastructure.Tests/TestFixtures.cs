@@ -4,6 +4,13 @@ using ZeugnisApp.Infrastructure.Persistence;
 
 namespace ZeugnisApp.Infrastructure.Tests;
 
+/// <summary>Loads the SQLCipher provider once for the whole test assembly.</summary>
+internal static class SqliteProvider
+{
+    [System.Runtime.CompilerServices.ModuleInitializer]
+    public static void Init() => SQLitePCL.Batteries_V2.Init();
+}
+
 internal sealed class FakeClock(DateTime? utcNow = null) : IClock
 {
     public DateTime UtcNow { get; } = utcNow ?? new DateTime(2026, 8, 29, 12, 0, 0, DateTimeKind.Utc);

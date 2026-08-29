@@ -77,6 +77,8 @@ internal sealed class FloskelnService(IDbContextFactory<ZeugnisDbContext> contex
         }
 
         floskel.DeletedUtc = clock.UtcNow;
+        var kurz = floskel.Text.Length > 40 ? floskel.Text[..40] + "…" : floskel.Text;
+        AuditTrailWriter.Record(db, PapierkorbTypen.Floskel, floskel.Id, $"Floskel: {kurz}", clock);
         await db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 

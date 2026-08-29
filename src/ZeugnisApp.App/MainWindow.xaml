@@ -72,6 +72,12 @@
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem Content="{x:Static res:Strings.Nav_Papierkorb}"
+                                       TargetPageType="{x:Type views:PapierkorbPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Delete24" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="{x:Static res:Strings.Nav_Einstellungen}"
                                        TargetPageType="{x:Type views:EinstellungenPage}">
                     <ui:NavigationViewItem.Icon>

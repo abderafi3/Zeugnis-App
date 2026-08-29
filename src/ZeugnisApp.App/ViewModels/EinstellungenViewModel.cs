@@ -1,7 +1,10 @@
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Serilog;
+using ZeugnisApp.App.Resources;
 using ZeugnisApp.App.Services;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Domain.Entities;
@@ -17,15 +20,67 @@ public sealed partial class EinstellungenViewModel : ViewModelBase
 {
     private readonly ISchoolSettingsService _settingsService;
     private readonly ISaveStatusService _saveStatus;
+    private readonly IBackupService _backup;
+    private readonly IFilePickerService _filePicker;
     private readonly DispatcherTimer _autosaveTimer;
     private bool _loading;
 
-    public EinstellungenViewModel(ISchoolSettingsService settingsService, ISaveStatusService saveStatus)
+    public EinstellungenViewModel(
+        ISchoolSettingsService settingsService, ISaveStatusService saveStatus,
+        IBackupService backup, IFilePickerService filePicker)
     {
         _settingsService = settingsService;
         _saveStatus = saveStatus;
+        _backup = backup;
+        _filePicker = filePicker;
         _autosaveTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
         _autosaveTimer.Tick += async (_, _) => await FlushAsync();
+    }
+
+    [ObservableProperty] private string? _backupStatus;
+
+    [RelayCommand]
+    private async Task SicherungErstellenAsync()
+    {
+        BackupStatus = null;
+        var path = _filePicker.PickSaveFile(Strings.Settings_Backup_Create, Strings.Settings_Backup_Filter, Strings.Settings_Backup_DefaultName);
+        if (path is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _backup.CreateBundleAsync(path);
+            BackupStatus = string.Format(CultureInfo.CurrentCulture, Strings.Settings_Backup_Ok, System.IO.Path.GetFileName(path));
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Sicherung fehlgeschlagen");
+            BackupStatus = string.Format(CultureInfo.CurrentCulture, Strings.Settings_Backup_Error, ex.Message);
+        }
+    }
+
+    [RelayCommand]
+    private async Task SicherungWiederherstellenAsync()
+    {
+        BackupStatus = null;
+        var path = _filePicker.PickFile(Strings.Settings_Backup_Restore, Strings.Settings_Backup_Filter);
+        if (path is null)
+        {
+            return;
+        }
+
+        var result = await _backup.StageRestoreAsync(path);
+        if (result.Success)
+        {
+            BackupStatus = Strings.Settings_Backup_RestoreOk;
+            System.Windows.Application.Current.Shutdown(0);
+        }
+        else
+        {
+            BackupStatus = string.Format(CultureInfo.CurrentCulture, Strings.Settings_Backup_Error, result.Error);
+        }
     }
 
     public string Name { get => _name; set => SetTracked(ref _name, value); }

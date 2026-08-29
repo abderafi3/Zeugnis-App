@@ -65,6 +65,25 @@
                        Appearance="Primary"
                        Content="{x:Static res:Strings.Common_Save}"
                        Command="{Binding SpeichernCommand}" />
+
+            <Separator Margin="0,28,0,20" />
+
+            <TextBlock FontSize="18" FontWeight="SemiBold" Text="{x:Static res:Strings.Settings_Backup_Section}" />
+            <TextBlock Margin="0,4,0,12" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                       Text="{x:Static res:Strings.Settings_Backup_Intro}" />
+            <StackPanel Orientation="Horizontal">
+                <ui:Button Icon="{ui:SymbolIcon Save24}"
+                           Content="{x:Static res:Strings.Settings_Backup_Create}"
+                           Command="{Binding SicherungErstellenCommand}" />
+                <ui:Button Margin="8,0,0,0" Icon="{ui:SymbolIcon ArrowUndo24}"
+                           Content="{x:Static res:Strings.Settings_Backup_Restore}"
+                           Command="{Binding SicherungWiederherstellenCommand}" />
+            </StackPanel>
+            <TextBlock Margin="0,8,0,0" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                       Text="{Binding BackupStatus}"
+                       Visibility="{Binding BackupStatus, Converter={StaticResource NullToCollapsed}}" />
         </StackPanel>
     </ScrollViewer>
 </Page>

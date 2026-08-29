@@ -110,6 +110,7 @@ internal sealed class KlassenService(IDbContextFactory<ZeugnisDbContext> context
             .ExecuteUpdateAsync(s => s.SetProperty(x => x.DeletedUtc, now), cancellationToken).ConfigureAwait(false);
 
         klasse.DeletedUtc = now;
+        AuditTrailWriter.Record(db, Application.Abstractions.PapierkorbTypen.Klasse, klasse.Id, $"Klasse {klasse.Name}", clock);
         await db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 
@@ -170,6 +171,7 @@ internal sealed class KlassenService(IDbContextFactory<ZeugnisDbContext> context
             .ExecuteUpdateAsync(s => s.SetProperty(x => x.DeletedUtc, now), cancellationToken).ConfigureAwait(false);
 
         kind.DeletedUtc = now;
+        AuditTrailWriter.Record(db, Application.Abstractions.PapierkorbTypen.Kind, kind.Id, kind.AnzeigeName, clock);
         await db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 

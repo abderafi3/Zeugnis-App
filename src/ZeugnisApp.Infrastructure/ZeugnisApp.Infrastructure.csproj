@@ -16,7 +16,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <!-- SQLCipher stack (plan §2 / §Sprint 11, proven by Spike.SqlCipher):
+         the *.Core packages + the SQLCipher native bundle, never the plain Sqlite meta-package. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" />
     <!-- Design-time only: enables 'dotnet ef migrations' from this project. -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>

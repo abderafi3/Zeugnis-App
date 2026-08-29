@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Infrastructure.Import;
 using ZeugnisApp.Infrastructure.Persistence;
+using ZeugnisApp.Infrastructure.Security;
 using ZeugnisApp.Infrastructure.Services;
 
 namespace ZeugnisApp.Infrastructure;
@@ -18,6 +19,9 @@ public static class DependencyInjection
     /// </param>
     public static IServiceCollection AddZeugnisInfrastructure(this IServiceCollection services, string connectionString)
     {
+        // Load the SQLCipher native provider before any connection is opened (plan §Sprint 11).
+        SQLitePCL.Batteries_V2.Init();
+
         services.AddSingleton<IClock, SystemClock>();
 
         // A pooled factory: the WPF app is single-user but creates short-lived contexts
@@ -42,6 +46,8 @@ public static class DependencyInjection
         services.AddSingleton<ITabularImport, TabularImport>();
         services.AddScoped<IKinderImportService, KinderImportService>();
         services.AddScoped<IFloskelImportService, FloskelImportService>();
+        services.AddScoped<IPapierkorbService, PapierkorbService>();
+        services.AddSingleton<IBackupService, BackupService>();
 
         return services;
     }

@@ -25,6 +25,15 @@ public static class ZeugnisAppPaths
     /// <summary>The single SQLite data file (plan §2 — "one file, no server").</summary>
     public static string DatabaseFile => Path.Combine(DataDirectory, "daten.zeugnisapp");
 
+    /// <summary>DPAPI-protected SQLCipher key (plan §Sprint 11).</summary>
+    public static string KeyFile => Path.Combine(DataDirectory, "daten.key");
+
+    /// <summary>Where a restore stages the bundle's files until the next launch applies them.</summary>
+    public static string RestoreStagingDirectory => Path.Combine(DataDirectory, "restore-pending");
+
+    /// <summary>Marker file whose presence tells the next launch to apply a staged restore.</summary>
+    public static string RestoreMarkerFile => Path.Combine(DataDirectory, "restore.pending");
+
     /// <summary>Folder holding the official <c>.docx</c> templates (plan §3 data layer).</summary>
     public static string TemplatesDirectory
     {
@@ -47,7 +56,22 @@ public static class ZeugnisAppPaths
         }
     }
 
-    /// <summary>SQLite connection string for the data file.</summary>
-    public static string BuildConnectionString(string? databaseFile = null)
-        => $"Data Source={databaseFile ?? DatabaseFile}";
+    /// <summary>
+    /// SQLite connection string for the data file. When <paramref name="key"/> is given, it is
+    /// carried as <c>Password</c> so the SQLCipher provider issues <c>PRAGMA key</c> on open.
+    /// </summary>
+    public static string BuildConnectionString(string? databaseFile = null, string? key = null)
+    {
+        var builder = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder
+        {
+            DataSource = databaseFile ?? DatabaseFile,
+        };
+
+        if (!string.IsNullOrEmpty(key))
+        {
+            builder.Password = key;
+        }
+
+        return builder.ToString();
+    }
 }

@@ -60,6 +60,7 @@
   <data name="Nav_Floskeln"><value>Floskeln</value></data>
   <data name="Nav_Fehlzeiten"><value>Fehlzeiten</value></data>
   <data name="Nav_Einstellungen"><value>Einstellungen</value></data>
+  <data name="Nav_Papierkorb"><value>Papierkorb</value></data>
   <data name="Save_Active"><value>Automatisches Speichern aktiv</value></data>
   <data name="Save_Unsaved"><value>Nicht gespeicherte Änderungen …</value></data>
   <data name="Save_At"><value>Gespeichert um {0:HH:mm}</value><comment>{0} = local time</comment></data>
@@ -359,6 +360,35 @@
   <data name="ZeugnisEditor_Erzeugen_Dialog_Title"><value>Zeugnis speichern unter</value></data>
   <data name="ZeugnisEditor_Erzeugen_NoTemplate"><value>Für dieses Formular ist noch keine Word-Vorlage hinterlegt.</value></data>
   <data name="ZeugnisEditor_LastGenerated"><value>Zuletzt erzeugt: {0}</value></data>
+
+  <!-- ================= Datenschlüssel / Recovery ================= -->
+  <data name="Recovery_Title"><value>Datenschlüssel</value></data>
+  <data name="Recovery_ShowIntro"><value>Die Daten sind ab jetzt verschlüsselt. Notieren oder drucken Sie diesen Wiederherstellungsschlüssel und bewahren Sie ihn sicher auf. Ohne ihn sind die Daten nach einem Geräte- oder Profilwechsel nicht mehr lesbar – es gibt keinen anderen Zugang.</value></data>
+  <data name="Recovery_EnterIntro"><value>Auf diesem Gerät wurde kein Datenschlüssel gefunden. Bitte geben Sie den Wiederherstellungsschlüssel ein, den Sie bei der Einrichtung notiert haben.</value></data>
+  <data name="Recovery_Copy"><value>Kopieren</value></data>
+  <data name="Recovery_Continue"><value>Weiter</value></data>
+  <data name="Recovery_Unlock"><value>Entsperren</value></data>
+  <data name="Recovery_Empty"><value>Bitte den Wiederherstellungsschlüssel eingeben.</value></data>
+
+  <!-- ================= Papierkorb ================= -->
+  <data name="Papierkorb_Title"><value>Papierkorb</value></data>
+  <data name="Papierkorb_Intro"><value>Gelöschte Klassen, Kinder und Zeugnisse. Nach {0} Tagen werden Einträge endgültig entfernt.</value></data>
+  <data name="Papierkorb_Empty"><value>Der Papierkorb ist leer.</value></data>
+  <data name="Papierkorb_Col_Typ"><value>Typ</value></data>
+  <data name="Papierkorb_Col_Bezeichnung"><value>Bezeichnung</value></data>
+  <data name="Papierkorb_Col_Datum"><value>Gelöscht am</value></data>
+  <data name="Papierkorb_Restore"><value>Wiederherstellen</value></data>
+
+  <!-- ================= Einstellungen: Sicherung ================= -->
+  <data name="Settings_Backup_Section"><value>Sicherung</value></data>
+  <data name="Settings_Backup_Intro"><value>Erstellt eine verschlüsselte Sicherung (Datenbank + Vorlagen) als eine Datei. Zum Wiederherstellen wird der Wiederherstellungsschlüssel benötigt.</value></data>
+  <data name="Settings_Backup_Create"><value>Sicherung erstellen …</value></data>
+  <data name="Settings_Backup_Restore"><value>Sicherung wiederherstellen …</value></data>
+  <data name="Settings_Backup_Ok"><value>Sicherung erstellt: {0}</value></data>
+  <data name="Settings_Backup_RestoreOk"><value>Sicherung geprüft. Die App wird jetzt beendet – bitte neu starten.</value></data>
+  <data name="Settings_Backup_Error"><value>Fehler: {0}</value></data>
+  <data name="Settings_Backup_Filter"><value>Zeugnis-App-Sicherung (*.zeugnisapp-backup)|*.zeugnisapp-backup</value></data>
+  <data name="Settings_Backup_DefaultName"><value>Zeugnis-App-Sicherung.zeugnisapp-backup</value></data>
 
   <!-- ================= Enums ================= -->
   <data name="Geschlecht_Maennlich"><value>männlich</value></data>

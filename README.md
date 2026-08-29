@@ -155,3 +155,21 @@ XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. A
   mapping then the `Default` tag names; required rows (name, every Fach, every Freitextfeld) gate
   "Übernehmen". Reachable from `FormularEditView` → "Vorlage hochladen …". Replaces the bootstrapped
   placeholder for that Formular; generation then works unchanged.
+- **Sprint 11 — Datenschutz, Backup, Papierkorb:** done.
+  - **Encryption:** Infrastructure switched to the `*.Core` SQLite packages +
+    `SQLitePCLRaw.bundle_e_sqlcipher` (Spike B stack). The data file is SQLCipher-encrypted; the key
+    is a random 32-byte value stored DPAPI-protected (`daten.key`, CurrentUser) and doubles as the
+    printable recovery key. `DpapiKeyProvider` + a startup unlock flow: silent on the owner's
+    machine, prompts for the recovery key when the DPAPI blob is missing (fresh machine / restore),
+    shows the key once on first setup.
+  - **Backup:** `IBackupService.CreateBundleAsync` — WAL checkpoint → consistent still-encrypted copy
+    via `SqliteConnection.BackupDatabase` → zip {data file, `Vorlagen/*`, SHA-256 manifest} as
+    `.zeugnisapp-backup`. `StageRestoreAsync` verifies checksums, stages the files, and
+    `PendingRestore.ApplyIfPresent()` moves them into place on the next launch (dropping the local
+    key so the recovery flow re-unlocks). UI in Einstellungen.
+  - **Papierkorb:** every delete now writes an `AuditTrailEntry`; `IPapierkorbService` lists / restores
+    (un-sets `DeletedUtc` on the aggregate + its cascade) / `PurgeExpiredAsync` hard-deletes past the
+    retention window (run on startup). `PapierkorbPage` in the footer nav.
+  - **Not done:** optional app PIN (plan: "optional"); backup/restore has no automated round-trip
+    test yet (needs a manual two-machine check); the recovery key is shown + copyable, not a
+    formatted printout.
