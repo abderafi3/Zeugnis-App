@@ -144,6 +144,32 @@ public static class Strings
     public static string KindEdit_Error_VornameRequired => Get(nameof(KindEdit_Error_VornameRequired));
     public static string KindEdit_Error_NachnameRequired => Get(nameof(KindEdit_Error_NachnameRequired));
 
+    // ---- Import-Assistent ----
+    public static string Import_Title => Get(nameof(Import_Title));
+    public static string Import_Step1_Heading => Get(nameof(Import_Step1_Heading));
+    public static string Import_Step2_Heading => Get(nameof(Import_Step2_Heading));
+    public static string Import_Step3_Heading => Get(nameof(Import_Step3_Heading));
+    public static string Import_Step1_Intro => Get(nameof(Import_Step1_Intro));
+    public static string Import_FromExcel => Get(nameof(Import_FromExcel));
+    public static string Import_FromWord => Get(nameof(Import_FromWord));
+    public static string Import_FromCsv => Get(nameof(Import_FromCsv));
+    public static string Import_FromClipboard => Get(nameof(Import_FromClipboard));
+    public static string Import_DropHint => Get(nameof(Import_DropHint));
+    public static string Import_Error_Empty => Get(nameof(Import_Error_Empty));
+    public static string Import_Error_Read => Get(nameof(Import_Error_Read));
+    public static string Import_HasHeaderRow => Get(nameof(Import_HasHeaderRow));
+    public static string Import_Role_Ignore => Get(nameof(Import_Role_Ignore));
+    public static string Import_MappingOk => Get(nameof(Import_MappingOk));
+    public static string Import_MappingMissing => Get(nameof(Import_MappingMissing));
+    public static string Import_Next => Get(nameof(Import_Next));
+    public static string Import_PreviewSummary => Get(nameof(Import_PreviewSummary));
+    public static string Import_Col_Include => Get(nameof(Import_Col_Include));
+    public static string Import_Col_SourceRow => Get(nameof(Import_Col_SourceRow));
+    public static string Import_Col_Errors => Get(nameof(Import_Col_Errors));
+    public static string Import_DoImport => Get(nameof(Import_DoImport));
+    public static string Import_Done => Get(nameof(Import_Done));
+    public static string Import_ResultSummary => Get(nameof(Import_ResultSummary));
+
     // ---- Enums ----
     public static string Geschlecht_Maennlich => Get(nameof(Geschlecht_Maennlich));
     public static string Geschlecht_Weiblich => Get(nameof(Geschlecht_Weiblich));

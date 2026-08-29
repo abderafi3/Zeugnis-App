@@ -15,15 +15,18 @@ public sealed partial class KlassenWorkspaceViewModel : ViewModelBase, IKlassenN
     private readonly IKlassenService _service;
     private readonly IDialogService _dialogs;
     private readonly ISaveStatusService _saveStatus;
+    private readonly Services.ImportServices _import;
 
     [ObservableProperty]
     private ObservableObject? _current;
 
-    public KlassenWorkspaceViewModel(IKlassenService service, IDialogService dialogs, ISaveStatusService saveStatus)
+    public KlassenWorkspaceViewModel(
+        IKlassenService service, IDialogService dialogs, ISaveStatusService saveStatus, Services.ImportServices import)
     {
         _service = service;
         _dialogs = dialogs;
         _saveStatus = saveStatus;
+        _import = import;
     }
 
     public override Task OnNavigatedToAsync()
@@ -47,6 +50,10 @@ public sealed partial class KlassenWorkspaceViewModel : ViewModelBase, IKlassenN
 
     public void EditKind(Guid klasseId, string klasseName, Guid? kindId)
         => Swap(new KindEditViewModel(_service, _saveStatus, this, klasseId, klasseName, kindId));
+
+    public void ImportKinder(Guid klasseId, string klasseName)
+        => Swap(new KinderImportViewModel(
+            _import.Parser, _import.Committer, _import.FilePicker, _import.Clipboard, this, klasseId, klasseName));
 
     private async void Swap(ObservableObject next)
     {

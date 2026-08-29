@@ -23,6 +23,7 @@
   <Folder Name="/tests/">
     <Project Path="tests/ZeugnisApp.Domain.Tests/ZeugnisApp.Domain.Tests.csproj" />
     <Project Path="tests/ZeugnisApp.Infrastructure.Tests/ZeugnisApp.Infrastructure.Tests.csproj" />
+    <Project Path="tests/ZeugnisApp.App.Tests/ZeugnisApp.App.Tests.csproj" />
   </Folder>
 
   <Folder Name="/spikes/">

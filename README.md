@@ -24,7 +24,7 @@ how to build and work in the repository.
 | `src/ZeugnisApp.Infrastructure` | `net10.0` | EF Core + SQLite, migrations, service implementations. |
 | `src/ZeugnisApp.Reporting` | `net10.0` | OOXML report-generation engine (built out in Sprint 6). |
 | `src/ZeugnisApp.App` | `net10.0-windows` | WPF UI (MVVM, WPF-UI Fluent controls). |
-| `tests/*` | `net10.0` | xUnit tests. |
+| `tests/*` | `net10.0` / `net10.0-windows` | xUnit tests (Domain, Infrastructure, App view-models). |
 | `spikes/Spike.OpenXmlFill` | `net10.0` | Sprint 0 Spike A — proves content-control fill fidelity (plan §5.4). |
 | `spikes/Spike.SqlCipher` | `net10.0` | Sprint 0 Spike B — proves the SQLCipher + EF Core stack (plan §2). |
 
@@ -82,3 +82,10 @@ XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. A
   (DataGrid, red "unvollständig" status), child create/edit with conditional Förderschwerpunkt and
   manual template override, soft-delete with cascade + confirmation dialog. Master/detail runs
   inside `KlassenPage` via a hosted `ContentControl` (no NavigationView drill-down).
+- **Sprint 3 — Import-Assistent:** done. One shared tabular pipeline (`ITabularImport`): Excel
+  (ClosedXML), Word table (OpenXML SDK), CSV (CsvHelper, delimiter sniffing), pasted clipboard text.
+  `ColumnDetector` (header aliases + content heuristics), `ImportSession` (editable mapping,
+  per-row validation). 3-step wizard (`KinderImportViewModel`): Quelle wählen (buttons +
+  drag-and-drop) → Spalten prüfen → Vorschau/Korrektur (editable DataGrid, invalid rows red,
+  skipped on commit) → one-transaction commit with an "N importiert, M übersprungen" summary.
+  Reusable for the Floskeln import (Sprint 4) via a different `ImportProfile`.

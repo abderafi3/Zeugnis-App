@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ZeugnisApp.Application.Abstractions;
+using ZeugnisApp.Infrastructure.Import;
 using ZeugnisApp.Infrastructure.Persistence;
 using ZeugnisApp.Infrastructure.Services;
 
@@ -34,6 +35,8 @@ public static class DependencyInjection
         services.AddScoped<ISchoolSettingsService, SchoolSettingsService>();
         services.AddScoped<IDashboardService, DashboardService>();
         services.AddScoped<IKlassenService, KlassenService>();
+        services.AddSingleton<ITabularImport, TabularImport>();
+        services.AddScoped<IKinderImportService, KinderImportService>();
 
         return services;
     }

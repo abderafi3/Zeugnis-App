@@ -25,10 +25,9 @@
                        Content="{x:Static res:Strings.Kinder_New}"
                        Command="{Binding NeuesKindCommand}" />
             <ui:Button Margin="8,0,0,0"
-                       IsEnabled="False"
                        Icon="{ui:SymbolIcon ArrowImport24}"
                        Content="{x:Static res:Strings.Kinder_Import}"
-                       ToolTip="Sprint 3" />
+                       Command="{Binding ImportierenCommand}" />
         </StackPanel>
 
         <TextBlock Grid.Row="2"

@@ -44,6 +44,9 @@ public partial class App : System.Windows.Application
                 // ---- App-wide services ----
                 services.AddSingleton<ISaveStatusService, SaveStatusService>();
                 services.AddSingleton<IDialogService, DialogService>();
+                services.AddSingleton<IFilePickerService, FilePickerService>();
+                services.AddSingleton<IClipboardService, ClipboardService>();
+                services.AddSingleton<ImportServices>();
 
                 // ---- Shell ----
                 services.AddSingleton<MainWindow>();

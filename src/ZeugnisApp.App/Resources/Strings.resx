@@ -175,6 +175,32 @@
   <data name="KindEdit_Error_VornameRequired"><value>Bitte einen Vornamen eingeben.</value></data>
   <data name="KindEdit_Error_NachnameRequired"><value>Bitte einen Nachnamen eingeben.</value></data>
 
+  <!-- ================= Import-Assistent ================= -->
+  <data name="Import_Title"><value>Kinder importieren – {0}</value></data>
+  <data name="Import_Step1_Heading"><value>1. Quelle wählen</value></data>
+  <data name="Import_Step2_Heading"><value>2. Spalten prüfen</value></data>
+  <data name="Import_Step3_Heading"><value>3. Vorschau und Korrektur</value></data>
+  <data name="Import_Step1_Intro"><value>Wähle eine Datei oder füge eine Tabelle aus der Zwischenablage ein. Unterstützt: Excel, Word-Tabelle, CSV.</value></data>
+  <data name="Import_FromExcel"><value>Excel-Datei …</value></data>
+  <data name="Import_FromWord"><value>Word-Datei …</value></data>
+  <data name="Import_FromCsv"><value>CSV-Datei …</value></data>
+  <data name="Import_FromClipboard"><value>Aus Zwischenablage einfügen</value></data>
+  <data name="Import_DropHint"><value>Datei hierher ziehen</value></data>
+  <data name="Import_Error_Empty"><value>Die Quelle enthält keine lesbare Tabelle.</value></data>
+  <data name="Import_Error_Read"><value>Die Datei konnte nicht gelesen werden: {0}</value></data>
+  <data name="Import_HasHeaderRow"><value>Erste Zeile enthält Spaltenüberschriften</value></data>
+  <data name="Import_Role_Ignore"><value>– ignorieren –</value></data>
+  <data name="Import_MappingOk"><value>Alle Pflichtspalten sind zugeordnet.</value></data>
+  <data name="Import_MappingMissing"><value>Noch nicht zugeordnet: {0}</value></data>
+  <data name="Import_Next"><value>Weiter</value></data>
+  <data name="Import_PreviewSummary"><value>{0} gültig · {1} mit Fehlern (werden übersprungen)</value></data>
+  <data name="Import_Col_Include"><value>Import</value></data>
+  <data name="Import_Col_SourceRow"><value>Zeile</value></data>
+  <data name="Import_Col_Errors"><value>Hinweis</value></data>
+  <data name="Import_DoImport"><value>Importieren</value></data>
+  <data name="Import_Done"><value>Fertig</value></data>
+  <data name="Import_ResultSummary"><value>{0} Kinder importiert, {1} übersprungen.</value></data>
+
   <!-- ================= Enums ================= -->
   <data name="Geschlecht_Maennlich"><value>männlich</value></data>
   <data name="Geschlecht_Weiblich"><value>weiblich</value></data>

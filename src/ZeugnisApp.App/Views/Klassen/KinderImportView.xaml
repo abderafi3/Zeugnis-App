@@ -1,0 +1,168 @@
+<UserControl x:Class="ZeugnisApp.App.Views.Klassen.KinderImportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:res="clr-namespace:ZeugnisApp.App.Resources">
+
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,16" Text="{Binding Title}" />
+
+        <!-- ================= Step 1: source ================= -->
+        <StackPanel Grid.Row="1" Visibility="{Binding IsStep1, Converter={StaticResource BoolToVis}}">
+            <TextBlock FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Import_Step1_Heading}" />
+            <TextBlock Margin="0,4,0,16"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                       Text="{x:Static res:Strings.Import_Step1_Intro}" TextWrapping="Wrap" />
+
+            <StackPanel Orientation="Horizontal">
+                <ui:Button Icon="{ui:SymbolIcon DocumentTable24}" Content="{x:Static res:Strings.Import_FromExcel}" Command="{Binding LoadExcelCommand}" />
+                <ui:Button Margin="8,0,0,0" Icon="{ui:SymbolIcon DocumentText24}" Content="{x:Static res:Strings.Import_FromWord}" Command="{Binding LoadWordCommand}" />
+                <ui:Button Margin="8,0,0,0" Icon="{ui:SymbolIcon DocumentText24}" Content="{x:Static res:Strings.Import_FromCsv}" Command="{Binding LoadCsvCommand}" />
+                <ui:Button Margin="8,0,0,0" Appearance="Primary" Icon="{ui:SymbolIcon ClipboardPaste24}" Content="{x:Static res:Strings.Import_FromClipboard}" Command="{Binding PasteFromClipboardCommand}" />
+            </StackPanel>
+
+            <Border x:Name="DropZone"
+                    Margin="0,20,0,0"
+                    Height="120"
+                    AllowDrop="True"
+                    Drop="OnFileDrop"
+                    DragOver="OnDragOver"
+                    Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                    BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                           Text="{x:Static res:Strings.Import_DropHint}" />
+            </Border>
+
+            <TextBlock Margin="0,12,0,0" Foreground="#D13438"
+                       Text="{Binding SourceError}"
+                       Visibility="{Binding SourceError, Converter={StaticResource NullToCollapsed}}" />
+        </StackPanel>
+
+        <!-- ================= Step 2: column mapping ================= -->
+        <Grid Grid.Row="1" Visibility="{Binding IsStep2, Converter={StaticResource BoolToVis}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Import_Step2_Heading}" />
+
+            <CheckBox Grid.Row="1" Margin="0,12,0,12"
+                      IsChecked="{Binding HasHeaderRow}"
+                      Content="{x:Static res:Strings.Import_HasHeaderRow}" />
+
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding ColumnMappings}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,0,0,8" Padding="12"
+                                    Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                                    CornerRadius="6">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock FontWeight="SemiBold" Text="{Binding Header}" />
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" VerticalAlignment="Center"
+                                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                               TextTrimming="CharacterEllipsis"
+                                               Text="{Binding SampleText}" />
+                                    <ComboBox Grid.Column="2"
+                                              ItemsSource="{Binding RoleOptions}"
+                                              DisplayMemberPath="Text"
+                                              SelectedValuePath="Value"
+                                              SelectedValue="{Binding SelectedRoleKey, Mode=TwoWay}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <StackPanel Grid.Row="3" Margin="0,12,0,0">
+                <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding MappingHint}" />
+                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                    <ui:Button Icon="{ui:SymbolIcon ArrowLeft24}" Content="{x:Static res:Strings.Common_Back}" Command="{Binding BackToSourceCommand}" />
+                    <ui:Button Margin="8,0,0,0" Appearance="Primary"
+                               Content="{x:Static res:Strings.Import_Next}" Command="{Binding ContinueToPreviewCommand}" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <!-- ================= Step 3: preview / correction ================= -->
+        <Grid Grid.Row="1" Visibility="{Binding IsStep3, Converter={StaticResource BoolToVis}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" FontSize="16" FontWeight="SemiBold" Text="{x:Static res:Strings.Import_Step3_Heading}" />
+            <TextBlock Grid.Row="1" Margin="0,8,0,12"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                       Text="{Binding PreviewSummary}" />
+
+            <DataGrid Grid.Row="2"
+                      ItemsSource="{Binding PreviewRows}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="Horizontal">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsValid}" Value="False">
+                                <Setter Property="Background" Value="#22D13438" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding Included, UpdateSourceTrigger=PropertyChanged}"
+                                            Header="{x:Static res:Strings.Import_Col_Include}" />
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding SourceRowNumber}"
+                                        Header="{x:Static res:Strings.Import_Col_SourceRow}" />
+                    <DataGridTextColumn Width="*" Binding="{Binding Vorname, UpdateSourceTrigger=LostFocus}"
+                                        Header="{x:Static res:Strings.KindEdit_Vorname}" />
+                    <DataGridTextColumn Width="*" Binding="{Binding Nachname, UpdateSourceTrigger=LostFocus}"
+                                        Header="{x:Static res:Strings.KindEdit_Nachname}" />
+                    <DataGridTextColumn Width="Auto" Binding="{Binding Geburtsdatum, UpdateSourceTrigger=LostFocus}"
+                                        Header="{x:Static res:Strings.KindEdit_Geburtsdatum}" />
+                    <DataGridTextColumn Width="Auto" Binding="{Binding Geschlecht, UpdateSourceTrigger=LostFocus}"
+                                        Header="{x:Static res:Strings.KindEdit_Geschlecht}" />
+                    <DataGridTextColumn Width="2*" IsReadOnly="True" Binding="{Binding ErrorText}"
+                                        Header="{x:Static res:Strings.Import_Col_Errors}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="3" Margin="0,12,0,0">
+                <TextBlock Margin="0,0,0,8" FontWeight="SemiBold"
+                           Foreground="#10893E"
+                           Text="{Binding ResultSummary}"
+                           Visibility="{Binding ResultSummary, Converter={StaticResource NullToCollapsed}}" />
+                <StackPanel Orientation="Horizontal">
+                    <ui:Button Icon="{ui:SymbolIcon ArrowLeft24}" Content="{x:Static res:Strings.Common_Back}" Command="{Binding BackToMappingCommand}" />
+                    <ui:Button Margin="8,0,0,0" Appearance="Primary"
+                               Content="{x:Static res:Strings.Import_DoImport}" Command="{Binding DoImportCommand}" />
+                    <ui:Button Margin="8,0,0,0"
+                               Content="{x:Static res:Strings.Import_Done}" Command="{Binding FinishCommand}" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

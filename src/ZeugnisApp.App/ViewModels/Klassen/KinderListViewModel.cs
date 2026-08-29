@@ -46,6 +46,9 @@ public sealed partial class KinderListViewModel(
     private void NeuesKind() => navigator.EditKind(klasseId, klasseName, null);
 
     [RelayCommand]
+    private void Importieren() => navigator.ImportKinder(klasseId, klasseName);
+
+    [RelayCommand]
     private void Zurueck() => navigator.ShowKlassenListe();
 }
 
