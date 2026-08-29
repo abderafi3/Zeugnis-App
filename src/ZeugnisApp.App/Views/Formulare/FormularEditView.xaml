@@ -1,0 +1,94 @@
+<UserControl x:Class="ZeugnisApp.App.Views.Formulare.FormularEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:res="clr-namespace:ZeugnisApp.App.Resources">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="32" MaxWidth="760" HorizontalAlignment="Left">
+
+            <StackPanel Orientation="Horizontal">
+                <ui:Button Icon="{ui:SymbolIcon ArrowLeft24}" Content="{x:Static res:Strings.Common_Back}" Command="{Binding ZurueckCommand}" />
+                <TextBlock Margin="16,0,0,0" VerticalAlignment="Center" FontSize="24" FontWeight="SemiBold" Text="{Binding Title}" />
+            </StackPanel>
+
+            <TextBlock Margin="0,24,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.FormularEdit_Anzeigename}" />
+            <ui:TextBox Text="{Binding Anzeigename, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Margin="0,4,0,0" Foreground="#D13438" FontSize="12"
+                       Text="{Binding AnzeigenameError}"
+                       Visibility="{Binding AnzeigenameError, Converter={StaticResource NullToCollapsed}}" />
+
+            <TextBlock Margin="0,16,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.FormularEdit_Ueberschrift}" />
+            <ui:TextBox Text="{Binding Ueberschrift, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Grid Margin="0,16,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Margin="0,0,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.FormularEdit_Jahrgang}" />
+                    <ui:NumberBox Value="{Binding Jahrgang}" Minimum="1" Maximum="4" SmallChange="1" MaxWidth="120" HorizontalAlignment="Left" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Margin="0,0,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.FormularEdit_Halbjahr}" />
+                    <ComboBox SelectedIndex="{Binding HalbjahrIndex, Mode=TwoWay}">
+                        <ComboBoxItem Content="{x:Static res:Strings.Formulare_HalbjahrBoth}" />
+                        <ComboBoxItem Content="{x:Static res:Strings.Halbjahr_First}" />
+                        <ComboBoxItem Content="{x:Static res:Strings.Halbjahr_Second}" />
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock Margin="0,20,0,6" FontWeight="SemiBold" Text="{x:Static res:Strings.FormularEdit_Schalter}" />
+            <ui:ToggleSwitch Content="{x:Static res:Strings.FormularEdit_Notenblock}" IsChecked="{Binding HatNotenblock}" />
+            <ui:ToggleSwitch Margin="0,6,0,0" Content="{x:Static res:Strings.FormularEdit_Empfehlung}" IsChecked="{Binding HatBegruendeteEmpfehlung}" />
+            <ui:ToggleSwitch Margin="0,6,0,0" Content="{x:Static res:Strings.FormularEdit_Versetzung}" IsChecked="{Binding HatVersetzungsvermerk}" />
+            <ui:ToggleSwitch Margin="0,6,0,0" Content="{x:Static res:Strings.FormularEdit_Zieldifferent}" IsChecked="{Binding IstZieldifferent}" />
+
+            <TextBlock Margin="0,20,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.FormularEdit_Faecher}" />
+            <ui:TextBox Text="{Binding FaecherText, UpdateSourceTrigger=PropertyChanged}"
+                        AcceptsReturn="True" MinLines="4" MaxLines="12" TextWrapping="NoWrap"
+                        VerticalScrollBarVisibility="Auto" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,6">
+                <TextBlock FontWeight="SemiBold" VerticalAlignment="Center" Text="{x:Static res:Strings.FormularEdit_Freitextfelder}" />
+                <ui:Button Margin="12,0,0,0" Icon="{ui:SymbolIcon Add24}"
+                           Content="{x:Static res:Strings.FormularEdit_Feld_Add}" Command="{Binding FeldHinzufuegenCommand}" />
+            </StackPanel>
+            <TextBlock Margin="0,0,0,6" Foreground="#D13438" FontSize="12"
+                       Text="{Binding FeldError}"
+                       Visibility="{Binding FeldError, Converter={StaticResource NullToCollapsed}}" />
+
+            <ItemsControl ItemsSource="{Binding Freitextfelder}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:TextBox Grid.Column="0" PlaceholderText="{x:Static res:Strings.FormularEdit_Feld_Name}"
+                                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                            <ui:TextBox Grid.Column="2" PlaceholderText="{x:Static res:Strings.FormularEdit_Feld_Hinweis}"
+                                        Text="{Binding Hinweistext, UpdateSourceTrigger=PropertyChanged}" />
+                            <ui:NumberBox Grid.Column="4" PlaceholderText="{x:Static res:Strings.FormularEdit_Feld_MaxZeichen}"
+                                          Value="{Binding MaxZeichen}" Minimum="1" SmallChange="50" ClearButtonEnabled="True" />
+                            <ui:Button Grid.Column="6" Icon="{ui:SymbolIcon Delete24}" Command="{Binding EntfernenCommand}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <TextBlock Margin="0,20,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.FormularEdit_WordFile}" />
+            <ui:InfoBar Severity="Informational" IsOpen="True" IsClosable="False"
+                        Message="{Binding WordFileHint}" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

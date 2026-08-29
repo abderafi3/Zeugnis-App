@@ -1,4 +1,5 @@
 using ZeugnisApp.Domain.Common;
+using ZeugnisApp.Domain.Enums;
 
 namespace ZeugnisApp.Domain.Entities;
 
@@ -13,6 +14,12 @@ public class Formular : EntityBase, ISoftDeletable
 
     /// <summary>Heading printed on the document (e.g. "Zeugnis der Grundschule — Klasse 3").</summary>
     public string? Ueberschrift { get; set; }
+
+    /// <summary>Year group this template is for, 1–4. Drives auto-suggestion (plan §Sprint 5).</summary>
+    public int Jahrgang { get; set; } = 1;
+
+    /// <summary>Term this template is for, or <c>null</c> when it applies to both halves of the year.</summary>
+    public Halbjahr? GiltFuerHalbjahr { get; set; }
 
     /// <summary>Subjects shown as a grade block, in order. Empty when <see cref="HatNotenblock"/> is false.</summary>
     public List<string> Faecher { get; set; } = [];

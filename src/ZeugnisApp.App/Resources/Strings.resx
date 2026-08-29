@@ -231,6 +231,40 @@
   <data name="Picker_Preview"><value>Vorschau</value></data>
   <data name="Picker_Insert"><value>Einfügen</value></data>
 
+  <!-- ================= Formulare ================= -->
+  <data name="Formulare_Title"><value>Formulare</value></data>
+  <data name="Formulare_Intro"><value>Zeugnisvorlagen und ihre Felder. Die Word-Dateien werden in einem späteren Schritt verknüpft.</value></data>
+  <data name="Formulare_New"><value>Neues Formular</value></data>
+  <data name="Formulare_Empty"><value>Noch keine Formulare vorhanden.</value></data>
+  <data name="Formulare_StatusReady"><value>Word-Vorlage hinterlegt</value></data>
+  <data name="Formulare_StatusMissing"><value>Word-Vorlage fehlt</value></data>
+  <data name="Formulare_JahrgangHalbjahr"><value>Jg. {0} · {1}</value></data>
+  <data name="Formulare_HalbjahrBoth"><value>ganzes Jahr</value></data>
+  <data name="Formulare_DeleteConfirm_Title"><value>Formular löschen?</value></data>
+  <data name="Formulare_DeleteConfirm_Body"><value>„{0}“ wird in den Papierkorb verschoben. Bereits erzeugte Zeugnisse bleiben erhalten.</value></data>
+
+  <data name="FormularEdit_TitleNew"><value>Neues Formular</value></data>
+  <data name="FormularEdit_TitleEdit"><value>Formular bearbeiten</value></data>
+  <data name="FormularEdit_Anzeigename"><value>Anzeigename</value></data>
+  <data name="FormularEdit_Ueberschrift"><value>Überschrift auf dem Zeugnis</value></data>
+  <data name="FormularEdit_Jahrgang"><value>Jahrgang (1–4)</value></data>
+  <data name="FormularEdit_Halbjahr"><value>Gilt für</value></data>
+  <data name="FormularEdit_Schalter"><value>Schalter</value></data>
+  <data name="FormularEdit_Notenblock"><value>Notenblock</value></data>
+  <data name="FormularEdit_Empfehlung"><value>Begründete Empfehlung (weiterführende Schule)</value></data>
+  <data name="FormularEdit_Versetzung"><value>Versetzungsvermerk</value></data>
+  <data name="FormularEdit_Zieldifferent"><value>Zieldifferentes Zeugnis</value></data>
+  <data name="FormularEdit_Faecher"><value>Fächer (ein Fach pro Zeile)</value></data>
+  <data name="FormularEdit_Freitextfelder"><value>Freitextfelder</value></data>
+  <data name="FormularEdit_Feld_Name"><value>Name</value></data>
+  <data name="FormularEdit_Feld_Hinweis"><value>Hinweistext</value></data>
+  <data name="FormularEdit_Feld_MaxZeichen"><value>Max. Zeichen</value></data>
+  <data name="FormularEdit_Feld_Add"><value>Feld hinzufügen</value></data>
+  <data name="FormularEdit_WordFile"><value>Word-Datei</value></data>
+  <data name="FormularEdit_WordFile_Hint"><value>Die Verknüpfung der offiziellen Word-Vorlage erfolgt in Sprint 6.</value></data>
+  <data name="FormularEdit_Error_NameRequired"><value>Bitte einen Anzeigenamen eingeben.</value></data>
+  <data name="FormularEdit_Error_FeldNamesUnique"><value>Die Namen der Freitextfelder müssen eindeutig und nicht leer sein.</value></data>
+
   <!-- ================= Enums ================= -->
   <data name="Geschlecht_Maennlich"><value>männlich</value></data>
   <data name="Geschlecht_Weiblich"><value>weiblich</value></data>

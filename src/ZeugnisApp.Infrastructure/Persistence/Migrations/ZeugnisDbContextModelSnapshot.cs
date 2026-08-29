@@ -163,6 +163,10 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                         .HasMaxLength(20000)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("GiltFuerHalbjahr")
+                        .HasMaxLength(16)
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("HatBegruendeteEmpfehlung")
                         .HasColumnType("INTEGER");
 
@@ -173,6 +177,9 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IstZieldifferent")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Jahrgang")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ModifiedUtc")
@@ -187,6 +194,8 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Jahrgang", "GiltFuerHalbjahr");
 
                     b.ToTable("Formulare");
                 });
@@ -431,9 +440,9 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                             b1.Property<Guid>("FormularId")
                                 .HasColumnType("TEXT");
 
-                            b1.Property<int>("Id")
+                            b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("INTEGER");
+                                .HasColumnType("TEXT");
 
                             b1.Property<string>("Hinweistext")
                                 .HasMaxLength(1000)
@@ -532,9 +541,9 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                             b1.Property<Guid>("ZeugnisId")
                                 .HasColumnType("TEXT");
 
-                            b1.Property<int>("Id")
+                            b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("INTEGER");
+                                .HasColumnType("TEXT");
 
                             b1.Property<string>("FeldName")
                                 .IsRequired()
@@ -559,9 +568,9 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                             b1.Property<Guid>("ZeugnisId")
                                 .HasColumnType("TEXT");
 
-                            b1.Property<int>("Id")
+                            b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("INTEGER");
+                                .HasColumnType("TEXT");
 
                             b1.Property<string>("Fach")
                                 .IsRequired()

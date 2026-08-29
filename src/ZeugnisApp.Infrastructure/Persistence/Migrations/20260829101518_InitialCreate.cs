@@ -54,6 +54,8 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Anzeigename = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     Ueberschrift = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
+                    Jahrgang = table.Column<int>(type: "INTEGER", nullable: false),
+                    GiltFuerHalbjahr = table.Column<string>(type: "TEXT", maxLength: 16, nullable: true),
                     Faecher = table.Column<string>(type: "TEXT", nullable: false),
                     HatNotenblock = table.Column<bool>(type: "INTEGER", nullable: false),
                     HatBegruendeteEmpfehlung = table.Column<bool>(type: "INTEGER", nullable: false),
@@ -120,8 +122,8 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                 name: "FreitextFeldDefinition",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     FormularId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Id = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Hinweistext = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: true),
                     Reihenfolge = table.Column<int>(type: "INTEGER", nullable: false),
@@ -238,8 +240,8 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                 name: "FreitextEintrag",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     ZeugnisId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Id = table.Column<int>(type: "INTEGER", nullable: false),
                     FeldName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Text = table.Column<string>(type: "TEXT", maxLength: 8000, nullable: false)
                 },
@@ -258,8 +260,8 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                 name: "NoteEintrag",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     ZeugnisId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Id = table.Column<int>(type: "INTEGER", nullable: false),
                     Fach = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Note = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true)
                 },
@@ -294,6 +296,11 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                 name: "IX_Floskeln_Bereich_Stufe_Klassengruppe",
                 table: "Floskeln",
                 columns: new[] { "Bereich", "Stufe", "Klassengruppe" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Formulare_Jahrgang_GiltFuerHalbjahr",
+                table: "Formulare",
+                columns: new[] { "Jahrgang", "GiltFuerHalbjahr" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Kinder_KlasseId_Nachname_Vorname",

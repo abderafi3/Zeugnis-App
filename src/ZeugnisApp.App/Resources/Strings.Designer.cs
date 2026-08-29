@@ -200,6 +200,39 @@ public static class Strings
     public static string Picker_Preview => Get(nameof(Picker_Preview));
     public static string Picker_Insert => Get(nameof(Picker_Insert));
 
+    // ---- Formulare ----
+    public static string Formulare_Title => Get(nameof(Formulare_Title));
+    public static string Formulare_Intro => Get(nameof(Formulare_Intro));
+    public static string Formulare_New => Get(nameof(Formulare_New));
+    public static string Formulare_Empty => Get(nameof(Formulare_Empty));
+    public static string Formulare_StatusReady => Get(nameof(Formulare_StatusReady));
+    public static string Formulare_StatusMissing => Get(nameof(Formulare_StatusMissing));
+    public static string Formulare_JahrgangHalbjahr => Get(nameof(Formulare_JahrgangHalbjahr));
+    public static string Formulare_HalbjahrBoth => Get(nameof(Formulare_HalbjahrBoth));
+    public static string Formulare_DeleteConfirm_Title => Get(nameof(Formulare_DeleteConfirm_Title));
+    public static string Formulare_DeleteConfirm_Body => Get(nameof(Formulare_DeleteConfirm_Body));
+    public static string FormularEdit_TitleNew => Get(nameof(FormularEdit_TitleNew));
+    public static string FormularEdit_TitleEdit => Get(nameof(FormularEdit_TitleEdit));
+    public static string FormularEdit_Anzeigename => Get(nameof(FormularEdit_Anzeigename));
+    public static string FormularEdit_Ueberschrift => Get(nameof(FormularEdit_Ueberschrift));
+    public static string FormularEdit_Jahrgang => Get(nameof(FormularEdit_Jahrgang));
+    public static string FormularEdit_Halbjahr => Get(nameof(FormularEdit_Halbjahr));
+    public static string FormularEdit_Schalter => Get(nameof(FormularEdit_Schalter));
+    public static string FormularEdit_Notenblock => Get(nameof(FormularEdit_Notenblock));
+    public static string FormularEdit_Empfehlung => Get(nameof(FormularEdit_Empfehlung));
+    public static string FormularEdit_Versetzung => Get(nameof(FormularEdit_Versetzung));
+    public static string FormularEdit_Zieldifferent => Get(nameof(FormularEdit_Zieldifferent));
+    public static string FormularEdit_Faecher => Get(nameof(FormularEdit_Faecher));
+    public static string FormularEdit_Freitextfelder => Get(nameof(FormularEdit_Freitextfelder));
+    public static string FormularEdit_Feld_Name => Get(nameof(FormularEdit_Feld_Name));
+    public static string FormularEdit_Feld_Hinweis => Get(nameof(FormularEdit_Feld_Hinweis));
+    public static string FormularEdit_Feld_MaxZeichen => Get(nameof(FormularEdit_Feld_MaxZeichen));
+    public static string FormularEdit_Feld_Add => Get(nameof(FormularEdit_Feld_Add));
+    public static string FormularEdit_WordFile => Get(nameof(FormularEdit_WordFile));
+    public static string FormularEdit_WordFile_Hint => Get(nameof(FormularEdit_WordFile_Hint));
+    public static string FormularEdit_Error_NameRequired => Get(nameof(FormularEdit_Error_NameRequired));
+    public static string FormularEdit_Error_FeldNamesUnique => Get(nameof(FormularEdit_Error_FeldNamesUnique));
+
     // ---- Enums ----
     public static string Geschlecht_Maennlich => Get(nameof(Geschlecht_Maennlich));
     public static string Geschlecht_Weiblich => Get(nameof(Geschlecht_Weiblich));

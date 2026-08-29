@@ -99,7 +99,9 @@ public sealed class ZeugnisDbContext(DbContextOptions<ZeugnisDbContext> options,
             e.HasKey(x => x.Id);
             e.Property(x => x.Anzeigename).HasMaxLength(200).IsRequired();
             e.Property(x => x.Ueberschrift).HasMaxLength(500);
+            e.Property(x => x.GiltFuerHalbjahr).HasConversion<string>().HasMaxLength(16);
             e.Property(x => x.FieldMappingJson).HasMaxLength(20000);
+            e.HasIndex(x => new { x.Jahrgang, x.GiltFuerHalbjahr });
             e.PrimitiveCollection(x => x.Faecher);
             e.OwnsMany(x => x.Freitextfelder, f =>
             {

@@ -65,8 +65,10 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<ViewModels.Floskeln.FloskelnViewModel>();
                 services.AddTransient<ViewModels.Floskeln.FloskelPickerViewModel>();
 
-                services.AddSingleton<ZeugnissePage>();
                 services.AddSingleton<FormularePage>();
+                services.AddSingleton<ViewModels.Formulare.FormulareWorkspaceViewModel>();
+
+                services.AddSingleton<ZeugnissePage>();
                 services.AddSingleton<FehlzeitenPage>();
             })
             .Build();

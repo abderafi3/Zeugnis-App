@@ -47,6 +47,7 @@ public class Zeugnis : EntityBase, ISoftDeletable
 /// <summary>Owned: one free-text answer on a <see cref="Zeugnis"/>.</summary>
 public class FreitextEintrag
 {
+    public Guid Id { get; init; } = Guid.NewGuid();
     public string FeldName { get; set; } = string.Empty;
     public string Text { get; set; } = string.Empty;
 }
@@ -54,6 +55,7 @@ public class FreitextEintrag
 /// <summary>Owned: one subject grade on a <see cref="Zeugnis"/>.</summary>
 public class NoteEintrag
 {
+    public Guid Id { get; init; } = Guid.NewGuid();
     public string Fach { get; set; } = string.Empty;
 
     /// <summary>Grade as text ("sehr gut", "2", "teilgenommen", "—"). Null = not yet graded.</summary>

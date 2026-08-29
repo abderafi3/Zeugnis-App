@@ -97,3 +97,11 @@ XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. A
   profile-generic, in a modal `ImportWizardWindow`). Standalone Floskel-Auswahl dialog
   (`FloskelPickerWindow`) with a live preview resolved for a sample child — reused by the
   Zeugnis-Editor in Sprint 9.
+- **Sprint 5 — Formulare (metadata):** done. `Formular` gains `Jahrgang` + `GiltFuerHalbjahr`.
+  Seven standard NRW templates auto-seeded once into an empty DB (`FormularSeed`, no re-seed after
+  deletion). `IFormulareService` (CRUD + owned-`Freitextfelder` replace) and the pure
+  `FormularSuggester` — manual override wins, else match by year group + term, preferring a
+  zieldifferent template for a zieldifferent child and falling back to the regular one.
+  `FormularePage` workspace: overview cards with a ready/"Vorlage fehlt" status chip; edit form
+  with the four switches, Fächer (line per subject), an editable Freitextfelder list, autosave.
+  No `.docx` linkage yet — that is Sprint 6.

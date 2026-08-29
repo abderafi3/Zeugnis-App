@@ -22,6 +22,4 @@ public partial class PlaceholderPage : Page
 
 public sealed class ZeugnissePage() : PlaceholderPage(Strings.Nav_Zeugnisse, Strings.Placeholder_Zeugnisse);
 
-public sealed class FormularePage() : PlaceholderPage(Strings.Nav_Formulare, Strings.Placeholder_Formulare);
-
 public sealed class FehlzeitenPage() : PlaceholderPage(Strings.Nav_Fehlzeiten, Strings.Placeholder_Fehlzeiten);

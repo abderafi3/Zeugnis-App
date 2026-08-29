@@ -1,0 +1,21 @@
+<Page x:Class="ZeugnisApp.App.Views.FormularePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
+      xmlns:vm="clr-namespace:ZeugnisApp.App.ViewModels.Formulare"
+      xmlns:fv="clr-namespace:ZeugnisApp.App.Views.Formulare"
+      Title="{x:Static res:Strings.Nav_Formulare}">
+
+    <Page.Resources>
+        <DataTemplate DataType="{x:Type vm:FormulareListViewModel}">
+            <fv:FormulareListView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:FormularEditViewModel}">
+            <fv:FormularEditView />
+        </DataTemplate>
+    </Page.Resources>
+
+    <ContentControl Content="{Binding Current}"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch" />
+</Page>

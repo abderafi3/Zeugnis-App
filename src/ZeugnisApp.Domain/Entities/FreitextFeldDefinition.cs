@@ -5,6 +5,9 @@ namespace ZeugnisApp.Domain.Entities;
 /// </summary>
 public class FreitextFeldDefinition
 {
+    /// <summary>Client-generated key for the owned-collection row.</summary>
+    public Guid Id { get; init; } = Guid.NewGuid();
+
     /// <summary>Stable field key, also used to look up the value on a <see cref="Zeugnis"/> and to map to a content-control tag.</summary>
     public string Name { get; set; } = string.Empty;
 
