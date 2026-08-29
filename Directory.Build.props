@@ -9,6 +9,9 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <!-- CA1863: caching CompositeFormat fights readable culture-aware resource-string formatting.
+         CA1822: "make it static" is noise on MVVM view-model members bound from XAML. -->
+    <NoWarn>$(NoWarn);CA1863;CA1822</NoWarn>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <Deterministic>true</Deterministic>
     <InvariantGlobalization>false</InvariantGlobalization>

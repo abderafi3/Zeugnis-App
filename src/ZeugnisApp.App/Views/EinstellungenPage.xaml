@@ -2,27 +2,32 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-      Title="Einstellungen">
+      xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
+      Title="{x:Static res:Strings.Nav_Einstellungen}">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="32" MaxWidth="720" HorizontalAlignment="Left">
 
-            <TextBlock FontSize="28" FontWeight="SemiBold" Text="Schuleinstellungen" />
+            <TextBlock FontSize="28" FontWeight="SemiBold" Text="{x:Static res:Strings.Settings_Title}" />
             <TextBlock Margin="0,4,0,24"
                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                       Text="Diese Angaben erscheinen auf allen Zeugnissen. Änderungen werden automatisch gespeichert." />
+                       Text="{x:Static res:Strings.Settings_Intro}" TextWrapping="Wrap" />
 
-            <TextBlock Text="Schulname" FontWeight="SemiBold" Margin="0,0,0,4" />
-            <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="z. B. Grundschule Wehringhausen" />
+            <TextBlock Text="{x:Static res:Strings.Settings_SchoolName}" FontWeight="SemiBold" Margin="0,0,0,4" />
+            <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                        PlaceholderText="{x:Static res:Strings.Settings_SchoolName_Ph}" />
 
-            <TextBlock Text="Zusatzbezeichnung" FontWeight="SemiBold" Margin="0,16,0,4" />
-            <ui:TextBox Text="{Binding Zusatzbezeichnung, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="z. B. Städt. Gemeinschaftsgrundschule" />
+            <TextBlock Text="{x:Static res:Strings.Settings_Zusatz}" FontWeight="SemiBold" Margin="0,16,0,4" />
+            <ui:TextBox Text="{Binding Zusatzbezeichnung, UpdateSourceTrigger=PropertyChanged}"
+                        PlaceholderText="{x:Static res:Strings.Settings_Zusatz_Ph}" />
 
-            <TextBlock Text="Adresse" FontWeight="SemiBold" Margin="0,16,0,4" />
-            <ui:TextBox Text="{Binding Adresse, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" MinLines="2" TextWrapping="Wrap" />
+            <TextBlock Text="{x:Static res:Strings.Settings_Address}" FontWeight="SemiBold" Margin="0,16,0,4" />
+            <ui:TextBox Text="{Binding Adresse, UpdateSourceTrigger=PropertyChanged}"
+                        AcceptsReturn="True" MinLines="2" TextWrapping="Wrap" />
 
-            <TextBlock Text="Schulleitung" FontWeight="SemiBold" Margin="0,16,0,4" />
-            <ui:TextBox Text="{Binding Schulleitung, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name der Schulleitung" />
+            <TextBlock Text="{x:Static res:Strings.Settings_Leadership}" FontWeight="SemiBold" Margin="0,16,0,4" />
+            <ui:TextBox Text="{Binding Schulleitung, UpdateSourceTrigger=PropertyChanged}"
+                        PlaceholderText="{x:Static res:Strings.Settings_Leadership_Ph}" />
 
             <Grid Margin="0,16,0,0">
                 <Grid.ColumnDefinitions>
@@ -31,33 +36,34 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Schuljahr" FontWeight="SemiBold" Margin="0,0,0,4" />
-                    <ui:TextBox Text="{Binding Schuljahr, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="z. B. 2026/27" />
+                    <TextBlock Text="{x:Static res:Strings.Settings_SchoolYear}" FontWeight="SemiBold" Margin="0,0,0,4" />
+                    <ui:TextBox Text="{Binding Schuljahr, UpdateSourceTrigger=PropertyChanged}"
+                                PlaceholderText="{x:Static res:Strings.Settings_SchoolYear_Ph}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2">
-                    <TextBlock Text="Aktuelles Halbjahr" FontWeight="SemiBold" Margin="0,0,0,4" />
+                    <TextBlock Text="{x:Static res:Strings.Settings_CurrentTerm}" FontWeight="SemiBold" Margin="0,0,0,4" />
                     <ComboBox SelectedIndex="{Binding HalbjahrIndex, Mode=TwoWay}">
-                        <ComboBoxItem Content="1. Halbjahr" />
-                        <ComboBoxItem Content="2. Halbjahr" />
+                        <ComboBoxItem Content="{x:Static res:Strings.Halbjahr_First}" />
+                        <ComboBoxItem Content="{x:Static res:Strings.Halbjahr_Second}" />
                     </ComboBox>
                 </StackPanel>
             </Grid>
 
-            <TextBlock Text="Datum der Zeugnisausgabe" FontWeight="SemiBold" Margin="0,16,0,4" />
+            <TextBlock Text="{x:Static res:Strings.Settings_IssueDate}" FontWeight="SemiBold" Margin="0,16,0,4" />
             <DatePicker SelectedDate="{Binding Zeugnisausgabedatum}" />
 
-            <TextBlock Text="Konferenzdatum" FontWeight="SemiBold" Margin="0,16,0,4" />
+            <TextBlock Text="{x:Static res:Strings.Settings_ConferenceDate}" FontWeight="SemiBold" Margin="0,16,0,4" />
             <DatePicker SelectedDate="{Binding Konferenzdatum}" />
 
-            <TextBlock Text="Wiederbeginn des Unterrichts" FontWeight="SemiBold" Margin="0,16,0,4" />
+            <TextBlock Text="{x:Static res:Strings.Settings_ResumeDate}" FontWeight="SemiBold" Margin="0,16,0,4" />
             <DatePicker SelectedDate="{Binding DatumUnterrichtsWiederbeginn}" />
 
-            <TextBlock Text="Papierkorb: Aufbewahrung (Tage)" FontWeight="SemiBold" Margin="0,16,0,4" />
+            <TextBlock Text="{x:Static res:Strings.Settings_RecycleBinDays}" FontWeight="SemiBold" Margin="0,16,0,4" />
             <ui:NumberBox Value="{Binding PapierkorbAufbewahrungTage}" Minimum="1" Maximum="3650" SmallChange="1" />
 
             <ui:Button Margin="0,24,0,0"
                        Appearance="Primary"
-                       Content="Jetzt speichern"
+                       Content="{x:Static res:Strings.Common_Save}"
                        Command="{Binding SpeichernCommand}" />
         </StackPanel>
     </ScrollViewer>

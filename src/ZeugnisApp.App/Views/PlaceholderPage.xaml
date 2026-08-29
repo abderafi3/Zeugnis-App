@@ -9,7 +9,6 @@
                     Margin="0,16,0,0"
                     IsOpen="True"
                     IsClosable="False"
-                    Severity="Informational"
-                    Title="Noch nicht verfügbar" />
+                    Severity="Informational" />
     </StackPanel>
 </Page>

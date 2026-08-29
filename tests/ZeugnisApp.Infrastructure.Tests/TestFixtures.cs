@@ -28,6 +28,14 @@ internal sealed class SqliteTestDatabase : IAsyncDisposable
         return new ZeugnisDbContext(options, Clock);
     }
 
+    /// <summary>A minimal <see cref="IDbContextFactory{T}"/> over this database for testing services.</summary>
+    public IDbContextFactory<ZeugnisDbContext> ContextFactory => new Factory(this);
+
+    private sealed class Factory(SqliteTestDatabase owner) : IDbContextFactory<ZeugnisDbContext>
+    {
+        public ZeugnisDbContext CreateDbContext() => owner.NewContext();
+    }
+
     public async Task MigrateAsync()
     {
         await using var db = NewContext();

@@ -3,7 +3,8 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:views="clr-namespace:ZeugnisApp.App.Views"
-                 Title="Zeugnis-App"
+                 xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
+                 Title="{x:Static res:Strings.App_Title}"
                  Width="1200"
                  Height="800"
                  MinWidth="900"
@@ -21,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <ui:TitleBar Grid.Row="0"
-                     Title="Zeugnis-App"
+                     Title="{x:Static res:Strings.App_Title}"
                      ShowMaximize="True"
                      ShowMinimize="True" />
 
@@ -32,37 +33,37 @@
                            PaneDisplayMode="Left"
                            OpenPaneLength="240">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="Start"
+                <ui:NavigationViewItem Content="{x:Static res:Strings.Nav_Start}"
                                        TargetPageType="{x:Type views:DashboardPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Home24" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="Klassen"
+                <ui:NavigationViewItem Content="{x:Static res:Strings.Nav_Klassen}"
                                        TargetPageType="{x:Type views:KlassenPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="People24" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="Zeugnisse"
+                <ui:NavigationViewItem Content="{x:Static res:Strings.Nav_Zeugnisse}"
                                        TargetPageType="{x:Type views:ZeugnissePage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="DocumentText24" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="Formulare"
+                <ui:NavigationViewItem Content="{x:Static res:Strings.Nav_Formulare}"
                                        TargetPageType="{x:Type views:FormularePage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="DocumentBulletList24" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="Floskeln"
+                <ui:NavigationViewItem Content="{x:Static res:Strings.Nav_Floskeln}"
                                        TargetPageType="{x:Type views:FloskelnPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="TextBulletListSquare24" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="Fehlzeiten"
+                <ui:NavigationViewItem Content="{x:Static res:Strings.Nav_Fehlzeiten}"
                                        TargetPageType="{x:Type views:FehlzeitenPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="CalendarClock24" />
@@ -71,7 +72,7 @@
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.FooterMenuItems>
-                <ui:NavigationViewItem Content="Einstellungen"
+                <ui:NavigationViewItem Content="{x:Static res:Strings.Nav_Einstellungen}"
                                        TargetPageType="{x:Type views:EinstellungenPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Settings24" />

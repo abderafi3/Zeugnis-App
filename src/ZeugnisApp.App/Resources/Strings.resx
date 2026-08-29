@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- ================= Shell ================= -->
+  <data name="App_Title"><value>Zeugnis-App</value></data>
+  <data name="Nav_Start"><value>Start</value></data>
+  <data name="Nav_Klassen"><value>Klassen</value></data>
+  <data name="Nav_Zeugnisse"><value>Zeugnisse</value></data>
+  <data name="Nav_Formulare"><value>Formulare</value></data>
+  <data name="Nav_Floskeln"><value>Floskeln</value></data>
+  <data name="Nav_Fehlzeiten"><value>Fehlzeiten</value></data>
+  <data name="Nav_Einstellungen"><value>Einstellungen</value></data>
+  <data name="Save_Active"><value>Automatisches Speichern aktiv</value></data>
+  <data name="Save_Unsaved"><value>Nicht gespeicherte Änderungen …</value></data>
+  <data name="Save_At"><value>Gespeichert um {0:HH:mm}</value><comment>{0} = local time</comment></data>
+  <data name="Common_Save"><value>Jetzt speichern</value></data>
+  <data name="Common_Cancel"><value>Abbrechen</value></data>
+  <data name="Common_Delete"><value>Löschen</value></data>
+  <data name="Common_Back"><value>Zurück</value></data>
+  <data name="Common_Yes"><value>Ja</value></data>
+  <data name="Common_No"><value>Nein</value></data>
+
+  <!-- ================= Halbjahr ================= -->
+  <data name="Halbjahr_First"><value>1. Halbjahr</value></data>
+  <data name="Halbjahr_Second"><value>2. Halbjahr</value></data>
+
+  <!-- ================= Dashboard ================= -->
+  <data name="Dashboard_SchoolNotConfigured"><value>Schule noch nicht eingerichtet</value></data>
+  <data name="Dashboard_Areas"><value>Bereiche</value></data>
+  <data name="Dashboard_SchoolYear"><value>Schuljahr {0} · {1}</value></data>
+  <data name="Tile_Klassen"><value>Klassen</value></data>
+  <data name="Tile_Klassen_Desc"><value>Klassen und Kinder verwalten</value></data>
+  <data name="Tile_Klassen_Count"><value>{0} Klassen</value></data>
+  <data name="Tile_Zeugnisse"><value>Zeugnisse</value></data>
+  <data name="Tile_Zeugnisse_Desc"><value>Zeugnisse ausfüllen und erzeugen</value></data>
+  <data name="Tile_Zeugnisse_Count"><value>{0} offen</value></data>
+  <data name="Tile_Formulare"><value>Formulare</value></data>
+  <data name="Tile_Formulare_Desc"><value>Zeugnisvorlagen konfigurieren</value></data>
+  <data name="Tile_Formulare_Count"><value>{0} Formulare</value></data>
+  <data name="Tile_Floskeln"><value>Floskeln</value></data>
+  <data name="Tile_Floskeln_Desc"><value>Textbausteine pflegen</value></data>
+  <data name="Tile_Floskeln_Count"><value>{0} Floskeln</value></data>
+  <data name="Tile_Fehlzeiten"><value>Fehlzeiten</value></data>
+  <data name="Tile_Fehlzeiten_Desc"><value>Fehlstunden erfassen</value></data>
+  <data name="Tile_Fehlzeiten_Count"><value>{0} Kinder</value></data>
+
+  <!-- ================= Placeholder ================= -->
+  <data name="Placeholder_NotAvailable"><value>Noch nicht verfügbar</value></data>
+  <data name="Placeholder_Zeugnisse"><value>Der Zeugnis-Editor entsteht in Sprint 8, die Erzeugung in Sprint 9.</value></data>
+  <data name="Placeholder_Formulare"><value>Formularverwaltung entsteht in Sprint 5.</value></data>
+  <data name="Placeholder_Floskeln"><value>Die Floskeln-Bibliothek entsteht in Sprint 4.</value></data>
+  <data name="Placeholder_Fehlzeiten"><value>Die Fehlzeiten-Tabelle entsteht in Sprint 7.</value></data>
+
+  <!-- ================= Einstellungen ================= -->
+  <data name="Settings_Title"><value>Schuleinstellungen</value></data>
+  <data name="Settings_Intro"><value>Diese Angaben erscheinen auf allen Zeugnissen. Änderungen werden automatisch gespeichert.</value></data>
+  <data name="Settings_SchoolName"><value>Schulname</value></data>
+  <data name="Settings_SchoolName_Ph"><value>z. B. Grundschule Wehringhausen</value></data>
+  <data name="Settings_Zusatz"><value>Zusatzbezeichnung</value></data>
+  <data name="Settings_Zusatz_Ph"><value>z. B. Städt. Gemeinschaftsgrundschule</value></data>
+  <data name="Settings_Address"><value>Adresse</value></data>
+  <data name="Settings_Leadership"><value>Schulleitung</value></data>
+  <data name="Settings_Leadership_Ph"><value>Name der Schulleitung</value></data>
+  <data name="Settings_SchoolYear"><value>Schuljahr</value></data>
+  <data name="Settings_SchoolYear_Ph"><value>z. B. 2026/27</value></data>
+  <data name="Settings_CurrentTerm"><value>Aktuelles Halbjahr</value></data>
+  <data name="Settings_IssueDate"><value>Datum der Zeugnisausgabe</value></data>
+  <data name="Settings_ConferenceDate"><value>Konferenzdatum</value></data>
+  <data name="Settings_ResumeDate"><value>Wiederbeginn des Unterrichts</value></data>
+  <data name="Settings_RecycleBinDays"><value>Papierkorb: Aufbewahrung (Tage)</value></data>
+
+  <!-- ================= Klassen ================= -->
+  <data name="Klassen_Title"><value>Klassen</value></data>
+  <data name="Klassen_Intro"><value>Klassen und Kinder verwalten. Eine Klasse löschen entfernt auch ihre Kinder, Fehlzeiten und Zeugnisse.</value></data>
+  <data name="Klassen_New"><value>Neue Klasse</value></data>
+  <data name="Klassen_Empty"><value>Noch keine Klassen angelegt.</value></data>
+  <data name="Klassen_OpenChildren"><value>Kinder öffnen</value></data>
+  <data name="Klassen_ChildCount"><value>{0} Kinder</value></data>
+  <data name="Klassen_JahrgangBadge"><value>Jg. {0}</value></data>
+  <data name="Klassen_DeleteConfirm_Title"><value>Klasse löschen?</value></data>
+  <data name="Klassen_DeleteConfirm_Body"><value>„{0}“ und alle zugehörigen Kinder, Fehlzeiten und Zeugnisse werden in den Papierkorb verschoben.</value></data>
+
+  <data name="KlasseEdit_TitleNew"><value>Neue Klasse</value></data>
+  <data name="KlasseEdit_TitleEdit"><value>Klasse bearbeiten</value></data>
+  <data name="KlasseEdit_Name"><value>Name der Klasse</value></data>
+  <data name="KlasseEdit_Name_Ph"><value>z. B. E1, 3a</value></data>
+  <data name="KlasseEdit_Jahrgang"><value>Jahrgang (1–4)</value></data>
+  <data name="KlasseEdit_Klassenleitung"><value>Klassenleitung</value></data>
+  <data name="KlasseEdit_Zeugnisdatum"><value>Zeugnisdatum (optional, sonst Schuleinstellung)</value></data>
+  <data name="KlasseEdit_Wochenstunden"><value>Wochenstundenplan</value></data>
+  <data name="KlasseEdit_Mo"><value>Mo</value></data>
+  <data name="KlasseEdit_Di"><value>Di</value></data>
+  <data name="KlasseEdit_Mi"><value>Mi</value></data>
+  <data name="KlasseEdit_Do"><value>Do</value></data>
+  <data name="KlasseEdit_Fr"><value>Fr</value></data>
+  <data name="KlasseEdit_Error_NameRequired"><value>Bitte einen Namen für die Klasse eingeben.</value></data>
+  <data name="KlasseEdit_Error_Jahrgang"><value>Der Jahrgang muss zwischen 1 und 4 liegen.</value></data>
+
+  <!-- ================= Kinder ================= -->
+  <data name="Kinder_Title"><value>Kinder – {0}</value></data>
+  <data name="Kinder_New"><value>Kind hinzufügen</value></data>
+  <data name="Kinder_Import"><value>Importieren</value></data>
+  <data name="Kinder_Empty"><value>Noch keine Kinder in dieser Klasse.</value></data>
+  <data name="Kinder_Col_Name"><value>Name</value></data>
+  <data name="Kinder_Col_Geburtsdatum"><value>Geburtsdatum</value></data>
+  <data name="Kinder_Col_Geschlecht"><value>Geschlecht</value></data>
+  <data name="Kinder_Col_Foerderstatus"><value>Förderstatus</value></data>
+  <data name="Kinder_Col_Status"><value>Status</value></data>
+  <data name="Kinder_Incomplete"><value>unvollständig</value></data>
+  <data name="Kinder_Complete"><value>vollständig</value></data>
+  <data name="Kinder_DeleteConfirm_Title"><value>Kind löschen?</value></data>
+  <data name="Kinder_DeleteConfirm_Body"><value>„{0}“ wird mit allen Zeugnissen und Fehlzeiten in den Papierkorb verschoben.</value></data>
+
+  <data name="KindEdit_TitleNew"><value>Neues Kind</value></data>
+  <data name="KindEdit_TitleEdit"><value>Kind bearbeiten</value></data>
+  <data name="KindEdit_Vorname"><value>Vorname</value></data>
+  <data name="KindEdit_Nachname"><value>Nachname</value></data>
+  <data name="KindEdit_Geburtsdatum"><value>Geburtsdatum</value></data>
+  <data name="KindEdit_Geschlecht"><value>Geschlecht</value></data>
+  <data name="KindEdit_Foerderstatus"><value>Förderstatus</value></data>
+  <data name="KindEdit_Foerderschwerpunkt"><value>Förderschwerpunkt</value></data>
+  <data name="KindEdit_Foerderschwerpunkt_Ph"><value>z. B. Lernen, Sprache, Emotionale und soziale Entwicklung</value></data>
+  <data name="KindEdit_ManuellesFormular"><value>Formular manuell festlegen (überschreibt den Vorschlag)</value></data>
+  <data name="KindEdit_ManuellesFormular_None"><value>Automatisch vorschlagen</value></data>
+  <data name="KindEdit_Error_VornameRequired"><value>Bitte einen Vornamen eingeben.</value></data>
+  <data name="KindEdit_Error_NachnameRequired"><value>Bitte einen Nachnamen eingeben.</value></data>
+
+  <!-- ================= Enums ================= -->
+  <data name="Geschlecht_Maennlich"><value>männlich</value></data>
+  <data name="Geschlecht_Weiblich"><value>weiblich</value></data>
+  <data name="Geschlecht_Divers"><value>divers</value></data>
+  <data name="Geschlecht_Unset"><value>—</value></data>
+  <data name="Foerderstatus_Regel"><value>Regel</value></data>
+  <data name="Foerderstatus_Zielgleich"><value>zielgleich</value></data>
+  <data name="Foerderstatus_ZieldifferentLernen"><value>zieldifferent – Lernen</value></data>
+  <data name="Foerderstatus_ZieldifferentGE"><value>zieldifferent – Geistige Entwicklung</value></data>
+</root>

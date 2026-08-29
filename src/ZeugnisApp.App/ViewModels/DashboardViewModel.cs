@@ -1,5 +1,7 @@
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Serilog;
+using ZeugnisApp.App.Resources;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Domain.Enums;
 
@@ -14,11 +16,11 @@ public sealed partial class DashboardViewModel(IDashboardService dashboardServic
     [ObservableProperty] private string _schulname = string.Empty;
     [ObservableProperty] private string _schuljahrHalbjahr = string.Empty;
 
-    [ObservableProperty] private int _klassenAnzahl;
-    [ObservableProperty] private int _kinderAnzahl;
-    [ObservableProperty] private int _formulareAnzahl;
-    [ObservableProperty] private int _floskelnAnzahl;
-    [ObservableProperty] private int _offeneZeugnisseAnzahl;
+    [ObservableProperty] private string _klassenText = string.Empty;
+    [ObservableProperty] private string _kinderText = string.Empty;
+    [ObservableProperty] private string _formulareText = string.Empty;
+    [ObservableProperty] private string _floskelnText = string.Empty;
+    [ObservableProperty] private string _offeneZeugnisseText = string.Empty;
 
     public override async Task OnNavigatedToAsync()
     {
@@ -26,18 +28,23 @@ public sealed partial class DashboardViewModel(IDashboardService dashboardServic
         try
         {
             var settings = await settingsService.GetAsync();
-            Schulname = string.IsNullOrWhiteSpace(settings.Name) ? "Schule noch nicht eingerichtet" : settings.Name;
-            var halbjahr = settings.AktuellesHalbjahr == Halbjahr.Erstes ? "1. Halbjahr" : "2. Halbjahr";
+            Schulname = string.IsNullOrWhiteSpace(settings.Name)
+                ? Strings.Dashboard_SchoolNotConfigured
+                : settings.Name;
+
+            var halbjahr = settings.AktuellesHalbjahr == Halbjahr.Erstes
+                ? Strings.Halbjahr_First
+                : Strings.Halbjahr_Second;
             SchuljahrHalbjahr = string.IsNullOrWhiteSpace(settings.Schuljahr)
                 ? halbjahr
-                : $"Schuljahr {settings.Schuljahr} · {halbjahr}";
+                : Fmt(Strings.Dashboard_SchoolYear, settings.Schuljahr, halbjahr);
 
-            var counts = await dashboardService.GetCountsAsync();
-            KlassenAnzahl = counts.Klassen;
-            KinderAnzahl = counts.Kinder;
-            FormulareAnzahl = counts.Formulare;
-            FloskelnAnzahl = counts.Floskeln;
-            OffeneZeugnisseAnzahl = counts.OffeneZeugnisse;
+            var c = await dashboardService.GetCountsAsync();
+            KlassenText = Fmt(Strings.Tile_Klassen_Count, c.Klassen);
+            KinderText = Fmt(Strings.Tile_Fehlzeiten_Count, c.Kinder);
+            FormulareText = Fmt(Strings.Tile_Formulare_Count, c.Formulare);
+            FloskelnText = Fmt(Strings.Tile_Floskeln_Count, c.Floskeln);
+            OffeneZeugnisseText = Fmt(Strings.Tile_Zeugnisse_Count, c.OffeneZeugnisse);
         }
         catch (Exception ex)
         {
@@ -48,4 +55,7 @@ public sealed partial class DashboardViewModel(IDashboardService dashboardServic
             IsBusy = false;
         }
     }
+
+    private static string Fmt(string format, params object[] args)
+        => string.Format(CultureInfo.CurrentCulture, format, args);
 }

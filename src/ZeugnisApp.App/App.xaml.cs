@@ -43,6 +43,7 @@ public partial class App : System.Windows.Application
 
                 // ---- App-wide services ----
                 services.AddSingleton<ISaveStatusService, SaveStatusService>();
+                services.AddSingleton<IDialogService, DialogService>();
 
                 // ---- Shell ----
                 services.AddSingleton<MainWindow>();
@@ -55,6 +56,7 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<EinstellungenViewModel>();
 
                 services.AddSingleton<KlassenPage>();
+                services.AddSingleton<ViewModels.Klassen.KlassenWorkspaceViewModel>();
                 services.AddSingleton<ZeugnissePage>();
                 services.AddSingleton<FormularePage>();
                 services.AddSingleton<FloskelnPage>();

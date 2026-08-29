@@ -1,4 +1,6 @@
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ZeugnisApp.App.Resources;
 using ZeugnisApp.Application.Abstractions;
 
 namespace ZeugnisApp.App.Services;
@@ -24,9 +26,10 @@ public sealed partial class SaveStatusService(IClock clock) : ObservableObject, 
     private bool _hasUnsavedChanges;
 
     public string StatusText =>
-        HasUnsavedChanges ? "Nicht gespeicherte Änderungen …"
-        : LastSavedUtc is { } utc ? $"Gespeichert um {utc.ToLocalTime():HH:mm}"
-        : "Automatisches Speichern aktiv";
+        HasUnsavedChanges ? Strings.Save_Unsaved
+        : LastSavedUtc is { } utc
+            ? string.Format(CultureInfo.CurrentCulture, Strings.Save_At, utc.ToLocalTime())
+            : Strings.Save_Active;
 
     public void MarkSaved()
     {

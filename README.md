@@ -63,10 +63,22 @@ Everything lives under `%LOCALAPPDATA%\Zeugnis-App\` (no elevation, bound to the
 - MVVM with `CommunityToolkit.Mvvm`; no business logic in views, no UI types in services.
 - All user-facing strings are German; keep them out of code where practical (`.resx` from Sprint 1+).
 
+## Localization
+
+All user-facing text lives in `src/ZeugnisApp.App/Resources/Strings.resx` (German = neutral culture).
+XAML reads it via `{x:Static res:Strings.Key}`; view models via `Strings.Key`. Add
+`Strings.<culture>.resx` satellites to localise. `Strings.Designer.cs` is hand-maintained (so plain
+`dotnet build` works) — add a property when you add a key.
+
 ## Sprint status
 
 - **Sprint 0 — Setup & Architecture Spike:** done. Solution skeleton, CI, EF Core schema + initial
   migration, WPF shell with five-area navigation, both spikes passing. See
   [`docs/sprint-0-spike-report.md`](docs/sprint-0-spike-report.md).
-- **Sprint 1 — Data Layer & Shell:** in progress. Full schema, start screen with live counts,
-  school-settings screen, autosave indicator.
+- **Sprint 1 — Data Layer & Shell:** done. Full schema, start screen with live counts,
+  school-settings screen with debounced autosave, "Gespeichert um …" indicator, `.resx` localization.
+- **Sprint 2 — Klassen & Kinder:** done. Class overview (cards, Jahrgang badge, child count,
+  incomplete badge), class create/edit with inline validation + autosave, per-class child list
+  (DataGrid, red "unvollständig" status), child create/edit with conditional Förderschwerpunkt and
+  manual template override, soft-delete with cascade + confirmation dialog. Master/detail runs
+  inside `KlassenPage` via a hosted `ContentControl` (no NavigationView drill-down).

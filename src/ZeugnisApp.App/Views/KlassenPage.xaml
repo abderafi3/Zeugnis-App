@@ -1,0 +1,27 @@
+<Page x:Class="ZeugnisApp.App.Views.KlassenPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
+      xmlns:vm="clr-namespace:ZeugnisApp.App.ViewModels.Klassen"
+      xmlns:kv="clr-namespace:ZeugnisApp.App.Views.Klassen"
+      Title="{x:Static res:Strings.Nav_Klassen}">
+
+    <Page.Resources>
+        <DataTemplate DataType="{x:Type vm:KlassenListViewModel}">
+            <kv:KlassenListView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:KlasseEditViewModel}">
+            <kv:KlasseEditView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:KinderListViewModel}">
+            <kv:KinderListView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:KindEditViewModel}">
+            <kv:KindEditView />
+        </DataTemplate>
+    </Page.Resources>
+
+    <ContentControl Content="{Binding Current}"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch" />
+</Page>

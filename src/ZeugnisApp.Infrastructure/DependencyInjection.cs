@@ -33,6 +33,7 @@ public static class DependencyInjection
 
         services.AddScoped<ISchoolSettingsService, SchoolSettingsService>();
         services.AddScoped<IDashboardService, DashboardService>();
+        services.AddScoped<IKlassenService, KlassenService>();
 
         return services;
     }
