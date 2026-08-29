@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>ZeugnisApp.Reporting</RootNamespace>
+  </PropertyGroup>
+
+  <!--
+    The report-generation engine (Sprint 6). Isolated behind
+    ZeugnisApp.Application.Abstractions.IReportGenerationEngine so the
+    Sprint 10 "custom template" work only touches this project.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\ZeugnisApp.Application\ZeugnisApp.Application.csproj" />
+    <ProjectReference Include="..\ZeugnisApp.Domain\ZeugnisApp.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" />
+    <PackageReference Include="Serilog" />
+  </ItemGroup>
+
+</Project>

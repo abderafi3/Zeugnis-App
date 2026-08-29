@@ -1,0 +1,72 @@
+<Project>
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <!-- ============================================================
+       Application / UI
+       ============================================================ -->
+  <ItemGroup>
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageVersion Include="WPF-UI" Version="3.1.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.11" />
+  </ItemGroup>
+
+  <!-- ============================================================
+       Persistence (EF Core + SQLite)
+       Sprint 0/1: standard Sqlite provider.
+       Sprint 11: swap Microsoft.EntityFrameworkCore.Sqlite ->
+                  Microsoft.EntityFrameworkCore.Sqlite.Core +
+                  Microsoft.Data.Sqlite.Core +
+                  SQLitePCLRaw.bundle_e_sqlcipher   (see Spike.SqlCipher)
+       ============================================================ -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.11" />
+  </ItemGroup>
+
+  <!-- Spike-only: proves the encrypted-provider combination for Sprint 11 -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="10.0.11" />
+    <PackageVersion Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.11" />
+    <PackageVersion Include="System.Security.Cryptography.ProtectedData" Version="9.0.11" />
+  </ItemGroup>
+
+  <!-- ============================================================
+       Documents & Import
+       ============================================================ -->
+  <ItemGroup>
+    <PackageVersion Include="DocumentFormat.OpenXml" Version="3.2.0" />
+    <PackageVersion Include="ClosedXML" Version="0.104.2" />
+    <PackageVersion Include="CsvHelper" Version="33.0.1" />
+  </ItemGroup>
+
+  <!-- ============================================================
+       Cross-cutting
+       ============================================================ -->
+  <ItemGroup>
+    <PackageVersion Include="FluentValidation" Version="12.1.1" />
+    <PackageVersion Include="Serilog" Version="4.2.0" />
+    <PackageVersion Include="Serilog.Extensions.Hosting" Version="9.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Debug" Version="3.0.0" />
+    <PackageVersion Include="Serilog.Formatting.Compact" Version="3.0.0" />
+  </ItemGroup>
+
+  <!-- ============================================================
+       Testing
+       ============================================================ -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+  </ItemGroup>
+
+</Project>

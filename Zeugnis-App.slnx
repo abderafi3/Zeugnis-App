@@ -1,0 +1,33 @@
+<Solution>
+
+  <Folder Name="/Solution Items/">
+    <File Path="plan.md" />
+    <File Path="README.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path=".github/workflows/ci.yml" />
+    <File Path="docs/sprint-0-spike-report.md" />
+  </Folder>
+
+  <Folder Name="/src/">
+    <Project Path="src/ZeugnisApp.Domain/ZeugnisApp.Domain.csproj" />
+    <Project Path="src/ZeugnisApp.Application/ZeugnisApp.Application.csproj" />
+    <Project Path="src/ZeugnisApp.Infrastructure/ZeugnisApp.Infrastructure.csproj" />
+    <Project Path="src/ZeugnisApp.Reporting/ZeugnisApp.Reporting.csproj" />
+    <Project Path="src/ZeugnisApp.App/ZeugnisApp.App.csproj" />
+  </Folder>
+
+  <Folder Name="/tests/">
+    <Project Path="tests/ZeugnisApp.Domain.Tests/ZeugnisApp.Domain.Tests.csproj" />
+    <Project Path="tests/ZeugnisApp.Infrastructure.Tests/ZeugnisApp.Infrastructure.Tests.csproj" />
+  </Folder>
+
+  <Folder Name="/spikes/">
+    <Project Path="spikes/Spike.OpenXmlFill/Spike.OpenXmlFill.csproj" />
+    <Project Path="spikes/Spike.SqlCipher/Spike.SqlCipher.csproj" />
+  </Folder>
+
+</Solution>

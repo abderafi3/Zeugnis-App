@@ -1,0 +1,50 @@
+# .NET build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+publish/
+artifacts/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# Test / coverage
+[Tt]est[Rr]esult*/
+coverage/
+*.coverage
+*.trx
+*.cobertura.xml
+BenchmarkDotNet.Artifacts/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+!Directory.Packages.props
+
+# App runtime data (must never be committed — may contain personal data)
+*.zeugnisapp
+*.zeugnisapp-backup
+logs/
+*.log
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Local secrets / signing
+*.pfx
+*.snk
+appsettings.*.local.json

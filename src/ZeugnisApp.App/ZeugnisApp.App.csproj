@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RootNamespace>ZeugnisApp.App</RootNamespace>
+    <AssemblyName>ZeugnisApp</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SatelliteResourceLanguages>de;en</SatelliteResourceLanguages>
+    <!-- Sprint 12 packages this self-contained via a dotnet publish profile (RID win-x64,
+         SelfContained=true) so a teacher needs no separate .NET install (see plan section 2).
+         Kept out of the csproj so day-to-day build and 'dotnet ef' stay framework-dependent and fast. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ZeugnisApp.Application\ZeugnisApp.Application.csproj" />
+    <ProjectReference Include="..\ZeugnisApp.Domain\ZeugnisApp.Domain.csproj" />
+    <ProjectReference Include="..\ZeugnisApp.Infrastructure\ZeugnisApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\ZeugnisApp.Reporting\ZeugnisApp.Reporting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="WPF-UI" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Hosting" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <PackageReference Include="Serilog.Sinks.Debug" />
+    <PackageReference Include="Serilog.Formatting.Compact" />
+  </ItemGroup>
+
+</Project>

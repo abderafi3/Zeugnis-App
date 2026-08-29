@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    # WPF requires a Windows runner.
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore Zeugnis-App.slnx
+
+      - name: Build
+        run: dotnet build Zeugnis-App.slnx -c Release --no-restore
+
+      - name: Test (with coverage)
+        run: dotnet test Zeugnis-App.slnx -c Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
+
+      # The Sprint 0 spikes are the proof that the two load-bearing technical
+      # choices work. Keep running them so a dependency bump can't silently break them.
+      - name: Spike A — OOXML content-control fill fidelity
+        run: dotnet run --project spikes/Spike.OpenXmlFill/Spike.OpenXmlFill.csproj -c Release --no-build
+
+      - name: Spike B — SQLCipher + EF Core provider stack
+        run: dotnet run --project spikes/Spike.SqlCipher/Spike.SqlCipher.csproj -c Release --no-build
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: '**/TestResults/**/*.cobertura.xml'
+          if-no-files-found: ignore
+
+  package:
+    # Produce an installable build only when a version tag is pushed.
+    needs: build-test
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Publish self-contained (win-x64)
+        run: >
+          dotnet publish src/ZeugnisApp.App/ZeugnisApp.App.csproj
+          -c Release -r win-x64 --self-contained true
+          -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+          -o publish/win-x64
+
+      # TODO (Sprint 12): Inno Setup packaging + Authenticode signing of the .exe (plan §2, §Sprint 12).
+
+      - name: Upload app build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZeugnisApp-win-x64
+          path: publish/win-x64

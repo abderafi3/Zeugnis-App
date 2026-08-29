@@ -1,0 +1,15 @@
+<Page x:Class="ZeugnisApp.App.Views.PlaceholderPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <StackPanel Margin="32" VerticalAlignment="Top">
+        <TextBlock x:Name="TitleText" FontSize="28" FontWeight="SemiBold" />
+        <ui:InfoBar x:Name="Info"
+                    Margin="0,16,0,0"
+                    IsOpen="True"
+                    IsClosable="False"
+                    Severity="Informational"
+                    Title="Noch nicht verfügbar" />
+    </StackPanel>
+</Page>
