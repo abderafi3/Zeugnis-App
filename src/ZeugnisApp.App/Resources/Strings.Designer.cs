@@ -338,6 +338,21 @@ public static class Strings
     public static string ZeugnisEditor_Erzeugen_Dialog_Title => Get(nameof(ZeugnisEditor_Erzeugen_Dialog_Title));
     public static string ZeugnisEditor_Erzeugen_NoTemplate => Get(nameof(ZeugnisEditor_Erzeugen_NoTemplate));
     public static string ZeugnisEditor_LastGenerated => Get(nameof(ZeugnisEditor_LastGenerated));
+    public static string ZeugnisEditor_Foerderempfehlung => Get(nameof(ZeugnisEditor_Foerderempfehlung));
+
+    // ---- Lern- und Förderempfehlungen ----
+    public static string Foerderempfehlungen_Title => Get(nameof(Foerderempfehlungen_Title));
+    public static string Foerderempfehlungen_Subtitle => Get(nameof(Foerderempfehlungen_Subtitle));
+    public static string Foerderempfehlungen_Intro => Get(nameof(Foerderempfehlungen_Intro));
+    public static string Foerderempfehlungen_AddFach => Get(nameof(Foerderempfehlungen_AddFach));
+    public static string Foerderempfehlungen_AddFach_Ph => Get(nameof(Foerderempfehlungen_AddFach_Ph));
+    public static string Foerderempfehlungen_Empty => Get(nameof(Foerderempfehlungen_Empty));
+    public static string Foerderempfehlungen_Beobachtungen => Get(nameof(Foerderempfehlungen_Beobachtungen));
+    public static string Foerderempfehlungen_SchulischeMassnahmen => Get(nameof(Foerderempfehlungen_SchulischeMassnahmen));
+    public static string Foerderempfehlungen_EmpfehlungenZuhause => Get(nameof(Foerderempfehlungen_EmpfehlungenZuhause));
+    public static string Foerderempfehlungen_Fertig => Get(nameof(Foerderempfehlungen_Fertig));
+    public static string Foerderempfehlungen_DeleteConfirm_Title => Get(nameof(Foerderempfehlungen_DeleteConfirm_Title));
+    public static string Foerderempfehlungen_DeleteConfirm_Body => Get(nameof(Foerderempfehlungen_DeleteConfirm_Body));
 
     // ---- Recovery ----
     public static string Recovery_Title => Get(nameof(Recovery_Title));

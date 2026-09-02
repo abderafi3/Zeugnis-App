@@ -45,6 +45,7 @@ public sealed class EditorOpenReproTests : IAsyncDisposable
     {
         public void ShowUebersicht() { }
         public Task EditZeugnisAsync(Guid kindId, string schuljahr, Halbjahr halbjahr) => Task.CompletedTask;
+        public Task ShowFoerderempfehlungenAsync(Guid kindId, string kindName, string schuljahr, Halbjahr halbjahr) => Task.CompletedTask;
     }
 
     private sealed class StubSettings : ISchoolSettingsService

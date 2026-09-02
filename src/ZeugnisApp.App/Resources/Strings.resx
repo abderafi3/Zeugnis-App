@@ -374,6 +374,21 @@
   <data name="ZeugnisEditor_Erzeugen_Dialog_Title"><value>Zeugnis speichern unter</value></data>
   <data name="ZeugnisEditor_Erzeugen_NoTemplate"><value>Für dieses Formular ist noch keine Word-Vorlage hinterlegt.</value></data>
   <data name="ZeugnisEditor_LastGenerated"><value>Zuletzt erzeugt: {0}</value></data>
+  <data name="ZeugnisEditor_Foerderempfehlung"><value>Lern- und Förderempfehlung …</value></data>
+
+  <!-- ================= Lern- und Förderempfehlungen ================= -->
+  <data name="Foerderempfehlungen_Title"><value>Lern- und Förderempfehlungen – {0}</value></data>
+  <data name="Foerderempfehlungen_Subtitle"><value>{0}, {1}</value></data>
+  <data name="Foerderempfehlungen_Intro"><value>Die Lern- und Förderempfehlung ergänzt das Zeugnis fachweise, wenn die Leistungen in einem Fach schwach sind oder die Versetzung gefährdet ist.</value></data>
+  <data name="Foerderempfehlungen_AddFach"><value>Fach hinzufügen</value></data>
+  <data name="Foerderempfehlungen_AddFach_Ph"><value>Fach wählen …</value></data>
+  <data name="Foerderempfehlungen_Empty"><value>Noch keine Förderempfehlung angelegt. Oben ein Fach wählen und „Fach hinzufügen“.</value></data>
+  <data name="Foerderempfehlungen_Beobachtungen"><value>Beobachtungen</value></data>
+  <data name="Foerderempfehlungen_SchulischeMassnahmen"><value>Schulische Maßnahmen</value></data>
+  <data name="Foerderempfehlungen_EmpfehlungenZuhause"><value>Empfehlungen für Zuhause</value></data>
+  <data name="Foerderempfehlungen_Fertig"><value>Fertiggestellt</value></data>
+  <data name="Foerderempfehlungen_DeleteConfirm_Title"><value>Förderempfehlung löschen?</value></data>
+  <data name="Foerderempfehlungen_DeleteConfirm_Body"><value>Die Förderempfehlung für dieses Fach wird endgültig gelöscht.</value></data>
 
   <!-- ================= Datenschlüssel / Recovery ================= -->
   <data name="Recovery_Title"><value>Datenschlüssel</value></data>

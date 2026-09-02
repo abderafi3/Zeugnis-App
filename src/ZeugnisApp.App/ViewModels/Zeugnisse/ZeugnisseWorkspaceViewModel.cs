@@ -12,6 +12,9 @@ public interface IZeugnisseNavigator
 {
     void ShowUebersicht();
     Task EditZeugnisAsync(Guid kindId, string schuljahr, Halbjahr halbjahr);
+
+    /// <summary>Opens the Lern- und Förderempfehlungen for a child in the given term.</summary>
+    Task ShowFoerderempfehlungenAsync(Guid kindId, string kindName, string schuljahr, Halbjahr halbjahr);
 }
 
 /// <summary>Page-level view model for the Zeugnisse area: overview ↔ editor (plan §Sprint 8).</summary>
@@ -25,6 +28,7 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
     private readonly ISaveStatusService _saveStatus;
     private readonly IDialogService _dialogs;
     private readonly ReportGenerationServices _reporting;
+    private readonly IFoerderempfehlungService _foerderempfehlungen;
 
     [ObservableProperty]
     private ObservableObject? _current;
@@ -32,7 +36,8 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
     public ZeugnisseWorkspaceViewModel(
         IZeugnisService zeugnisse, IKlassenService klassen, ISchoolSettingsService settings,
         IFloskelnService floskeln, IFloskelPickerService picker, ISaveStatusService saveStatus,
-        IDialogService dialogs, ReportGenerationServices reporting)
+        IDialogService dialogs, ReportGenerationServices reporting,
+        IFoerderempfehlungService foerderempfehlungen)
     {
         _zeugnisse = zeugnisse;
         _klassen = klassen;
@@ -42,6 +47,7 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
         _saveStatus = saveStatus;
         _dialogs = dialogs;
         _reporting = reporting;
+        _foerderempfehlungen = foerderempfehlungen;
     }
 
     public override async Task OnNavigatedToAsync()
@@ -85,6 +91,13 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
         }
 
         Swap(new ZeugnisEditorViewModel(full, _zeugnisse, _floskeln, _picker, _saveStatus, this, _reporting));
+    }
+
+    public Task ShowFoerderempfehlungenAsync(Guid kindId, string kindName, string schuljahr, Halbjahr halbjahr)
+    {
+        Swap(new FoerderempfehlungenViewModel(
+            _foerderempfehlungen, _saveStatus, _dialogs, this, kindId, kindName, schuljahr, halbjahr));
+        return Task.CompletedTask;
     }
 
     private async void Swap(ObservableObject next)

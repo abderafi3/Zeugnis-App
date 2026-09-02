@@ -139,6 +139,9 @@
                     <StackPanel>
                         <ui:ToggleSwitch Content="{x:Static res:Strings.ZeugnisEditor_Fertiggestellt}"
                                          IsChecked="{Binding Fertiggestellt}" />
+                        <ui:Button Margin="0,12,0,0" HorizontalAlignment="Left" Icon="{ui:SymbolIcon ClipboardTaskListLtr24}"
+                                   Content="{x:Static res:Strings.ZeugnisEditor_Foerderempfehlung}"
+                                   Command="{Binding FoerderempfehlungOeffnenCommand}" />
                         <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
                             <ui:ProgressRing IsIndeterminate="True" Width="20" Height="20" Margin="0,0,8,0"
                                              VerticalAlignment="Center"

@@ -164,6 +164,14 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     }
 
     [RelayCommand]
+    private async Task FoerderempfehlungOeffnenAsync()
+    {
+        await FlushAsync();
+        await _navigator.ShowFoerderempfehlungenAsync(
+            _kind.Id, _kind.AnzeigeName, _zeugnis.Schuljahr, _zeugnis.Halbjahr);
+    }
+
+    [RelayCommand]
     private async Task BemerkungFloskelEinfuegenAsync()
     {
         var text = await _picker.PickAsync(_kind.Vorname, _kind.Geschlecht);

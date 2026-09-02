@@ -24,6 +24,14 @@ public static class ZeugnisDefaults
         "wird nicht versetzt",
         "rückt gemäß § 11 SchulG auf",
     ];
+
+    /// <summary>Subjects a Lern- und Förderempfehlung can be written for (the grade subjects).</summary>
+    public static readonly IReadOnlyList<string> Schulfaecher =
+    [
+        "Deutsch", "Sprachgebrauch", "Lesen", "Rechtschreiben",
+        "Mathematik", "Englisch", "Sachunterricht",
+        "Sport", "Musik", "Kunst", "Religionslehre",
+    ];
 }
 
 /// <summary>
