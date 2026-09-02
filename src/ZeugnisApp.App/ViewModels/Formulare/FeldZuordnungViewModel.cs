@@ -62,7 +62,9 @@ public sealed partial class FeldZuordnungViewModel : ObservableObject
 
         if (formular.HatVersetzungsvermerk)
         {
-            Add(Strings.Zuordnung_Group_Zeugnis, ValueKeys.ZeugnisVersetzungsvermerk, Strings.Feld_Zeugnis_Versetzung, pflicht: true);
+            // Optional: a template without a dedicated control still gets the Versetzungsvermerk —
+            // ReportValues folds it into the Bemerkungen text.
+            Add(Strings.Zuordnung_Group_Zeugnis, ValueKeys.ZeugnisVersetzungsvermerk, Strings.Feld_Zeugnis_Versetzung);
         }
 
         Add(Strings.Zuordnung_Group_Zeugnis, ValueKeys.ZeugnisBemerkungen, Strings.Feld_Zeugnis_Bemerkungen);

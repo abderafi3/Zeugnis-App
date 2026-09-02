@@ -37,7 +37,11 @@ public static class ReportValues
         Put(ValueKeys.ZeugnisEmpfehlung, r.Zeugnis.Empfehlung);
         Put(ValueKeys.ZeugnisEmpfehlungBegruendung, r.Zeugnis.EmpfehlungBegruendung);
         Put(ValueKeys.ZeugnisVersetzungsvermerk, r.Zeugnis.VersetzungsvermerkText);
-        Put(ValueKeys.ZeugnisBemerkungen, r.Zeugnis.Bemerkungen);
+
+        // Grundschule Wehringhausen's year-end forms have no dedicated Versetzungsvermerk control —
+        // the decision belongs in the Bemerkungen area. Fold it in so it is never dropped; a
+        // template that maps zeugnis.versetzungsvermerk separately still gets it there too.
+        Put(ValueKeys.ZeugnisBemerkungen, JoinAbsatz(r.Zeugnis.Bemerkungen, r.Zeugnis.VersetzungsvermerkText));
         Put(ValueKeys.ZeugnisFehlstundenGesamt, r.Zeugnis.FehlstundenGesamt?.ToString(De));
         Put(ValueKeys.ZeugnisFehlstundenUnentschuldigt, r.Zeugnis.FehlstundenUnentschuldigt?.ToString(De));
 
@@ -56,4 +60,10 @@ public static class ReportValues
 
     private static string FormatDate(DateOnly? date)
         => date is { } d ? d.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) : string.Empty;
+
+    /// <summary>Joins two optional text blocks into one, separated by a blank line; skips empties.</summary>
+    private static string JoinAbsatz(string? first, string? second)
+        => string.Join(
+            "\n\n",
+            new[] { first, second }.Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s!.Trim()));
 }

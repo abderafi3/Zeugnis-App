@@ -130,8 +130,8 @@ public class FormulareTests
         Assert.True(k4hj1.HatBegruendeteEmpfehlung);
         Assert.False(k4hj1.HatVersetzungsvermerk);
         Assert.Equal(11, k4hj1.Faecher.Count);
-        Assert.Contains("Sprachgebrauch", k4hj1.Faecher);
-        Assert.Contains("Rechtschreiben", k4hj1.Faecher);
+        Assert.Contains("Deutsch Sprachgebrauch", k4hj1.Faecher);
+        Assert.Contains("Deutsch Rechtschreiben", k4hj1.Faecher);
 
         // Gemeinsames Lernen: zieldifferent, any year, both terms, no grades.
         var gl = forms[^1];

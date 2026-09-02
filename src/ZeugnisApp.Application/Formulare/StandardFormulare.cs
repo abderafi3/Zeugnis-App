@@ -24,13 +24,14 @@ namespace ZeugnisApp.Application.Formulare;
 /// </summary>
 public static class StandardFormulare
 {
-    // Grade rows on the Klasse 3 / Klasse 4 forms, in the order printed on the real document —
-    // the three Deutsch sub-competencies are separate grades that sit under the overall Deutsch
-    // line. The names line up with the phrase library's Bereich values.
+    // Grade rows on the Klasse 3 / Klasse 4 forms, in the order printed on the real document.
+    // The three Deutsch sub-competencies are separate grades under the overall Deutsch line; their
+    // names ("Deutsch Sprachgebrauch" …) map straight onto the template tags
+    // (Note_Deutsch_Sprachgebrauch) via FieldMapping.
     private static readonly string[] Notenfaecher =
     [
         "Religionslehre",
-        "Deutsch", "Sprachgebrauch", "Lesen", "Rechtschreiben",
+        "Deutsch", "Deutsch Sprachgebrauch", "Deutsch Lesen", "Deutsch Rechtschreiben",
         "Englisch",
         "Sachunterricht", "Mathematik", "Sport", "Musik", "Kunst",
     ];
