@@ -21,6 +21,40 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="ZeugnisApp.App.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Grundschule Wehringhausen's real, content-control-tagged report forms. Bundled so every
+         standard Formular is linked out of the box (see TemplateBootstrapper); "Vorlage hochladen"
+         is only needed to replace one. LogicalName pins the resource id against MSBuild mangling. -->
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_1_Schulbesuchsjahr.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_1_Schulbesuchsjahr.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_2_Schulbesuchsjahr.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_2_Schulbesuchsjahr.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_Klasse3_1Halbjahr.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_Klasse3_1Halbjahr.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_Klasse3_2Halbjahr.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_Klasse3_2Halbjahr.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_Klasse4_1Halbjahr_mit_Begruendung.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_Klasse4_1Halbjahr_mit_Begruendung.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_Klasse4_2Halbjahr_mit_Begruendung.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_Klasse4_2Halbjahr_mit_Begruendung.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_Gemeinsames_Lernen.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_Gemeinsames_Lernen.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Foerderempfehlung.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Foerderempfehlung.docx</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="WPF-UI" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />

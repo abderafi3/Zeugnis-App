@@ -36,10 +36,14 @@ public static class StandardFormulare
         "Sachunterricht", "Mathematik", "Sport", "Musik", "Kunst",
     ];
 
-    // The narrative sections common to the Schuleingangsphase and Klasse 3/4 forms. The real
-    // document splits the Lernentwicklung text across two pages ("Teil 1" / "Teil 2").
+    // Narrative sections. The Schuleingangsphase and Klasse 3 forms split the Lernentwicklung text
+    // across two pages ("Teil 1" / "Teil 2"); the Klasse 4 forms drop the Lernentwicklung narrative
+    // altogether (grades + Bemerkungen only).
     private static readonly string[] BerichtFelder =
         ["Arbeits- und Sozialverhalten", "Lernentwicklung (Teil 1)", "Lernentwicklung (Teil 2)"];
+
+    private static readonly string[] NurArbeitsUndSozialverhalten =
+        ["Arbeits- und Sozialverhalten"];
 
     // The Gemeinsames-Lernen form carries one undivided Lernentwicklung section.
     private static readonly string[] GemeinsamesLernenFelder =
@@ -47,16 +51,16 @@ public static class StandardFormulare
 
     public static IReadOnlyList<Formular> All() =>
     [
-        Bericht("Schuleingangsphase – 1. Schulbesuchsjahr", 1, Halbjahr.Zweites),
-        Bericht("Schuleingangsphase – 2. Schulbesuchsjahr", 2, Halbjahr.Zweites, versetzung: true),
-        Noten("Klasse 3 – 1. Halbjahr", 3, Halbjahr.Erstes),
-        Noten("Klasse 3 – Schuljahresende", 3, Halbjahr.Zweites, versetzung: true),
-        Noten("Klasse 4 – 1. Halbjahr", 4, Halbjahr.Erstes, empfehlung: true),
-        Noten("Klasse 4 – Schuljahresende", 4, Halbjahr.Zweites, versetzung: true),
+        Bericht("Schuleingangsphase – 1. Schulbesuchsjahr", 1, Halbjahr.Zweites, BerichtFelder),
+        Bericht("Schuleingangsphase – 2. Schulbesuchsjahr", 2, Halbjahr.Zweites, BerichtFelder, versetzung: true),
+        Noten("Klasse 3 – 1. Halbjahr", 3, Halbjahr.Erstes, BerichtFelder),
+        Noten("Klasse 3 – Schuljahresende", 3, Halbjahr.Zweites, BerichtFelder, versetzung: true),
+        Noten("Klasse 4 – 1. Halbjahr", 4, Halbjahr.Erstes, NurArbeitsUndSozialverhalten, empfehlung: true),
+        Noten("Klasse 4 – Schuljahresende", 4, Halbjahr.Zweites, NurArbeitsUndSozialverhalten, versetzung: true),
         GemeinsamesLernen(),
     ];
 
-    private static Formular Bericht(string name, int jahrgang, Halbjahr halbjahr, bool versetzung = false) => new()
+    private static Formular Bericht(string name, int jahrgang, Halbjahr halbjahr, string[] felder, bool versetzung = false) => new()
     {
         Anzeigename = name,
         Ueberschrift = "Zeugnis der Grundschule",
@@ -65,10 +69,10 @@ public static class StandardFormulare
         HatNotenblock = false,
         HatVersetzungsvermerk = versetzung,
         Faecher = [],
-        Freitextfelder = ToFelder(BerichtFelder),
+        Freitextfelder = ToFelder(felder),
     };
 
-    private static Formular Noten(string name, int jahrgang, Halbjahr halbjahr, bool empfehlung = false, bool versetzung = false) => new()
+    private static Formular Noten(string name, int jahrgang, Halbjahr halbjahr, string[] felder, bool empfehlung = false, bool versetzung = false) => new()
     {
         Anzeigename = name,
         Ueberschrift = "Zeugnis der Grundschule",
@@ -78,7 +82,7 @@ public static class StandardFormulare
         HatBegruendeteEmpfehlung = empfehlung,
         HatVersetzungsvermerk = versetzung,
         Faecher = [.. Notenfaecher],
-        Freitextfelder = ToFelder(BerichtFelder),
+        Freitextfelder = ToFelder(felder),
     };
 
     private static Formular GemeinsamesLernen() => new()
