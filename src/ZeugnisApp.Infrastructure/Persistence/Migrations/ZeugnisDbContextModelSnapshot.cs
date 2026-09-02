@@ -185,6 +185,63 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                     b.ToTable("Floskeln");
                 });
 
+            modelBuilder.Entity("ZeugnisApp.Domain.Entities.Foerderempfehlung", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Beobachtungen")
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EmpfehlungenFuerZuhause")
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Fach")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Fertiggestellt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("GeneratedFilePath")
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Halbjahr")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("KindId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ModifiedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SchulischeMassnahmen")
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Schuljahr")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KindId", "Schuljahr", "Halbjahr", "Fach")
+                        .IsUnique();
+
+                    b.ToTable("Foerderempfehlungen");
+                });
+
             modelBuilder.Entity("ZeugnisApp.Domain.Entities.Formular", b =>
                 {
                     b.Property<Guid>("Id")
@@ -493,6 +550,17 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                 });
 
             modelBuilder.Entity("ZeugnisApp.Domain.Entities.Fehlzeit", b =>
+                {
+                    b.HasOne("ZeugnisApp.Domain.Entities.Kind", "Kind")
+                        .WithMany()
+                        .HasForeignKey("KindId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Kind");
+                });
+
+            modelBuilder.Entity("ZeugnisApp.Domain.Entities.Foerderempfehlung", b =>
                 {
                     b.HasOne("ZeugnisApp.Domain.Entities.Kind", "Kind")
                         .WithMany()
