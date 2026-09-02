@@ -21,6 +21,26 @@ public class EntityRuleTests
     }
 
     [Theory]
+    [InlineData(2, 3, 2)]   // own Schulbesuchsjahr wins over the class year
+    [InlineData(0, 3, 3)]   // unset → falls back to the class's Jahrgang
+    [InlineData(0, 0, 0)]   // neither known
+    [InlineData(4, 0, 4)]   // own year, class year unknown
+    public void Kind_EffektivesSchulbesuchsjahr_prefers_the_childs_own_year(int sbj, int klasseJahrgang, int expected)
+    {
+        var kind = new Kind
+        {
+            Schulbesuchsjahr = sbj,
+            Klasse = new Klasse { Name = "E7", Jahrgang = klasseJahrgang },
+        };
+
+        Assert.Equal(expected, kind.EffektivesSchulbesuchsjahr);
+    }
+
+    [Fact]
+    public void Kind_EffektivesSchulbesuchsjahr_is_zero_when_class_not_loaded_and_year_unset()
+        => Assert.Equal(0, new Kind().EffektivesSchulbesuchsjahr);
+
+    [Theory]
     [InlineData("", "Mustermann", true, true)]
     [InlineData("Max", "", true, true)]
     [InlineData("Max", "Mustermann", false, true)]

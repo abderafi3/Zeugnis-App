@@ -99,6 +99,34 @@ public class FormulareTests
     }
 
     [Fact]
+    public async Task SuggestAsync_uses_the_childs_Schulbesuchsjahr_over_the_class_year()
+    {
+        await using var db = new SqliteTestDatabase();
+        await new DatabaseInitializer(db.ContextFactory).InitializeAsync();
+
+        Guid kindId;
+        await using (var ctx = db.NewContext())
+        {
+            // Jahrgangsübergreifende Klasse: the class "year" is 3, but this child is in their 4th year.
+            var klasse = new Klasse { Name = "F1", Jahrgang = 3 };
+            var kind = new Kind
+            {
+                Vorname = "Nael", Nachname = "K", Klasse = klasse,
+                Geschlecht = Geschlecht.Maennlich, Schulbesuchsjahr = 4,
+            };
+            ctx.AddRange(klasse, kind);
+            await ctx.SaveChangesAsync();
+            kindId = kind.Id;
+        }
+
+        var svc = new FormulareService(db.ContextFactory, db.Clock);
+        var result = await svc.SuggestAsync(kindId, Halbjahr.Zweites);
+
+        Assert.Equal(SuggestionReason.AutomatischNachJahrgang, result.Reason);
+        Assert.Equal("Klasse 4 – Schuljahresende", result.Formular!.Anzeigename);
+    }
+
+    [Fact]
     public async Task SaveAsync_replaces_the_owned_freitextfelder()
     {
         await using var db = new SqliteTestDatabase();

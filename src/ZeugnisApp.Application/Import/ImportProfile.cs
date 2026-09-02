@@ -8,6 +8,7 @@ public static class ImportFieldKeys
     public const string Nachname = "nachname";
     public const string Geburtsdatum = "geburtsdatum";
     public const string Geschlecht = "geschlecht";
+    public const string Schulbesuchsjahr = "schulbesuchsjahr";
 
     // Floskeln import
     public const string FloskelText = "text";

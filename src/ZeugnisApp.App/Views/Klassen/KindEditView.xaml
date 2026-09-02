@@ -47,6 +47,17 @@
                       SelectedValuePath="Value"
                       SelectedValue="{Binding Geschlecht}" />
 
+            <TextBlock Margin="0,16,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.KindEdit_Schulbesuchsjahr}" />
+            <ComboBox MaxWidth="220" HorizontalAlignment="Left" SelectedIndex="{Binding Schulbesuchsjahr}">
+                <ComboBoxItem Content="{x:Static res:Strings.KindEdit_Schulbesuchsjahr_Unset}" />
+                <ComboBoxItem Content="1" />
+                <ComboBoxItem Content="2" />
+                <ComboBoxItem Content="3" />
+                <ComboBoxItem Content="4" />
+            </ComboBox>
+            <TextBlock Margin="0,4,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                       Text="{x:Static res:Strings.KindEdit_Schulbesuchsjahr_Hint}" TextWrapping="Wrap" />
+
             <TextBlock Margin="0,16,0,4" FontWeight="SemiBold" Text="{x:Static res:Strings.KindEdit_Foerderstatus}" />
             <ComboBox MaxWidth="360" HorizontalAlignment="Left"
                       ItemsSource="{Binding FoerderstatusOptionen}"

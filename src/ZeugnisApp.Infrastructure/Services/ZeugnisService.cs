@@ -26,7 +26,7 @@ internal sealed class ZeugnisService(IDbContextFactory<ZeugnisDbContext> context
         var alleFormulare = await db.Formulare.ToListAsync(cancellationToken).ConfigureAwait(false);
         var suggestion = formularIdOverride is { } id
             ? new FormularSuggestion(alleFormulare.FirstOrDefault(f => f.Id == id), SuggestionReason.ManuellFestgelegt)
-            : FormularSuggester.Suggest(alleFormulare, kind, kind.Klasse?.Jahrgang ?? 0, halbjahr);
+            : FormularSuggester.Suggest(alleFormulare, kind, kind.EffektivesSchulbesuchsjahr, halbjahr);
 
         if (suggestion.Formular is null)
         {

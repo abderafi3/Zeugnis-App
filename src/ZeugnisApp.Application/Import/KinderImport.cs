@@ -3,7 +3,12 @@ using ZeugnisApp.Domain.Enums;
 namespace ZeugnisApp.Application.Import;
 
 /// <summary>One cleaned class-list row, ready to become a <c>Kind</c>.</summary>
-public sealed record KindImportData(string Vorname, string Nachname, DateOnly? Geburtsdatum, Geschlecht? Geschlecht);
+public sealed record KindImportData(
+    string Vorname,
+    string Nachname,
+    DateOnly? Geburtsdatum,
+    Geschlecht? Geschlecht,
+    int Schulbesuchsjahr = 0);
 
 /// <summary>Outcome of a commit (plan §6, step 4 — "18 Kinder importiert, 2 übersprungen").</summary>
 public sealed record ImportSummary(int Importiert, int Uebersprungen);
@@ -21,10 +26,15 @@ public static class KinderImportMapper
             ? g
             : null;
 
+        var schulbesuchsjahr = ImportValueParser.TryParseStufe(row.Value(ImportFieldKeys.Schulbesuchsjahr), out var sbj)
+            ? sbj
+            : 0;
+
         return new KindImportData(
             row.Value(ImportFieldKeys.Vorname).Trim(),
             row.Value(ImportFieldKeys.Nachname).Trim(),
             geburtsdatum,
-            geschlecht);
+            geschlecht,
+            schulbesuchsjahr);
     }
 }

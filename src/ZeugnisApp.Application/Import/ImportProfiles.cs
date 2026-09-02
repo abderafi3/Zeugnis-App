@@ -23,6 +23,12 @@ public static class ImportProfiles
             ImportFieldKeys.Geschlecht, "Geschlecht", Required: false,
             HeaderAliases: ["geschlecht", "sex", "gender", "m/w", "m/w/d", "g."],
             Looks: ImportValueParser.LooksLikeGeschlecht),
+
+        // Mapped by header only — no content heuristic, so a leading row-number column
+        // (values 1, 2, 3 …) is never mistaken for the Schulbesuchsjahr.
+        new ImportField(
+            ImportFieldKeys.Schulbesuchsjahr, "Schulbesuchsjahr", Required: false,
+            HeaderAliases: ["schulbesuchsjahr", "sbj", "besuchsjahr"]),
     ]);
 
     /// <summary>

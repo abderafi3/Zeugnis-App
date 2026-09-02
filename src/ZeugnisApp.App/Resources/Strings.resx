@@ -173,6 +173,9 @@
   <data name="KindEdit_Nachname"><value>Nachname</value></data>
   <data name="KindEdit_Geburtsdatum"><value>Geburtsdatum</value></data>
   <data name="KindEdit_Geschlecht"><value>Geschlecht</value></data>
+  <data name="KindEdit_Schulbesuchsjahr"><value>Schulbesuchsjahr</value></data>
+  <data name="KindEdit_Schulbesuchsjahr_Hint"><value>Bestimmt Zeugnisformular und Floskeln – in jahrgangsübergreifenden Klassen wichtig.</value></data>
+  <data name="KindEdit_Schulbesuchsjahr_Unset"><value>— (nicht gesetzt)</value></data>
   <data name="KindEdit_Foerderstatus"><value>Förderstatus</value></data>
   <data name="KindEdit_Foerderschwerpunkt"><value>Förderschwerpunkt</value></data>
   <data name="KindEdit_Foerderschwerpunkt_Ph"><value>z. B. Lernen, Sprache, Emotionale und soziale Entwicklung</value></data>

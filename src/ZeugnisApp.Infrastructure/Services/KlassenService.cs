@@ -148,6 +148,7 @@ internal sealed class KlassenService(IDbContextFactory<ZeugnisDbContext> context
         target.Geburtsdatum = kind.Geburtsdatum;
         target.Geschlecht = kind.Geschlecht;
         target.KlasseId = kind.KlasseId;
+        target.Schulbesuchsjahr = kind.Schulbesuchsjahr;
         target.Foerderstatus = kind.Foerderstatus;
         target.Foerderschwerpunkt = string.IsNullOrWhiteSpace(kind.Foerderschwerpunkt) ? null : kind.Foerderschwerpunkt.Trim();
         target.ManuellesFormularId = kind.ManuellesFormularId;

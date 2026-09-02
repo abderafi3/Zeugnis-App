@@ -142,6 +142,9 @@ public static class Strings
     public static string KindEdit_Nachname => Get(nameof(KindEdit_Nachname));
     public static string KindEdit_Geburtsdatum => Get(nameof(KindEdit_Geburtsdatum));
     public static string KindEdit_Geschlecht => Get(nameof(KindEdit_Geschlecht));
+    public static string KindEdit_Schulbesuchsjahr => Get(nameof(KindEdit_Schulbesuchsjahr));
+    public static string KindEdit_Schulbesuchsjahr_Hint => Get(nameof(KindEdit_Schulbesuchsjahr_Hint));
+    public static string KindEdit_Schulbesuchsjahr_Unset => Get(nameof(KindEdit_Schulbesuchsjahr_Unset));
     public static string KindEdit_Foerderstatus => Get(nameof(KindEdit_Foerderstatus));
     public static string KindEdit_Foerderschwerpunkt => Get(nameof(KindEdit_Foerderschwerpunkt));
     public static string KindEdit_Foerderschwerpunkt_Ph => Get(nameof(KindEdit_Foerderschwerpunkt_Ph));

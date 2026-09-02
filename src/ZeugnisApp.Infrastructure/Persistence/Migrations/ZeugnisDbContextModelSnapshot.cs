@@ -289,6 +289,9 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Schulbesuchsjahr")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Vorname")
                         .IsRequired()
                         .HasMaxLength(100)

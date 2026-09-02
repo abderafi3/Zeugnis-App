@@ -153,8 +153,10 @@ public static class ColumnDetector
             }
         }
 
-        // Remaining plain-text fields fill the leftover text columns in declaration order.
-        var textFields = profile.Fields.Where(f => f.Looks is null && !used.Contains(f.Key)).ToList();
+        // Remaining *required* plain-text fields fill the leftover text columns in declaration
+        // order. Optional text columns (e.g. Schulbesuchsjahr) are only ever mapped by header —
+        // guessing them by position would hijack an unrelated column like a leading row number.
+        var textFields = profile.Fields.Where(f => f.Looks is null && f.Required && !used.Contains(f.Key)).ToList();
         if (textFields.Count == 0)
         {
             return;

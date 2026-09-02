@@ -81,6 +81,7 @@ public sealed class ZeugnisDbContext(DbContextOptions<ZeugnisDbContext> options,
                 .OnDelete(DeleteBehavior.SetNull);
             e.Ignore(x => x.IstVollstaendig);
             e.Ignore(x => x.AnzeigeName);
+            e.Ignore(x => x.EffektivesSchulbesuchsjahr);
             e.HasQueryFilter(x => x.DeletedUtc == null);
         });
 
