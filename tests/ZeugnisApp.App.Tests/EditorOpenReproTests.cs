@@ -72,8 +72,8 @@ public sealed class EditorOpenReproTests : IAsyncDisposable
     }
 
     [Theory]
-    [InlineData(3, Halbjahr.Erstes)]   // "Klasse 3 – 1. Halbjahr" exists
-    [InlineData(1, Halbjahr.Zweites)]  // "Klasse 1 – Schuljahresende" exists
+    [InlineData(3, Halbjahr.Erstes)]   // "Klasse 3 – 1. Halbjahr"
+    [InlineData(1, Halbjahr.Zweites)]  // "Schuleingangsphase – 1. Schulbesuchsjahr"
     public async Task Pressing_oeffnen_opens_the_editor_without_throwing(int jahrgang, Halbjahr halbjahr)
     {
         await _sp.GetRequiredService<DatabaseInitializer>().InitializeAsync();
@@ -146,10 +146,10 @@ public sealed class EditorOpenReproTests : IAsyncDisposable
         Assert.Equal("Lena ist stets hilfsbereit.", soziale[0]);
         Assert.Equal("Lena arbeitet selbstständig.", soziale[1]);
 
-        // The Sozialverhalten phrases must not leak into the Bemerkungen field.
-        var bemerkungen = vm.Freitexte.First(f => f.Label == "Bemerkungen");
-        Assert.DoesNotContain("Lena ist stets hilfsbereit.", bemerkungen.Vorschlaege.Select(v => v.VollText));
-        Assert.DoesNotContain("Lena arbeitet selbstständig.", bemerkungen.Vorschlaege.Select(v => v.VollText));
+        // The Sozialverhalten phrases must not leak into the free-flowing Lernentwicklung field.
+        var lernentwicklung = vm.Freitexte.First(f => f.Label.StartsWith("Lernentwicklung", StringComparison.Ordinal));
+        Assert.DoesNotContain("Lena ist stets hilfsbereit.", lernentwicklung.Vorschlaege.Select(v => v.VollText));
+        Assert.DoesNotContain("Lena arbeitet selbstständig.", lernentwicklung.Vorschlaege.Select(v => v.VollText));
     }
 
     public async ValueTask DisposeAsync()

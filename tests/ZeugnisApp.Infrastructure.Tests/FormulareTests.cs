@@ -99,6 +99,71 @@ public class FormulareTests
     }
 
     [Fact]
+    public void Standardformulare_are_the_schools_real_seven_forms()
+    {
+        var forms = StandardFormulare.All();
+        Assert.Equal(7, forms.Count);
+
+        Assert.Equal(
+            new[]
+            {
+                "Schuleingangsphase – 1. Schulbesuchsjahr",
+                "Schuleingangsphase – 2. Schulbesuchsjahr",
+                "Klasse 3 – 1. Halbjahr",
+                "Klasse 3 – Schuljahresende",
+                "Klasse 4 – 1. Halbjahr",
+                "Klasse 4 – Schuljahresende",
+                "Zeugnis zum Gemeinsamen Lernen",
+            },
+            forms.Select(f => f.Anzeigename));
+
+        // Schuleingangsphase: no grades, keyed by Schulbesuchsjahr, year-end only.
+        var sep1 = forms[0];
+        Assert.False(sep1.HatNotenblock);
+        Assert.Equal(1, sep1.Jahrgang);
+        Assert.Equal(Halbjahr.Zweites, sep1.GiltFuerHalbjahr);
+        Assert.True(forms[1].HatVersetzungsvermerk);   // SEP verbleiben/versetzen decision
+
+        // Klasse 3/4: 11 grade rows incl. the three Deutsch sub-competencies.
+        var k4hj1 = forms.Single(f => f.Anzeigename == "Klasse 4 – 1. Halbjahr");
+        Assert.True(k4hj1.HatNotenblock);
+        Assert.True(k4hj1.HatBegruendeteEmpfehlung);
+        Assert.False(k4hj1.HatVersetzungsvermerk);
+        Assert.Equal(11, k4hj1.Faecher.Count);
+        Assert.Contains("Sprachgebrauch", k4hj1.Faecher);
+        Assert.Contains("Rechtschreiben", k4hj1.Faecher);
+
+        // Gemeinsames Lernen: zieldifferent, any year, both terms, no grades.
+        var gl = forms[^1];
+        Assert.True(gl.IstZieldifferent);
+        Assert.False(gl.HatNotenblock);
+        Assert.Equal(0, gl.Jahrgang);
+        Assert.Null(gl.GiltFuerHalbjahr);
+    }
+
+    [Fact]
+    public void Suggest_gives_a_zieldifferent_child_the_Gemeinsames_Lernen_form()
+    {
+        var kind = new Kind { Foerderstatus = Foerderstatus.ZieldifferentLernen };
+
+        // SBJ 2, first term — there is no Klasse-2 HJ1 form, but the GL form (Jahrgang 0) fits.
+        var result = FormularSuggester.Suggest(StandardFormulare.All(), kind, 2, Halbjahr.Erstes);
+
+        Assert.Equal("Zeugnis zum Gemeinsamen Lernen", result.Formular!.Anzeigename);
+    }
+
+    [Fact]
+    public void Suggest_never_gives_a_regular_child_the_Jahrgang_zero_form()
+    {
+        var kind = new Kind { Foerderstatus = Foerderstatus.Regel };
+
+        // Regular child, SBJ 2, first term: no form fits (Schuleingangsphase is year-end only).
+        var result = FormularSuggester.Suggest(StandardFormulare.All(), kind, 2, Halbjahr.Erstes);
+
+        Assert.Equal(SuggestionReason.KeinPassendesFormular, result.Reason);
+    }
+
+    [Fact]
     public async Task SuggestAsync_uses_the_childs_Schulbesuchsjahr_over_the_class_year()
     {
         await using var db = new SqliteTestDatabase();

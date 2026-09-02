@@ -12,7 +12,7 @@ public sealed class FormularValidator : AbstractValidator<Formular>
             .MaximumLength(200);
 
         RuleFor(f => f.Jahrgang)
-            .InclusiveBetween(1, 4).WithMessage("Der Jahrgang muss zwischen 1 und 4 liegen.");
+            .InclusiveBetween(0, 4).WithMessage("Der Jahrgang muss zwischen 0 (alle) und 4 liegen.");
 
         RuleFor(f => f.Ueberschrift).MaximumLength(500);
 
