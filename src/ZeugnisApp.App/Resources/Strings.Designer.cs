@@ -185,12 +185,14 @@ public static class Strings
     public static string Floskeln_Empty => Get(nameof(Floskeln_Empty));
     public static string Floskeln_Filter_Bereich => Get(nameof(Floskeln_Filter_Bereich));
     public static string Floskeln_Filter_Stufe => Get(nameof(Floskeln_Filter_Stufe));
+    public static string Floskeln_Filter_Niveau => Get(nameof(Floskeln_Filter_Niveau));
     public static string Floskeln_Filter_Gruppe => Get(nameof(Floskeln_Filter_Gruppe));
     public static string Floskeln_Filter_Search => Get(nameof(Floskeln_Filter_Search));
     public static string Floskeln_Filter_All => Get(nameof(Floskeln_Filter_All));
     public static string Floskeln_Col_Text => Get(nameof(Floskeln_Col_Text));
     public static string Floskeln_Col_Bereich => Get(nameof(Floskeln_Col_Bereich));
     public static string Floskeln_Col_Stufe => Get(nameof(Floskeln_Col_Stufe));
+    public static string Floskeln_Col_Niveau => Get(nameof(Floskeln_Col_Niveau));
     public static string Floskeln_Col_Gruppe => Get(nameof(Floskeln_Col_Gruppe));
     public static string Floskeln_DeleteConfirm_Title => Get(nameof(Floskeln_DeleteConfirm_Title));
     public static string Floskeln_DeleteConfirm_Body => Get(nameof(Floskeln_DeleteConfirm_Body));

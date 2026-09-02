@@ -89,8 +89,10 @@ public sealed class ZeugnisDbContext(DbContextOptions<ZeugnisDbContext> options,
         {
             e.HasKey(x => x.Id);
             e.Property(x => x.Text).HasMaxLength(2000).IsRequired();
+            e.Property(x => x.Kuerzel).HasMaxLength(40);
             e.Property(x => x.Bereich).HasMaxLength(100);
             e.HasIndex(x => new { x.Bereich, x.Stufe, x.Klassengruppe });
+            e.HasIndex(x => x.Kuerzel);
             e.HasQueryFilter(x => x.DeletedUtc == null);
         });
 

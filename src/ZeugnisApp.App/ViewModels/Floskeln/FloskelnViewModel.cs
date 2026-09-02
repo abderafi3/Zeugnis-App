@@ -36,6 +36,7 @@ public sealed partial class FloskelnViewModel(
 
     [ObservableProperty] private string? _selectedBereich;
     [ObservableProperty] private int _stufeFilter;                 // 0 = alle
+    [ObservableProperty] private int _niveauFilter;                // 0 = alle
     [ObservableProperty] private string _searchText = string.Empty;
 
     [ObservableProperty] private string? _pickerResult;
@@ -61,6 +62,7 @@ public sealed partial class FloskelnViewModel(
 
     partial void OnSelectedBereichChanged(string? value) => _ = ReloadAsync();
     partial void OnStufeFilterChanged(int value) => _ = ReloadAsync();
+    partial void OnNiveauFilterChanged(int value) => _ = ReloadAsync();
     partial void OnSearchTextChanged(string value) => _ = ReloadAsync();
 
     /// <summary>The currently filtered category, or null when "all" is selected.</summary>
@@ -78,6 +80,7 @@ public sealed partial class FloskelnViewModel(
         var filter = new FloskelFilter(
             Bereich: ActiveBereich,
             Stufe: StufeFilter == 0 ? null : StufeFilter,
+            Niveau: NiveauFilter == 0 ? null : NiveauFilter,
             SearchText: string.IsNullOrWhiteSpace(SearchText) ? null : SearchText);
 
         List<FloskelRowViewModel> neu;
@@ -115,9 +118,10 @@ public sealed partial class FloskelnViewModel(
             var floskel = new Floskel
             {
                 Text = "[Name] …",
-                // Follow the active filter: "alle" -> empty Bereich / Stufe 0 = gilt für alle.
+                // Follow the active filter: "alle" -> empty Bereich / Stufe 0 / Niveau 0 = gilt für alle.
                 Bereich = ActiveBereich ?? string.Empty,
                 Stufe = StufeFilter,
+                Niveau = NiveauFilter,
                 Klassengruppe = Klassengruppe.Beide,
             };
             await service.SaveAsync(floskel);
@@ -186,6 +190,13 @@ public sealed partial class FloskelRowViewModel(
         // 0 = "gilt für alle Jahrgänge".
         get => floskel.Stufe;
         set => SetField(floskel.Stufe, Math.Clamp(value, 0, 4), v => floskel.Stufe = v);
+    }
+
+    public int Niveau
+    {
+        // 0 = "neutral / ohne Differenzierung".
+        get => floskel.Niveau;
+        set => SetField(floskel.Niveau, Math.Clamp(value, 0, 5), v => floskel.Niveau = v);
     }
 
     public Klassengruppe Klassengruppe

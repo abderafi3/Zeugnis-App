@@ -25,25 +25,46 @@ public static class ImportProfiles
             Looks: ImportValueParser.LooksLikeGeschlecht),
     ]);
 
-    /// <summary>Phrase-library import (plan §Sprint 4): text + Bereich required, Stufe/Klassengruppe optional.</summary>
+    /// <summary>
+    /// Phrase-library import (plan §Sprint 4). Only <c>Text</c> is required; the school's real file
+    /// carries <c>Kürzel · Floskeltext · Gruppe · Fach · Niveau · Jahrgang</c>, where Bereich is
+    /// derived from <c>Gruppe</c> + <c>Fach</c> and Klassengruppe from <c>Jahrgang</c>.
+    /// </summary>
     public static ImportProfile Floskeln { get; } = new("Floskeln",
     [
         new ImportField(
             ImportFieldKeys.FloskelText, "Text", Required: true,
-            HeaderAliases: ["text", "floskel", "formulierung", "baustein", "satz", "inhalt"]),
+            HeaderAliases: ["text", "floskeltext", "floskel", "formulierung", "baustein", "satz", "inhalt"]),
 
         new ImportField(
-            ImportFieldKeys.FloskelBereich, "Bereich", Required: true,
-            HeaderAliases: ["bereich", "kategorie", "fach", "thema", "category"]),
+            ImportFieldKeys.FloskelKuerzel, "Kürzel", Required: false,
+            HeaderAliases: ["kürzel", "kuerzel", "kennung", "kennziffer", "id", "nr", "nr.", "nummer", "code"]),
 
         new ImportField(
-            ImportFieldKeys.FloskelStufe, "Stufe", Required: false,
-            HeaderAliases: ["stufe", "jahrgang", "klassenstufe", "klasse", "jg"],
+            ImportFieldKeys.FloskelBereich, "Bereich", Required: false,
+            HeaderAliases: ["bereich", "kategorie", "thema", "category"]),
+
+        new ImportField(
+            ImportFieldKeys.FloskelGruppe, "Gruppe", Required: false,
+            HeaderAliases: ["gruppe", "gruppierung", "art", "typ"]),
+
+        new ImportField(
+            ImportFieldKeys.FloskelFach, "Fach", Required: false,
+            HeaderAliases: ["fach", "unterrichtsfach", "lernbereich", "fachbereich"]),
+
+        new ImportField(
+            ImportFieldKeys.FloskelNiveau, "Niveau", Required: false,
+            HeaderAliases: ["niveau", "level", "differenzierung", "anforderungsniveau"],
+            Looks: ImportValueParser.LooksLikeNiveau),
+
+        new ImportField(
+            ImportFieldKeys.FloskelStufe, "Stufe / Jahrgang", Required: false,
+            HeaderAliases: ["stufe", "jahrgang", "klassenstufe", "klasse", "jg", "schulbesuchsjahr", "sbj"],
             Looks: ImportValueParser.LooksLikeStufe),
 
         new ImportField(
             ImportFieldKeys.FloskelKlassengruppe, "Klassengruppe", Required: false,
-            HeaderAliases: ["klassengruppe", "gruppe", "e/f", "eingangsstufe", "stufengruppe"],
+            HeaderAliases: ["klassengruppe", "e/f", "eingangsstufe", "stufengruppe", "band"],
             Looks: ImportValueParser.LooksLikeKlassengruppe),
     ]);
 }

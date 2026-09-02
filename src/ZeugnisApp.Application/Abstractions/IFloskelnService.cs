@@ -31,6 +31,7 @@ public interface IFloskelnService
 public sealed record FloskelFilter(
     string? Bereich = null,
     int? Stufe = null,
+    int? Niveau = null,
     Klassengruppe? Klassengruppe = null,
     string? SearchText = null);
 

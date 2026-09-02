@@ -155,8 +155,15 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Kuerzel")
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("ModifiedUtc")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Niveau")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Stufe")
                         .HasColumnType("INTEGER");
@@ -170,6 +177,8 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Kuerzel");
 
                     b.HasIndex("Bereich", "Stufe", "Klassengruppe");
 
@@ -380,6 +389,10 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Schulleitung")
                         .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Schulnummer")
                         .HasMaxLength(4000)
                         .HasColumnType("TEXT");
 

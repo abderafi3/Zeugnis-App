@@ -36,8 +36,8 @@ public sealed class ReportGenerationEndToEndTests : IDisposable
                 Vorname = "Erika", Nachname = "Mustermann", Geschlecht = Geschlecht.Weiblich,
                 Geburtsdatum = new DateOnly(2018, 6, 14), Klasse = klasse,
             };
-            var settings = new SchoolSettings { Id = SchoolSettings.WellKnownId, Name = "Grundschule Wehringhausen", Schulleitung = "Frau Dr. Schulz" };
-            ctx.AddRange(klasse, kind, settings);
+            // SchoolSettings is seeded by DatabaseInitializer (school identity) — no need to add one here.
+            ctx.AddRange(klasse, kind);
             await ctx.SaveChangesAsync();
             kindId = kind.Id;
         }

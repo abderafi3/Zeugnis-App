@@ -140,11 +140,16 @@ public sealed class EditorOpenReproTests : IAsyncDisposable
         await vm.InitializeAsync();
 
         var sozialfeld = vm.Freitexte.First(f => f.Label.Contains("Sozialverhalten", StringComparison.Ordinal));
-        Assert.Equal(2, sozialfeld.Vorschlaege.Count);
-        Assert.Equal("Lena ist stets hilfsbereit.", sozialfeld.Vorschlaege[0].VollText);   // most used first, placeholders resolved
+        // The seeded phrase library also contributes here, so assert on order, not exact count:
+        // the two phrases used in this test come first, most-used before less-used, placeholders resolved.
+        var soziale = sozialfeld.Vorschlaege.Select(v => v.VollText).ToList();
+        Assert.Equal("Lena ist stets hilfsbereit.", soziale[0]);
+        Assert.Equal("Lena arbeitet selbstständig.", soziale[1]);
 
+        // The Sozialverhalten phrases must not leak into the Bemerkungen field.
         var bemerkungen = vm.Freitexte.First(f => f.Label == "Bemerkungen");
-        Assert.Empty(bemerkungen.Vorschlaege);
+        Assert.DoesNotContain("Lena ist stets hilfsbereit.", bemerkungen.Vorschlaege.Select(v => v.VollText));
+        Assert.DoesNotContain("Lena arbeitet selbstständig.", bemerkungen.Vorschlaege.Select(v => v.VollText));
     }
 
     public async ValueTask DisposeAsync()

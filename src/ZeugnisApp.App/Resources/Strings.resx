@@ -209,19 +209,21 @@
 
   <!-- ================= Floskeln ================= -->
   <data name="Floskeln_Title"><value>Floskeln-Bibliothek</value></data>
-  <data name="Floskeln_Intro"><value>Textbausteine mit Platzhaltern [Name], [er/sie], [sein/ihr] … Diese werden pro Kind aufgelöst. Bereich leer lassen = gilt für alle Bereiche; Stufe „alle“ = gilt für alle Jahrgänge.</value></data>
+  <data name="Floskeln_Intro"><value>Textbausteine mit Platzhaltern – entweder [Name], [er/sie], [sein/ihr] … oder die Schreibweise der Schule $Vorname$ und &amp;Er%Sie&amp; / &amp;seine/ihre&amp;. Diese werden pro Kind aufgelöst. Bereich leer lassen = gilt für alle Bereiche; Stufe „alle“ = gilt für alle Jahrgänge; Niveau „alle“ = ohne Differenzierung.</value></data>
   <data name="Floskeln_New"><value>Neue Floskel</value></data>
   <data name="Floskeln_Import"><value>Aus Excel importieren</value></data>
   <data name="Floskeln_TestPicker"><value>Auswahl testen</value></data>
   <data name="Floskeln_Empty"><value>Keine Floskeln gefunden.</value></data>
   <data name="Floskeln_Filter_Bereich"><value>Bereich</value></data>
   <data name="Floskeln_Filter_Stufe"><value>Stufe</value></data>
+  <data name="Floskeln_Filter_Niveau"><value>Niveau</value></data>
   <data name="Floskeln_Filter_Gruppe"><value>Klassengruppe</value></data>
   <data name="Floskeln_Filter_Search"><value>Suchen …</value></data>
   <data name="Floskeln_Filter_All"><value>alle</value></data>
   <data name="Floskeln_Col_Text"><value>Text</value></data>
   <data name="Floskeln_Col_Bereich"><value>Bereich</value></data>
   <data name="Floskeln_Col_Stufe"><value>Stufe</value></data>
+  <data name="Floskeln_Col_Niveau"><value>Niveau</value></data>
   <data name="Floskeln_Col_Gruppe"><value>Gruppe</value></data>
   <data name="Floskeln_DeleteConfirm_Title"><value>Floskel löschen?</value></data>
   <data name="Floskeln_DeleteConfirm_Body"><value>Die Floskel wird in den Papierkorb verschoben.</value></data>

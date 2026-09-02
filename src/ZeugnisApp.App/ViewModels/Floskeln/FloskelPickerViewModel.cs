@@ -36,6 +36,7 @@ public sealed partial class FloskelPickerViewModel(IFloskelnService service) : O
 
     [ObservableProperty] private string? _selectedBereich;
     [ObservableProperty] private int _stufeFilter;             // 0 = alle
+    [ObservableProperty] private int _niveauFilter;            // 0 = alle
     [ObservableProperty] private string _searchText = string.Empty;
 
     public string PreviewText => SelectedFloskel is null
@@ -59,6 +60,7 @@ public sealed partial class FloskelPickerViewModel(IFloskelnService service) : O
 
     partial void OnSelectedBereichChanged(string? value) => _ = ReloadAsync();
     partial void OnStufeFilterChanged(int value) => _ = ReloadAsync();
+    partial void OnNiveauFilterChanged(int value) => _ = ReloadAsync();
     partial void OnSearchTextChanged(string value) => _ = ReloadAsync();
 
     private async Task ReloadAsync()
@@ -66,6 +68,7 @@ public sealed partial class FloskelPickerViewModel(IFloskelnService service) : O
         var filter = new FloskelFilter(
             Bereich: string.IsNullOrEmpty(SelectedBereich) || SelectedBereich == Strings.Floskeln_Filter_All ? null : SelectedBereich,
             Stufe: StufeFilter == 0 ? null : StufeFilter,
+            Niveau: NiveauFilter == 0 ? null : NiveauFilter,
             SearchText: string.IsNullOrWhiteSpace(SearchText) ? null : SearchText);
 
         Floskeln.Clear();

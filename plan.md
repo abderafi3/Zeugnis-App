@@ -87,10 +87,10 @@ Key architectural principles:
 
 | Entity | Key Fields | Notes |
 |---|---|---|
-| **SchoolSettings** | Name, Zusatzbezeichnung, Adresse, Schulleitung, Schuljahr, Halbjahr, Zeugnisausgabedatum, Konferenzdatum, Datum Unterrichts-Wiederbeginn | Singleton row |
-| **Klasse** | Name, Jahrgang (1–4), Klassenleitung, Zeugnisdatum (nullable → falls back to SchoolSettings), Wochenstundenplan (Mo–Fr) | Cascade-deletes Kinder/Fehlzeiten/Zeugnisse with confirmation |
-| **Kind (Student)** | Vorname, Nachname, Geburtsdatum, Geschlecht (m / w / d), KlasseId, Förderstatus (enum: Regel / zielgleich / zieldifferent-Lernen / zieldifferent-GE), Förderschwerpunkt (Freitext), ManuellesFormularId (nullable) | Drives auto-template-suggestion logic. `Geschlecht = d` ("divers") has no grammatical pronoun form — the placeholder engine (§ Sprint 4) must have a defined fallback (default: repeat the child's name instead of a pronoun; configurable). **Open question for the school.** |
-| **Floskel (Phrase)** | Text, Bereich (enum/category), Stufe (1–4), Klassengruppe (E/F/beide) | Text stores `[Name]`, `[sein/ihr]` placeholders |
+| **SchoolSettings** | Name, Zusatzbezeichnung, Adresse, **Schulnummer**, Schulleitung, Schuljahr, Halbjahr, Zeugnisausgabedatum, Konferenzdatum, Datum Unterrichts-Wiederbeginn | Singleton row. Pre-seeded on first run with Grundschule Wehringhausen's identity (Schulnummer 100189, Minervastr. 37, 58089 Hagen, Schulleitung J. Rohn). |
+| **Klasse** | Name, Jahrgang (1–4), Klassenleitung, Zeugnisdatum (nullable → falls back to SchoolSettings), Wochenstundenplan (Mo–Fr) | Cascade-deletes Kinder/Fehlzeiten/Zeugnisse with confirmation. **Note (real data):** the school runs jahrgangsübergreifende Klassen (E1, E2, E3, F1 …) that mix Schulbesuchsjahr 1–4; a `Schulbesuchsjahr` on **Kind** drives phrase/template choice. Model change scheduled after the data-alignment foundation pass. |
+| **Kind (Student)** | Vorname, Nachname, Geburtsdatum, Geschlecht (m / w / d), KlasseId, Förderstatus (enum: Regel / zielgleich / zieldifferent-Lernen / zieldifferent-GE), Förderschwerpunkt (Freitext), ManuellesFormularId (nullable) | Drives auto-template-suggestion logic. `Geschlecht = d` ("divers") has no grammatical pronoun form — the placeholder engine (§ Sprint 4) falls back to repeating the child's name for every placeholder (app `[…]` and school `&m%w&` alike). **Open question for the school** — the school's real phrase file has only m/w. |
+| **Floskel (Phrase)** | Text, Kürzel (school's stable id, e.g. `#D11.00` — de-dupes re-import), Bereich (free text), Stufe (1–4, 0 = alle), **Niveau (1–5 differentiation level, 0 = neutral)**, Klassengruppe (E/F/beide) | Text stores placeholders in either the app syntax (`[Name]`, `[sein/ihr]`) or the school's native syntax (`$Vorname$` / `$VORNAME$`, `&Er%Sie&`, `&seine/ihre&`, `&Pate%Patin&`) — both resolved by the placeholder engine. Grundschule Wehringhausen's real ~2 300-phrase file is bundled and seeded on first run. |
 | **Formular (Template)** | Anzeigename, Überschrift, Fächerliste, Freitextfelder (name + Hinweistext), Schalter: Notenblock, begründeteEmpfehlung, Versetzungsvermerk, zieldifferent, WordFilePath, FieldMappingJson | `FieldMappingJson` = mapping of app fields → Content Control tags, populated in Sprint 6/10 |
 | **Fehlzeit (Absence)** | KindId, Schuljahr/Halbjahr, StundenGesamt, StundenUnentschuldigt | Simple table variant; calendar variant modeled but unlinked in UI |
 | **Zeugnis (ReportCard)** | KindId, FormularId, Schuljahr, Halbjahr, Freitexte (per field), Noten (per Fach), Empfehlung + Begründung, Fehlstunden (copied, editable), Versetzungsvermerk-Text, Bemerkungen, Fertiggestellt (bool), GeneratedFilePath (nullable) | Central transactional entity. **Unique constraint** on (KindId, FormularId, Schuljahr, Halbjahr) — one report card per child per form per term. |
@@ -272,10 +272,13 @@ Assumptions: **2-week sprints**, a small team (1–2 developers + part-time teac
 - **DoD**: A real school Excel class list imports correctly end-to-end, including at least one deliberately messy file.
 
 ### Sprint 4 — Floskeln
-- Floskeln CRUD (Bereich, Stufe, Klassengruppe), filterable/searchable library screen.
-- Placeholder engine: `[Name]`, `[sein/ihr]` resolution based on the student's Geschlecht, with the "first sentence gets the real name, later sentences get pronouns" rule. For `Geschlecht = d` ("divers") there is no pronoun form — the engine falls back to repeating the name (behaviour configurable); confirm the desired rule with the school.
+- Floskeln CRUD (Bereich, Stufe, Niveau, Klassengruppe), filterable/searchable library screen.
+- Placeholder engine — two syntaxes side by side:
+  - App syntax: `[Name]`, `[sein/ihr]` etc., resolved from the student's Geschlecht, with the "first sentence gets the real name, later sentences get pronouns" rule.
+  - **School syntax** (Grundschule Wehringhausen's real phrase file): `$Vorname$` (`$VORNAME$` / `$vorname$` control the casing) and a generic gender pair `&maskulin%feminin&` or `&maskulin/feminin&` — the chosen side is emitted verbatim, capitalised at sentence start.
+  - For `Geschlecht = d` ("divers") there is no pronoun form — the engine falls back to repeating the name for every placeholder; confirm the desired rule with the school.
 - Floskel-picker dialog with live preview (usable standalone in this sprint; wired into the Zeugnis-Editor in Sprint 8).
-- Excel bulk import of phrases, reusing the Sprint 3 pipeline with a different column set.
+- Excel bulk import of phrases, reusing the Sprint 3 pipeline. Understands the school's real six-column layout (`Kürzel · Floskeltext · Gruppe · Fach · Niveau · Jahrgang`): Bereich is derived from Gruppe+Fach, Klassengruppe from the Jahrgang, and re-import de-dupes on Kürzel. The full file is also bundled and seeded on first run.
 - **DoD**: A teacher can build and search a phrase library and see an accurate live preview of name/pronoun substitution.
 
 ### Sprint 5 — Formulare (Metadata)

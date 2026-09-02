@@ -11,8 +11,12 @@ public static class ImportFieldKeys
 
     // Floskeln import
     public const string FloskelText = "text";
+    public const string FloskelKuerzel = "kuerzel";
     public const string FloskelBereich = "bereich";
+    public const string FloskelGruppe = "gruppe";
+    public const string FloskelFach = "fach";
     public const string FloskelStufe = "stufe";
+    public const string FloskelNiveau = "niveau";
     public const string FloskelKlassengruppe = "klassengruppe";
 }
 

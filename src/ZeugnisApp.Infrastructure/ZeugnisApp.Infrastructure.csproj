@@ -15,6 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Grundschule Wehringhausen's real phrase library, seeded once on first run. -->
+    <EmbeddedResource Include="Persistence\SeedData\floskeln.tsv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <!-- SQLCipher stack (plan §2 / §Sprint 11, proven by Spike.SqlCipher):
          the *.Core packages + the SQLCipher native bundle, never the plain Sqlite meta-package. -->
