@@ -266,6 +266,7 @@ public static class Strings
     public static string Feld_Schule_Schuljahr => Get(nameof(Feld_Schule_Schuljahr));
     public static string Feld_Schule_Halbjahr => Get(nameof(Feld_Schule_Halbjahr));
     public static string Feld_Schule_Konferenzdatum => Get(nameof(Feld_Schule_Konferenzdatum));
+    public static string Feld_Schule_Wiederbeginn => Get(nameof(Feld_Schule_Wiederbeginn));
     public static string Feld_Klasse_Name => Get(nameof(Feld_Klasse_Name));
     public static string Feld_Klasse_Leitung => Get(nameof(Feld_Klasse_Leitung));
     public static string Feld_Klasse_Zeugnisdatum => Get(nameof(Feld_Klasse_Zeugnisdatum));
@@ -334,6 +335,7 @@ public static class Strings
     public static string ZeugnisEditor_Kopf_Geburtsdatum => Get(nameof(ZeugnisEditor_Kopf_Geburtsdatum));
     public static string ZeugnisEditor_Kopf_Zeugnisdatum => Get(nameof(ZeugnisEditor_Kopf_Zeugnisdatum));
     public static string ZeugnisEditor_Kopf_Konferenzdatum => Get(nameof(ZeugnisEditor_Kopf_Konferenzdatum));
+    public static string ZeugnisEditor_Kopf_Wiederbeginn => Get(nameof(ZeugnisEditor_Kopf_Wiederbeginn));
     public static string ZeugnisEditor_InsertFloskel => Get(nameof(ZeugnisEditor_InsertFloskel));
     public static string ZeugnisEditor_HaeufigGenutzt => Get(nameof(ZeugnisEditor_HaeufigGenutzt));
     public static string ZeugnisEditor_HaeufigGenutzt_Hint => Get(nameof(ZeugnisEditor_HaeufigGenutzt_Hint));

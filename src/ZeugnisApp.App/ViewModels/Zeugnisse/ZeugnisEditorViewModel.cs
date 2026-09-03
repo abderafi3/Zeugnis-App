@@ -63,6 +63,9 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     public string? KopfKonferenzdatum => _formular.HatVersetzungsvermerk || _formular.HatBegruendeteEmpfehlung
         ? FormatDate(_schule.Konferenzdatum)
         : null;
+    public string? KopfWiederbeginn => _schule.DatumUnterrichtsWiederbeginn is { } d
+        ? d.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+        : null;
 
     private SchoolSettings _schule = new();
 

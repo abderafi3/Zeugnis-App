@@ -46,10 +46,15 @@
                                        Text="{x:Static res:Strings.ZeugnisEditor_Kopf_Zeugnisdatum}" />
                             <TextBlock Text="{Binding KopfZeugnisdatum}" />
                         </StackPanel>
-                        <StackPanel Visibility="{Binding KopfKonferenzdatum, Converter={StaticResource NullToCollapsed}}">
+                        <StackPanel Margin="0,0,28,0" Visibility="{Binding KopfKonferenzdatum, Converter={StaticResource NullToCollapsed}}">
                             <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                        Text="{x:Static res:Strings.ZeugnisEditor_Kopf_Konferenzdatum}" />
                             <TextBlock Text="{Binding KopfKonferenzdatum}" />
+                        </StackPanel>
+                        <StackPanel Visibility="{Binding KopfWiederbeginn, Converter={StaticResource NullToCollapsed}}">
+                            <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Static res:Strings.ZeugnisEditor_Kopf_Wiederbeginn}" />
+                            <TextBlock Text="{Binding KopfWiederbeginn}" />
                         </StackPanel>
                     </StackPanel>
                 </Border>

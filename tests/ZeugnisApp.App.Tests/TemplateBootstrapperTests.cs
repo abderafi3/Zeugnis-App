@@ -105,6 +105,35 @@ public sealed class TemplateBootstrapperTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task An_outdated_bundled_template_is_re_synced_on_the_next_run()
+    {
+        var formulare = _sp.GetRequiredService<IFormulareService>();
+        var bootstrapper = new TemplateBootstrapper(formulare);
+
+        await bootstrapper.EnsureTemplatesAsync();
+
+        var item = (await formulare.GetAllAsync()).First(f => f.Anzeigename == "Klasse 3 – 1. Halbjahr");
+        var linked = (await formulare.GetAsync(item.Id))!.WordFilePath!;
+        _writtenTemplates.Add(linked);
+
+        // Simulate a previous app version: an older template file still sits at the bundled path,
+        // and the stored mapping predates a later value key.
+        var current = await File.ReadAllBytesAsync(linked);
+        await File.WriteAllBytesAsync(linked, [.. current, 0x00]);
+        var stale = await formulare.GetAsync(item.Id);
+        stale!.FieldMappingJson = "{}";
+        await formulare.SaveAsync(stale);
+
+        await bootstrapper.EnsureTemplatesAsync(); // second pass re-syncs it
+
+        var restored = await File.ReadAllBytesAsync(linked);
+        Assert.Equal(current.Length, restored.Length);           // the padding byte is gone
+        var reloaded = await formulare.GetAsync(item.Id);
+        Assert.Equal(linked, reloaded!.WordFilePath);
+        Assert.Equal("StudentName", FieldMapping.FromJson(reloaded.FieldMappingJson).TagFor(ValueKeys.KindName));
+    }
+
+    [Fact]
     public async Task A_custom_form_falls_back_to_a_generated_placeholder()
     {
         var formulare = _sp.GetRequiredService<IFormulareService>();

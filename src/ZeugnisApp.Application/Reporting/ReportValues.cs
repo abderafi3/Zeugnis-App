@@ -27,6 +27,7 @@ public static class ReportValues
             string.IsNullOrWhiteSpace(r.Zeugnis.Schuljahr) ? r.Schule.Schuljahr : r.Zeugnis.Schuljahr);
         Put(ValueKeys.SchuleHalbjahr, r.Zeugnis.Halbjahr == Halbjahr.Erstes ? "1. Halbjahr" : "2. Halbjahr");
         Put(ValueKeys.SchuleKonferenzdatum, FormatDate(r.Schule.Konferenzdatum));
+        Put(ValueKeys.SchuleWiederbeginn, FormatDate(r.Schule.DatumUnterrichtsWiederbeginn));
 
         Put(ValueKeys.KlasseName, r.Klasse.Name);
         Put(ValueKeys.KlasseLeitung, r.Klasse.Klassenleitung);
