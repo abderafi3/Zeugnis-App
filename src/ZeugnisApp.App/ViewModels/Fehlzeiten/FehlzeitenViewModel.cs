@@ -7,6 +7,7 @@ using Serilog;
 using ZeugnisApp.App.Resources;
 using ZeugnisApp.App.Services;
 using ZeugnisApp.App.ViewModels.Import;
+using ZeugnisApp.App.ViewModels.Klassen;
 using ZeugnisApp.App.Views.Import;
 using ZeugnisApp.Application;
 using ZeugnisApp.Application.Abstractions;
@@ -24,7 +25,7 @@ public sealed partial class FehlzeitenViewModel(
     ISchoolSettingsService settingsService,
     ISaveStatusService saveStatus,
     ImportServices import)
-    : ViewModelBase
+    : ViewModelBase, IAsyncFlushable
 {
     private string _schuljahr = string.Empty;
     private Halbjahr _halbjahr = Halbjahr.Erstes;
@@ -118,6 +119,9 @@ public sealed partial class FehlzeitenViewModel(
         OnPropertyChanged(nameof(IsEmpty));
     }
 
+    /// <summary>Persist any pending row edits before the screen is left (autosave is debounced).</summary>
+    public Task FlushAsync() => Task.WhenAll(Rows.Select(r => r.FlushAsync()));
+
     private bool CanImportieren() => SelectedKlasse is not null;
 
     /// <summary>
@@ -156,6 +160,7 @@ public sealed partial class FehlzeitRowViewModel : ObservableObject
     private readonly IFehlzeitenService _service;
     private readonly ISaveStatusService _saveStatus;
     private readonly AutosaveDebouncer _autosave = new();
+    private bool _dirty;
 
     public FehlzeitRowViewModel(FehlzeitZeile zeile, string schuljahr, Halbjahr halbjahr,
         IFehlzeitenService service, ISaveStatusService saveStatus)
@@ -173,19 +178,23 @@ public sealed partial class FehlzeitRowViewModel : ObservableObject
 
     public string AnzeigeName { get; }
 
+    // Nullable so the NumberBox can be cleared mid-edit without a binding failure; treated as 0.
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IstGueltig), nameof(ErrorText))]
-    private int _gesamt;
+    private int? _gesamt;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IstGueltig), nameof(ErrorText))]
-    private int _unentschuldigt;
+    private int? _unentschuldigt;
 
-    public bool IstGueltig => Gesamt >= 0 && Unentschuldigt >= 0 && Unentschuldigt <= Gesamt;
+    private int GesamtWert => Gesamt ?? 0;
+    private int UnentschuldigtWert => Unentschuldigt ?? 0;
+
+    public bool IstGueltig => GesamtWert >= 0 && UnentschuldigtWert >= 0 && UnentschuldigtWert <= GesamtWert;
     public string ErrorText => IstGueltig ? string.Empty : Strings.Fehlzeiten_Error;
 
-    partial void OnGesamtChanged(int value) => OnEdited();
-    partial void OnUnentschuldigtChanged(int value) => OnEdited();
+    partial void OnGesamtChanged(int? value) => OnEdited();
+    partial void OnUnentschuldigtChanged(int? value) => OnEdited();
 
     private void OnEdited()
     {
@@ -195,15 +204,20 @@ public sealed partial class FehlzeitRowViewModel : ObservableObject
             return;
         }
 
+        _dirty = true;
         _saveStatus.MarkDirty();
         _autosave.Bump();
     }
+
+    /// <summary>Save now if there is a valid pending edit (called on navigate-away).</summary>
+    public Task FlushAsync() => _dirty && IstGueltig ? _autosave.FlushAsync() : Task.CompletedTask;
 
     private async Task SaveAsync()
     {
         try
         {
-            await _service.SaveAsync(_kindId, _schuljahr, _halbjahr, Gesamt, Unentschuldigt);
+            await _service.SaveAsync(_kindId, _schuljahr, _halbjahr, GesamtWert, UnentschuldigtWert);
+            _dirty = false;
             _saveStatus.MarkSaved();
         }
         catch (EntityValidationException)

@@ -3,6 +3,7 @@ using Serilog;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 using ZeugnisApp.App.ViewModels;
+using ZeugnisApp.App.ViewModels.Klassen;
 using ZeugnisApp.App.Views;
 
 namespace ZeugnisApp.App;
@@ -10,6 +11,7 @@ namespace ZeugnisApp.App;
 public partial class MainWindow : FluentWindow
 {
     private readonly IServiceProvider _serviceProvider;
+    private ViewModelBase? _currentPageViewModel;
 
     public MainWindow(
         MainWindowViewModel viewModel,
@@ -35,7 +37,22 @@ public partial class MainWindow : FluentWindow
     /// </summary>
     private async void OnNavigated(NavigationView sender, NavigatedEventArgs args)
     {
-        if (args.Page is FrameworkElement { DataContext: ViewModelBase vm })
+        // Persist any buffered/debounced edits on the page we are leaving (e.g. the Fehlzeiten table).
+        if (_currentPageViewModel is IAsyncFlushable flushable)
+        {
+            try
+            {
+                await flushable.FlushAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Fehler beim Speichern der vorherigen Seite");
+            }
+        }
+
+        _currentPageViewModel = (args.Page as FrameworkElement)?.DataContext as ViewModelBase;
+
+        if (_currentPageViewModel is { } vm)
         {
             try
             {
