@@ -279,6 +279,7 @@ Assumptions: **2-week sprints**, a small team (1–2 developers + part-time teac
   - For `Geschlecht = d` ("divers") there is no pronoun form — the engine falls back to repeating the name for every placeholder; confirm the desired rule with the school.
 - Floskel-picker dialog with live preview (usable standalone in this sprint; wired into the Zeugnis-Editor in Sprint 8).
 - Excel bulk import of phrases, reusing the Sprint 3 pipeline. Understands the school's real six-column layout (`Kürzel · Floskeltext · Gruppe · Fach · Niveau · Jahrgang`): Bereich is derived from Gruppe+Fach, Klassengruppe from the Jahrgang, and re-import de-dupes on Kürzel. The full file is also bundled and seeded on first run.
+- **Slash-choice split** (`FloskelVariantExpander`, used by both the seed and the import): a phrase that packs a graded pick-one scale into slashes — `(oft/meist/teilweise)` or `freudig/oft/teilweise` — becomes one Floskel per combination (cartesian product), Kürzel suffixed a/b/c. Only parenthesised groups and tight runs of ≥3 single lower-case words are split, so gender pairs (`sie/er`), compound terms (`Wörterbuch/PC`) and spaced multi-word runs are left intact.
 - **DoD**: A teacher can build and search a phrase library and see an accurate live preview of name/pronoun substitution.
 
 ### Sprint 5 — Formulare (Metadata)
@@ -297,9 +298,10 @@ Assumptions: **2-week sprints**, a small team (1–2 developers + part-time teac
 
 ### Sprint 7 — Fehlzeiten
 - Fehlzeiten-Tabelle per class (Stunden gesamt / unentschuldigt), inline validation.
-- Auto-transfer of current absence totals into newly created Zeugnisse, editable afterward.
+- **Fehlzeiten import** ("Fehlzeiten importieren …" on the Fehlzeiten screen): the shared import wizard on an absence profile, reading the school's SchILD *Schüler-Abwesenheit – Zusammenfassung* PDF (`PdfTableReader`, PdfPig — rebuilds rows/columns from word positions, rejoins two-line names) or an Excel sheet. Each row's name is matched onto a child already in the class ("Vorname Nachname" / "Nachname, Vorname"); unmatched names are listed back, never created. Only *Fehlstunden gesamt* is imported (the export has no excused split); *unentschuldigt* stays a manual entry and is preserved.
+- A report **mirrors** the class table: `GetOrCreateAsync` re-pulls the current totals every time the editor opens, until the teacher edits the numbers on that report (`Zeugnis.FehlstundenManuellUeberschrieben` then pins them). Fixes absences entered/imported *after* a report was first created never showing up.
 - Calendar-based absence data model implemented and unit-tested but intentionally left unlinked from the menu, exactly as specified.
-- **DoD**: Absence numbers entered once flow correctly into new report cards and can still be corrected per report.
+- **DoD**: Absence numbers entered or imported flow into report cards (new and existing) and can still be pinned per report.
 
 ### Sprint 8 — Zeugnis-Editor
 - Full dynamic editor: fields shown depend on the selected Formular's switches (Notenblock, Empfehlung+Begründung, Versetzungsvermerk, zieldifferent).
