@@ -7,12 +7,12 @@ namespace ZeugnisApp.Reporting.Tests;
 
 public class ReportValuesTests
 {
-    private static ReportRenderRequest Request(Zeugnis zeugnis) => new(
+    private static ReportRenderRequest Request(Zeugnis zeugnis, SchoolSettings? schule = null) => new(
         zeugnis,
         new Kind { Vorname = "Erika", Nachname = "Mustermann" },
         new Klasse { Name = "F1", Jahrgang = 3 },
         new Formular { Anzeigename = "Klasse 3 – Schuljahresende" },
-        new SchoolSettings { Name = "GS Wehringhausen" });
+        schule ?? new SchoolSettings { Name = "GS Wehringhausen" });
 
     [Fact]
     public void Versetzungsvermerk_is_folded_into_the_Bemerkungen_value()
@@ -69,5 +69,25 @@ public class ReportValuesTests
 
         Assert.Equal("gut", values[ValueKeys.Note("Deutsch Sprachgebrauch")]);
         Assert.Equal("Text.", values[ValueKeys.Freitext("Lernentwicklung (Teil 1)")]);
+    }
+
+    [Fact]
+    public void Konferenzdatum_comes_from_school_settings()
+    {
+        var values = ReportValues.Build(Request(
+            new Zeugnis { Schuljahr = "2026/27", Halbjahr = Halbjahr.Zweites },
+            new SchoolSettings { Name = "GS", Konferenzdatum = new DateOnly(2027, 1, 20) }));
+
+        Assert.Equal("20.01.2027", values[ValueKeys.SchuleKonferenzdatum]);
+    }
+
+    [Fact]
+    public void Schuljahr_falls_back_to_the_school_wide_value_when_the_report_has_none()
+    {
+        var values = ReportValues.Build(Request(
+            new Zeugnis { Schuljahr = "", Halbjahr = Halbjahr.Erstes },
+            new SchoolSettings { Name = "GS", Schuljahr = "2026/27" }));
+
+        Assert.Equal("2026/27", values[ValueKeys.SchuleSchuljahr]);
     }
 }

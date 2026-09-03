@@ -300,6 +300,7 @@
   <data name="Feld_Schule_Leitung"><value>Schulleitung</value></data>
   <data name="Feld_Schule_Schuljahr"><value>Schuljahr</value></data>
   <data name="Feld_Schule_Halbjahr"><value>Halbjahr</value></data>
+  <data name="Feld_Schule_Konferenzdatum"><value>Konferenzdatum</value></data>
   <data name="Feld_Klasse_Name"><value>Klassenname</value></data>
   <data name="Feld_Klasse_Leitung"><value>Klassenleitung</value></data>
   <data name="Feld_Klasse_Zeugnisdatum"><value>Zeugnisdatum</value></data>
@@ -363,6 +364,12 @@
   <data name="ZeugnisEditor_Begruendung"><value>Begründung</value></data>
   <data name="ZeugnisEditor_Fehlstunden_Gesamt"><value>Stunden gesamt</value></data>
   <data name="ZeugnisEditor_Fehlstunden_Unentschuldigt"><value>davon unentschuldigt</value></data>
+  <data name="ZeugnisEditor_Fehlstunden_Hint"><value>Wird aus der Fehlzeiten-Tabelle übernommen. Zum Ändern dort bearbeiten.</value></data>
+  <data name="ZeugnisEditor_Kopf_Klasse"><value>Klasse</value></data>
+  <data name="ZeugnisEditor_Kopf_Schuljahr"><value>Schuljahr</value></data>
+  <data name="ZeugnisEditor_Kopf_Geburtsdatum"><value>Geburtsdatum</value></data>
+  <data name="ZeugnisEditor_Kopf_Zeugnisdatum"><value>Zeugnisdatum</value></data>
+  <data name="ZeugnisEditor_Kopf_Konferenzdatum"><value>Konferenzdatum</value></data>
   <data name="ZeugnisEditor_InsertFloskel"><value>Floskel einfügen</value></data>
   <data name="ZeugnisEditor_HaeufigGenutzt"><value>Häufig genutzt</value></data>
   <data name="ZeugnisEditor_HaeufigGenutzt_Hint"><value>Anklicken, um die Floskel in das jeweilige Feld zu übernehmen.</value></data>

@@ -56,6 +56,7 @@ internal static class AmtlicheVorlagen
         Map(ValueKeys.KlasseName, "Klasse");
         Map(ValueKeys.SchuleSchuljahr, "Schuljahr");
         Map(ValueKeys.KlasseZeugnisdatum, "Datum_Zeugnisausstellung");
+        Map(ValueKeys.SchuleKonferenzdatum, "Konferenzbeschluss_Datum");
         Map(ValueKeys.ZeugnisFehlstundenGesamt, "Fehlstunden_Gesamt");
         Map(ValueKeys.ZeugnisFehlstundenUnentschuldigt, "Fehlstunden_Unentschuldigt");
         Map(ValueKeys.ZeugnisBemerkungen, "Freitext_Bemerkungen");

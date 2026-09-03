@@ -44,6 +44,7 @@ public sealed partial class FeldZuordnungViewModel : ObservableObject
         Add(Strings.Zuordnung_Group_Schule, ValueKeys.SchuleLeitung, Strings.Feld_Schule_Leitung);
         Add(Strings.Zuordnung_Group_Schule, ValueKeys.SchuleSchuljahr, Strings.Feld_Schule_Schuljahr);
         Add(Strings.Zuordnung_Group_Schule, ValueKeys.SchuleHalbjahr, Strings.Feld_Schule_Halbjahr);
+        Add(Strings.Zuordnung_Group_Schule, ValueKeys.SchuleKonferenzdatum, Strings.Feld_Schule_Konferenzdatum);
 
         Add(Strings.Zuordnung_Group_Klasse, ValueKeys.KlasseName, Strings.Feld_Klasse_Name);
         Add(Strings.Zuordnung_Group_Klasse, ValueKeys.KlasseLeitung, Strings.Feld_Klasse_Leitung);

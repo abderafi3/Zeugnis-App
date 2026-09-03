@@ -53,6 +53,22 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     public string Title => string.Format(CultureInfo.CurrentCulture, Strings.ZeugnisEditor_Title, _kind.AnzeigeName);
     public string FormularLabel => string.Format(CultureInfo.CurrentCulture, Strings.ZeugnisEditor_FormularLabel, _formular.Anzeigename);
 
+    // ---- Read-only header data, taken from the class / settings and written into the .docx ----
+    public string KopfKlasse => _kind.Klasse?.Name ?? "—";
+    public string KopfSchuljahr => string.Format(CultureInfo.CurrentCulture, "{0} · {1}",
+        string.IsNullOrWhiteSpace(_zeugnis.Schuljahr) ? _schule.Schuljahr : _zeugnis.Schuljahr,
+        _zeugnis.Halbjahr == Halbjahr.Erstes ? Strings.Halbjahr_First : Strings.Halbjahr_Second);
+    public string KopfGeburtsdatum => FormatDate(_kind.Geburtsdatum);
+    public string KopfZeugnisdatum => FormatDate(_kind.Klasse?.Zeugnisdatum ?? _schule.Zeugnisausgabedatum);
+    public string? KopfKonferenzdatum => _formular.HatVersetzungsvermerk || _formular.HatBegruendeteEmpfehlung
+        ? FormatDate(_schule.Konferenzdatum)
+        : null;
+
+    private SchoolSettings _schule = new();
+
+    private static string FormatDate(DateOnly? date)
+        => date is { } d ? d.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) : "—";
+
     public ObservableCollection<FreitextEditorViewModel> Freitexte { get; } = [];
     public ObservableCollection<NoteEditorViewModel> Noten { get; } = [];
 
@@ -71,27 +87,10 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     public string? VersetzungsvermerkText { get => _zeugnis.VersetzungsvermerkText; set => SetScalar(_zeugnis.VersetzungsvermerkText, value, v => _zeugnis.VersetzungsvermerkText = v); }
     public string? Bemerkungen { get => _zeugnis.Bemerkungen; set => SetScalar(_zeugnis.Bemerkungen, value, v => _zeugnis.Bemerkungen = v); }
 
-    // Editing an absence value here pins it: GetOrCreateAsync stops refreshing it from the
-    // Fehlzeiten table on later opens (plan §Sprint 7 — "copied, editable").
-    public int? FehlstundenGesamt
-    {
-        get => _zeugnis.FehlstundenGesamt;
-        set => SetScalar(_zeugnis.FehlstundenGesamt, value, v => { _zeugnis.FehlstundenGesamt = v; MarkFehlstundenUeberschrieben(); });
-    }
-
-    public int? FehlstundenUnentschuldigt
-    {
-        get => _zeugnis.FehlstundenUnentschuldigt;
-        set => SetScalar(_zeugnis.FehlstundenUnentschuldigt, value, v => { _zeugnis.FehlstundenUnentschuldigt = v; MarkFehlstundenUeberschrieben(); });
-    }
-
-    private void MarkFehlstundenUeberschrieben()
-    {
-        if (!_loading)
-        {
-            _zeugnis.FehlstundenManuellUeberschrieben = true;
-        }
-    }
+    // Absences are entered in the Fehlzeiten-Tabelle only; the report mirrors that (see
+    // ZeugnisService.GetOrCreateAsync) and shows the value read-only.
+    public string FehlstundenGesamtAnzeige => _zeugnis.FehlstundenGesamt?.ToString(CultureInfo.CurrentCulture) ?? "—";
+    public string FehlstundenUnentschuldigtAnzeige => _zeugnis.FehlstundenUnentschuldigt?.ToString(CultureInfo.CurrentCulture) ?? "—";
 
     public bool Fertiggestellt
     {
@@ -119,6 +118,9 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
         _loading = true;
         try
         {
+            // School-level header data shown read-only and written into the .docx.
+            _schule = await _reporting.Settings.GetAsync();
+
             // One editor per template free-text field; find-or-create the matching Zeugnis entry.
             Freitexte.Clear();
             foreach (var feld in _formular.Freitextfelder.OrderBy(f => f.Reihenfolge))

@@ -22,8 +22,11 @@ public static class ReportValues
         Put(ValueKeys.SchuleZusatz, r.Schule.Zusatzbezeichnung);
         Put(ValueKeys.SchuleAdresse, r.Schule.Adresse);
         Put(ValueKeys.SchuleLeitung, r.Schule.Schulleitung);
-        Put(ValueKeys.SchuleSchuljahr, r.Zeugnis.Schuljahr);
+        // Falls back to the school-wide Schuljahr when the report was created before it was set.
+        Put(ValueKeys.SchuleSchuljahr,
+            string.IsNullOrWhiteSpace(r.Zeugnis.Schuljahr) ? r.Schule.Schuljahr : r.Zeugnis.Schuljahr);
         Put(ValueKeys.SchuleHalbjahr, r.Zeugnis.Halbjahr == Halbjahr.Erstes ? "1. Halbjahr" : "2. Halbjahr");
+        Put(ValueKeys.SchuleKonferenzdatum, FormatDate(r.Schule.Konferenzdatum));
 
         Put(ValueKeys.KlasseName, r.Klasse.Name);
         Put(ValueKeys.KlasseLeitung, r.Klasse.Klassenleitung);
