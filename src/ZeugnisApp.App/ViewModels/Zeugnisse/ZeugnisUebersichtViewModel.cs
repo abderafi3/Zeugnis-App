@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Serilog;
@@ -188,6 +189,15 @@ public sealed partial class ZeugnisUebersichtRowViewModel : ObservableObject
         try
         {
             await _zeugnisse.SetManuellesFormularAsync(_zeile.KindId, value == Guid.Empty ? null : value);
+
+            // The reload rebuilds Rows (and this very ComboBox). Let the ComboBox finish its
+            // selection change first — clearing the list from inside it tears down a live
+            // Selector and throws ("SelectedItems … nur in Mehrfachauswahlmodi").
+            if (System.Windows.Application.Current?.Dispatcher is { } dispatcher)
+            {
+                await dispatcher.InvokeAsync(static () => { }, DispatcherPriority.Background);
+            }
+
             await _reload();
         }
         catch (Exception ex)
