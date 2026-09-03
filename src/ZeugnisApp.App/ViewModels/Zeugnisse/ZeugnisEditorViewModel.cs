@@ -71,8 +71,27 @@ public sealed partial class ZeugnisEditorViewModel : ObservableObject, IAsyncIni
     public string? VersetzungsvermerkText { get => _zeugnis.VersetzungsvermerkText; set => SetScalar(_zeugnis.VersetzungsvermerkText, value, v => _zeugnis.VersetzungsvermerkText = v); }
     public string? Bemerkungen { get => _zeugnis.Bemerkungen; set => SetScalar(_zeugnis.Bemerkungen, value, v => _zeugnis.Bemerkungen = v); }
 
-    public int? FehlstundenGesamt { get => _zeugnis.FehlstundenGesamt; set => SetScalar(_zeugnis.FehlstundenGesamt, value, v => _zeugnis.FehlstundenGesamt = v); }
-    public int? FehlstundenUnentschuldigt { get => _zeugnis.FehlstundenUnentschuldigt; set => SetScalar(_zeugnis.FehlstundenUnentschuldigt, value, v => _zeugnis.FehlstundenUnentschuldigt = v); }
+    // Editing an absence value here pins it: GetOrCreateAsync stops refreshing it from the
+    // Fehlzeiten table on later opens (plan §Sprint 7 — "copied, editable").
+    public int? FehlstundenGesamt
+    {
+        get => _zeugnis.FehlstundenGesamt;
+        set => SetScalar(_zeugnis.FehlstundenGesamt, value, v => { _zeugnis.FehlstundenGesamt = v; MarkFehlstundenUeberschrieben(); });
+    }
+
+    public int? FehlstundenUnentschuldigt
+    {
+        get => _zeugnis.FehlstundenUnentschuldigt;
+        set => SetScalar(_zeugnis.FehlstundenUnentschuldigt, value, v => { _zeugnis.FehlstundenUnentschuldigt = v; MarkFehlstundenUeberschrieben(); });
+    }
+
+    private void MarkFehlstundenUeberschrieben()
+    {
+        if (!_loading)
+        {
+            _zeugnis.FehlstundenManuellUeberschrieben = true;
+        }
+    }
 
     public bool Fertiggestellt
     {

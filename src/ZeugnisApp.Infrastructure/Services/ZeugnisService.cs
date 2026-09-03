@@ -42,15 +42,26 @@ internal sealed class ZeugnisService(IDbContextFactory<ZeugnisDbContext> context
                 cancellationToken)
             .ConfigureAwait(false);
 
-        if (existing is not null)
-        {
-            return new ZeugnisErgebnis(existing, false, suggestion.Reason, null);
-        }
-
-        // Auto-transfer the current absence totals (plan §Sprint 7). Still editable per report.
+        // The current absence totals for this child/term, transferred into the report (plan §Sprint 7).
         var fehlzeit = await db.Fehlzeiten
             .FirstOrDefaultAsync(f => f.KindId == kindId && f.Schuljahr == schuljahr && f.Halbjahr == halbjahr, cancellationToken)
             .ConfigureAwait(false);
+
+        if (existing is not null)
+        {
+            // Keep mirroring the Fehlzeiten table until the teacher overrides the numbers on this
+            // report — absences entered or imported after the report was created still land.
+            if (!existing.FehlstundenManuellUeberschrieben
+                && (existing.FehlstundenGesamt != fehlzeit?.StundenGesamt
+                    || existing.FehlstundenUnentschuldigt != fehlzeit?.StundenUnentschuldigt))
+            {
+                existing.FehlstundenGesamt = fehlzeit?.StundenGesamt;
+                existing.FehlstundenUnentschuldigt = fehlzeit?.StundenUnentschuldigt;
+                await db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            }
+
+            return new ZeugnisErgebnis(existing, false, suggestion.Reason, null);
+        }
 
         var zeugnis = new Zeugnis
         {
@@ -111,6 +122,7 @@ internal sealed class ZeugnisService(IDbContextFactory<ZeugnisDbContext> context
         target.Bemerkungen = Trim(zeugnis.Bemerkungen);
         target.FehlstundenGesamt = zeugnis.FehlstundenGesamt;
         target.FehlstundenUnentschuldigt = zeugnis.FehlstundenUnentschuldigt;
+        target.FehlstundenManuellUeberschrieben = zeugnis.FehlstundenManuellUeberschrieben;
         target.Fertiggestellt = zeugnis.Fertiggestellt;
         target.GeneratedFilePath = Trim(zeugnis.GeneratedFilePath);
 

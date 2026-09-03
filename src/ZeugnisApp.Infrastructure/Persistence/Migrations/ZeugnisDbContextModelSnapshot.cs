@@ -495,6 +495,9 @@ namespace ZeugnisApp.Infrastructure.Persistence.Migrations
                     b.Property<int?>("FehlstundenGesamt")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("FehlstundenManuellUeberschrieben")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int?>("FehlstundenUnentschuldigt")
                         .HasColumnType("INTEGER");
 

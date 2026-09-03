@@ -101,6 +101,49 @@ public class ZeugnisEditorServiceTests
     }
 
     [Fact]
+    public async Task Absences_entered_after_the_report_exists_are_picked_up_on_the_next_open()
+    {
+        var (db, _, annaId, _) = await SeedAsync();
+        await using var _ = db;
+        var svc = new ZeugnisService(db.ContextFactory);
+        var fehlzeiten = new FehlzeitenService(db.ContextFactory);
+
+        // Report is created first, absences are entered afterwards.
+        var first = (await svc.GetOrCreateAsync(annaId, "2026/27", Halbjahr.Erstes)).Zeugnis!;
+        Assert.Null(first.FehlstundenGesamt);
+
+        await fehlzeiten.SaveAsync(annaId, "2026/27", Halbjahr.Erstes, stundenGesamt: 12, stundenUnentschuldigt: 3);
+
+        var reopened = (await svc.GetOrCreateAsync(annaId, "2026/27", Halbjahr.Erstes)).Zeugnis!;
+        Assert.Equal(12, reopened.FehlstundenGesamt);
+        Assert.Equal(3, reopened.FehlstundenUnentschuldigt);
+        Assert.Equal(12, (await svc.GetAsync(first.Id))!.FehlstundenGesamt); // persisted, not just in-memory
+    }
+
+    [Fact]
+    public async Task A_manual_absence_override_stops_the_auto_refresh()
+    {
+        var (db, _, annaId, _) = await SeedAsync();
+        await using var _ = db;
+        var svc = new ZeugnisService(db.ContextFactory);
+        var fehlzeiten = new FehlzeitenService(db.ContextFactory);
+
+        await fehlzeiten.SaveAsync(annaId, "2026/27", Halbjahr.Erstes, 12, 3);
+        var zeugnis = (await svc.GetOrCreateAsync(annaId, "2026/27", Halbjahr.Erstes)).Zeugnis!;
+        Assert.Equal(12, zeugnis.FehlstundenGesamt);
+
+        // Teacher corrects the number on this one report.
+        zeugnis.FehlstundenGesamt = 8;
+        zeugnis.FehlstundenManuellUeberschrieben = true;
+        await svc.SaveAsync(zeugnis);
+
+        // A later change in the Fehlzeiten table must not overwrite the pinned value.
+        await fehlzeiten.SaveAsync(annaId, "2026/27", Halbjahr.Erstes, 20, 5);
+        var reopened = (await svc.GetOrCreateAsync(annaId, "2026/27", Halbjahr.Erstes)).Zeugnis!;
+        Assert.Equal(8, reopened.FehlstundenGesamt);
+    }
+
+    [Fact]
     public void ZieldifferentHinweis_returns_the_mandated_text_only_for_zieldifferente_children()
     {
         Assert.Null(ZieldifferentHinweis.For(Foerderstatus.Regel));

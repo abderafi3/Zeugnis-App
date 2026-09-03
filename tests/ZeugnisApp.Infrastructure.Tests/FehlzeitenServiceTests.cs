@@ -63,7 +63,7 @@ public class FehlzeitenServiceTests
     }
 
     [Fact]
-    public async Task Creating_a_Zeugnis_copies_the_current_absence_totals_but_they_stay_editable()
+    public async Task A_report_mirrors_the_class_table_until_its_absences_are_overridden()
     {
         var (db, _, kinder) = await SeedClassAsync();
         await using var _ = db;
@@ -84,12 +84,21 @@ public class FehlzeitenServiceTests
         Assert.Equal(14, ergebnis.Zeugnis!.FehlstundenGesamt);
         Assert.Equal(3, ergebnis.Zeugnis.FehlstundenUnentschuldigt);
 
-        // A later correction of the class table does NOT change the already-created report.
+        // A later correction of the class table flows into the not-yet-edited report.
         await fehlzeiten.SaveAsync(kinder[0], "2026/27", Halbjahr.Erstes, stundenGesamt: 20, stundenUnentschuldigt: 8);
         var again = await zeugnisse.GetOrCreateAsync(kinder[0], "2026/27", Halbjahr.Erstes);
 
         Assert.False(again.WurdeErstellt);
-        Assert.Equal(14, again.Zeugnis!.FehlstundenGesamt);
+        Assert.Equal(20, again.Zeugnis!.FehlstundenGesamt);
+
+        // Once the teacher pins a value on the report, the class table no longer overrides it.
+        again.Zeugnis.FehlstundenGesamt = 15;
+        again.Zeugnis.FehlstundenManuellUeberschrieben = true;
+        await zeugnisse.SaveAsync(again.Zeugnis);
+
+        await fehlzeiten.SaveAsync(kinder[0], "2026/27", Halbjahr.Erstes, stundenGesamt: 30, stundenUnentschuldigt: 9);
+        var pinned = await zeugnisse.GetOrCreateAsync(kinder[0], "2026/27", Halbjahr.Erstes);
+        Assert.Equal(15, pinned.Zeugnis!.FehlstundenGesamt);
     }
 
     [Fact]
