@@ -162,6 +162,7 @@ public static class Strings
     public static string Import_FromExcel => Get(nameof(Import_FromExcel));
     public static string Import_FromWord => Get(nameof(Import_FromWord));
     public static string Import_FromCsv => Get(nameof(Import_FromCsv));
+    public static string Import_FromPdf => Get(nameof(Import_FromPdf));
     public static string Import_FromClipboard => Get(nameof(Import_FromClipboard));
     public static string Import_DropHint => Get(nameof(Import_DropHint));
     public static string Import_Error_Empty => Get(nameof(Import_Error_Empty));
@@ -292,6 +293,9 @@ public static class Strings
     public static string Fehlzeiten_Col_Unentschuldigt => Get(nameof(Fehlzeiten_Col_Unentschuldigt));
     public static string Fehlzeiten_Col_Hinweis => Get(nameof(Fehlzeiten_Col_Hinweis));
     public static string Fehlzeiten_Error => Get(nameof(Fehlzeiten_Error));
+    public static string Fehlzeiten_Import_Button => Get(nameof(Fehlzeiten_Import_Button));
+    public static string Fehlzeiten_Import_Title => Get(nameof(Fehlzeiten_Import_Title));
+    public static string Fehlzeiten_Import_Unmatched => Get(nameof(Fehlzeiten_Import_Unmatched));
 
     // ---- Zeugnisse ----
     public static string Zeugnisse_Title => Get(nameof(Zeugnisse_Title));

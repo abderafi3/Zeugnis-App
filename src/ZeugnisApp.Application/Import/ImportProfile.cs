@@ -10,6 +10,11 @@ public static class ImportFieldKeys
     public const string Geschlecht = "geschlecht";
     public const string Schulbesuchsjahr = "schulbesuchsjahr";
 
+    // Fehlzeiten import
+    public const string FehlzeitName = "fehlzeit_name";
+    public const string FehlzeitGesamt = "fehlzeit_gesamt";
+    public const string FehlzeitUnentschuldigt = "fehlzeit_unentschuldigt";
+
     // Floskeln import
     public const string FloskelText = "text";
     public const string FloskelKuerzel = "kuerzel";

@@ -47,6 +47,7 @@ public static class DependencyInjection
         services.AddSingleton<ITabularImport, TabularImport>();
         services.AddScoped<IKinderImportService, KinderImportService>();
         services.AddScoped<IFloskelImportService, FloskelImportService>();
+        services.AddScoped<IFehlzeitenImportService, FehlzeitenImportService>();
         services.AddScoped<IPapierkorbService, PapierkorbService>();
         services.AddSingleton<IBackupService, BackupService>();
 

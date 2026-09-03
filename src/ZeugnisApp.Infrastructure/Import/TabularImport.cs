@@ -57,6 +57,8 @@ internal sealed class TabularImport : ITabularImport
         return new TabularGrid(rows);
     }
 
+    public TabularGrid FromPdf(Stream stream) => PdfTableReader.Read(stream);
+
     public TabularGrid FromCsv(Stream stream)
     {
         using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);

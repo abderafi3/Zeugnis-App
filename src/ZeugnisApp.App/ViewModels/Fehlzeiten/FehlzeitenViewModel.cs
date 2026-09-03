@@ -1,9 +1,13 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Serilog;
 using ZeugnisApp.App.Resources;
 using ZeugnisApp.App.Services;
+using ZeugnisApp.App.ViewModels.Import;
+using ZeugnisApp.App.Views.Import;
 using ZeugnisApp.Application;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Domain.Enums;
@@ -18,7 +22,8 @@ public sealed partial class FehlzeitenViewModel(
     IKlassenService klassenService,
     IFehlzeitenService fehlzeitenService,
     ISchoolSettingsService settingsService,
-    ISaveStatusService saveStatus)
+    ISaveStatusService saveStatus,
+    ImportServices import)
     : ViewModelBase
 {
     private string _schuljahr = string.Empty;
@@ -31,6 +36,7 @@ public sealed partial class FehlzeitenViewModel(
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasKlasse))]
+    [NotifyCanExecuteChangedFor(nameof(ImportierenCommand))]
     private KlasseListItem? _selectedKlasse;
 
     [ObservableProperty] private string _termText = string.Empty;
@@ -110,6 +116,35 @@ public sealed partial class FehlzeitenViewModel(
 
         Loaded = true;
         OnPropertyChanged(nameof(IsEmpty));
+    }
+
+    private bool CanImportieren() => SelectedKlasse is not null;
+
+    /// <summary>
+    /// Opens the shared import wizard on the absence profile: reads a SchILD "Schüler-Abwesenheit"
+    /// PDF (or an Excel sheet), matches the rows onto this class, and writes the totals for the term.
+    /// </summary>
+    [RelayCommand(CanExecute = nameof(CanImportieren))]
+    private async Task ImportierenAsync()
+    {
+        var klasse = SelectedKlasse;
+        if (klasse is null)
+        {
+            return;
+        }
+
+        var completion = new TaskCompletionSource();
+        var wizard = new FehlzeitenImportWizardViewModel(
+            import.Parser, import.FehlzeitenCommitter, import.FilePicker, import.Clipboard,
+            klasse.Id, klasse.Name, _schuljahr, _halbjahr,
+            onFinished: () => completion.TrySetResult());
+
+        var window = new ImportWizardWindow(wizard) { Owner = System.Windows.Application.Current.MainWindow };
+        window.Closed += (_, _) => completion.TrySetResult();
+        window.Show();
+
+        await completion.Task;
+        await ReloadRowsAsync();
     }
 }
 

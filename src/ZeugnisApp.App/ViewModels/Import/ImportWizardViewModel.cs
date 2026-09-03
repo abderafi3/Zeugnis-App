@@ -34,6 +34,9 @@ public abstract partial class ImportWizardViewModel : ObservableObject
 
     public abstract ImportProfile Profile { get; }
 
+    /// <summary>Whether the "Aus PDF" source button is offered (only the Fehlzeiten import so far).</summary>
+    public virtual bool SupportsPdf => false;
+
     protected abstract Task<ImportSummary> CommitCoreAsync(IReadOnlyList<ImportRow> rows, int uebersprungen);
 
     protected abstract void OnFinished();
@@ -68,6 +71,9 @@ public abstract partial class ImportWizardViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(HasImported))]
     private string? _resultSummary;
 
+    /// <summary>An extra line shown under the result (e.g. absence rows that matched no child).</summary>
+    [ObservableProperty] private string? _importHinweis;
+
     public bool HasImported => ResultSummary is not null;
 
     // ================= Step 1 =================
@@ -83,6 +89,10 @@ public abstract partial class ImportWizardViewModel : ObservableObject
     [RelayCommand]
     private void LoadCsv() => LoadFromFile(Strings.Import_FromCsv, FilePickerService.CsvFilter,
         p => { using var s = File.OpenRead(p); return _parser.FromCsv(s); });
+
+    [RelayCommand]
+    private void LoadPdf() => LoadFromFile(Strings.Import_FromPdf, FilePickerService.PdfFilter,
+        p => { using var s = File.OpenRead(p); return _parser.FromPdf(s); });
 
     [RelayCommand]
     private void PasteFromClipboard()
@@ -115,6 +125,7 @@ public abstract partial class ImportWizardViewModel : ObservableObject
             ".xlsx" or ".xlsm" => p => { using var s = File.OpenRead(p); return _parser.FromExcel(s); },
             ".docx" => p => { using var s = File.OpenRead(p); return _parser.FromWordTable(s); },
             ".csv" or ".txt" => p => { using var s = File.OpenRead(p); return _parser.FromCsv(s); },
+            ".pdf" => p => { using var s = File.OpenRead(p); return _parser.FromPdf(s); },
             _ => null,
         };
 
@@ -258,6 +269,7 @@ public abstract partial class ImportWizardViewModel : ObservableObject
 
         UpdatePreviewSummary();
         ResultSummary = null;
+        ImportHinweis = null;
         Step = 3;
     }
 

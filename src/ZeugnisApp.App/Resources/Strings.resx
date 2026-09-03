@@ -193,6 +193,7 @@
   <data name="Import_FromExcel"><value>Excel-Datei …</value></data>
   <data name="Import_FromWord"><value>Word-Datei …</value></data>
   <data name="Import_FromCsv"><value>CSV-Datei …</value></data>
+  <data name="Import_FromPdf"><value>PDF-Datei …</value></data>
   <data name="Import_FromClipboard"><value>Aus Zwischenablage einfügen</value></data>
   <data name="Import_DropHint"><value>Datei hierher ziehen</value></data>
   <data name="Import_Error_Empty"><value>Die Quelle enthält keine lesbare Tabelle.</value></data>
@@ -327,6 +328,9 @@
   <data name="Fehlzeiten_Col_Unentschuldigt"><value>davon unentschuldigt</value></data>
   <data name="Fehlzeiten_Col_Hinweis"><value>Hinweis</value></data>
   <data name="Fehlzeiten_Error"><value>Unentschuldigte Stunden dürfen die Gesamtstunden nicht übersteigen.</value></data>
+  <data name="Fehlzeiten_Import_Button"><value>Fehlzeiten importieren …</value></data>
+  <data name="Fehlzeiten_Import_Title"><value>Fehlzeiten importieren – {0}</value></data>
+  <data name="Fehlzeiten_Import_Unmatched"><value>Keinem Kind der Klasse zugeordnet: {0}</value></data>
 
   <!-- ================= Zeugnisse ================= -->
   <data name="Zeugnisse_Title"><value>Zeugnisse</value></data>

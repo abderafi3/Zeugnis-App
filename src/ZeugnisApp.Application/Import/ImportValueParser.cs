@@ -24,6 +24,47 @@ public static class ImportValueParser
     public static bool LooksLikeDate(string value)
         => TryParseDate(value, out _);
 
+    /// <summary>A person's name: has a letter, no digits, not a bare date.</summary>
+    public static bool LooksLikeName(string value)
+    {
+        var v = value.Trim();
+        return v.Length > 1 && v.Any(char.IsLetter) && !v.Any(char.IsDigit);
+    }
+
+    /// <summary>A non-negative whole count ("0", "12", "3,0", "4.0") — absence hours/days.</summary>
+    public static bool LooksLikeCount(string value)
+        => TryParseCount(value, out _);
+
+    public static bool TryParseCount(string value, out int count)
+    {
+        count = 0;
+        var token = value.Trim();
+        if (token.Length == 0)
+        {
+            return false;
+        }
+
+        // Tolerate a decimal that is really an integer ("3,0" / "4.0") and a stray "h"/"Std." suffix.
+        token = token.Replace("Std.", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace("Std", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace("h", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Trim();
+
+        if (int.TryParse(token, NumberStyles.Integer, CultureInfo.InvariantCulture, out count) && count >= 0)
+        {
+            return true;
+        }
+
+        if (double.TryParse(token.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out var d)
+            && d >= 0 && Math.Abs(d - Math.Round(d)) < 0.001)
+        {
+            count = (int)Math.Round(d);
+            return true;
+        }
+
+        return false;
+    }
+
     public static bool LooksLikeGeschlecht(string value)
         => TryParseGeschlecht(value, out _);
 
