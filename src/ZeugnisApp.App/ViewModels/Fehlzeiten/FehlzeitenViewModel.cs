@@ -1,9 +1,14 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Serilog;
 using ZeugnisApp.App.Resources;
 using ZeugnisApp.App.Services;
+using ZeugnisApp.App.ViewModels.Import;
+using ZeugnisApp.App.ViewModels.Klassen;
+using ZeugnisApp.App.Views.Import;
 using ZeugnisApp.Application;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Domain.Enums;
@@ -18,8 +23,10 @@ public sealed partial class FehlzeitenViewModel(
     IKlassenService klassenService,
     IFehlzeitenService fehlzeitenService,
     ISchoolSettingsService settingsService,
-    ISaveStatusService saveStatus)
-    : ViewModelBase
+    ISaveStatusService saveStatus,
+    ImportServices import,
+    IBusyService busy)
+    : ViewModelBase, IAsyncFlushable
 {
     private string _schuljahr = string.Empty;
     private Halbjahr _halbjahr = Halbjahr.Erstes;
@@ -31,6 +38,7 @@ public sealed partial class FehlzeitenViewModel(
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasKlasse))]
+    [NotifyCanExecuteChangedFor(nameof(ImportierenCommand))]
     private KlasseListItem? _selectedKlasse;
 
     [ObservableProperty] private string _termText = string.Empty;
@@ -74,7 +82,9 @@ public sealed partial class FehlzeitenViewModel(
         }
     }
 
-    private async Task ReloadRowsAsync()
+    // Switching class rebuilds a row per child — around 200 of them in this school — which is
+    // the same kind of wait as opening the screen, so it gets the same loading overlay.
+    private Task ReloadRowsAsync() => busy.RunAsync(async () =>
     {
         // Overlapping selection changes: only the newest run writes Rows, and in one step.
         var generation = ++_reloadGeneration;
@@ -110,6 +120,38 @@ public sealed partial class FehlzeitenViewModel(
 
         Loaded = true;
         OnPropertyChanged(nameof(IsEmpty));
+    });
+
+    /// <summary>Persist any pending row edits before the screen is left (autosave is debounced).</summary>
+    public Task FlushAsync() => Task.WhenAll(Rows.Select(r => r.FlushAsync()));
+
+    private bool CanImportieren() => SelectedKlasse is not null;
+
+    /// <summary>
+    /// Opens the shared import wizard on the absence profile: reads a SchILD "Schüler-Abwesenheit"
+    /// PDF (or an Excel sheet), matches the rows onto this class, and writes the totals for the term.
+    /// </summary>
+    [RelayCommand(CanExecute = nameof(CanImportieren))]
+    private async Task ImportierenAsync()
+    {
+        var klasse = SelectedKlasse;
+        if (klasse is null)
+        {
+            return;
+        }
+
+        var completion = new TaskCompletionSource();
+        var wizard = new FehlzeitenImportWizardViewModel(
+            import.Parser, import.FehlzeitenCommitter, import.FilePicker, import.Clipboard,
+            klasse.Id, klasse.Name, _schuljahr, _halbjahr,
+            onFinished: () => completion.TrySetResult());
+
+        var window = new ImportWizardWindow(wizard) { Owner = System.Windows.Application.Current.MainWindow };
+        window.Closed += (_, _) => completion.TrySetResult();
+        window.Show();
+
+        await completion.Task;
+        await ReloadRowsAsync();
     }
 }
 
@@ -121,6 +163,7 @@ public sealed partial class FehlzeitRowViewModel : ObservableObject
     private readonly IFehlzeitenService _service;
     private readonly ISaveStatusService _saveStatus;
     private readonly AutosaveDebouncer _autosave = new();
+    private bool _dirty;
 
     public FehlzeitRowViewModel(FehlzeitZeile zeile, string schuljahr, Halbjahr halbjahr,
         IFehlzeitenService service, ISaveStatusService saveStatus)
@@ -138,19 +181,23 @@ public sealed partial class FehlzeitRowViewModel : ObservableObject
 
     public string AnzeigeName { get; }
 
+    // Nullable so the NumberBox can be cleared mid-edit without a binding failure; treated as 0.
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IstGueltig), nameof(ErrorText))]
-    private int _gesamt;
+    private int? _gesamt;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IstGueltig), nameof(ErrorText))]
-    private int _unentschuldigt;
+    private int? _unentschuldigt;
 
-    public bool IstGueltig => Gesamt >= 0 && Unentschuldigt >= 0 && Unentschuldigt <= Gesamt;
+    private int GesamtWert => Gesamt ?? 0;
+    private int UnentschuldigtWert => Unentschuldigt ?? 0;
+
+    public bool IstGueltig => GesamtWert >= 0 && UnentschuldigtWert >= 0 && UnentschuldigtWert <= GesamtWert;
     public string ErrorText => IstGueltig ? string.Empty : Strings.Fehlzeiten_Error;
 
-    partial void OnGesamtChanged(int value) => OnEdited();
-    partial void OnUnentschuldigtChanged(int value) => OnEdited();
+    partial void OnGesamtChanged(int? value) => OnEdited();
+    partial void OnUnentschuldigtChanged(int? value) => OnEdited();
 
     private void OnEdited()
     {
@@ -160,15 +207,20 @@ public sealed partial class FehlzeitRowViewModel : ObservableObject
             return;
         }
 
+        _dirty = true;
         _saveStatus.MarkDirty();
         _autosave.Bump();
     }
+
+    /// <summary>Save now if there is a valid pending edit (called on navigate-away).</summary>
+    public Task FlushAsync() => _dirty && IstGueltig ? _autosave.FlushAsync() : Task.CompletedTask;
 
     private async Task SaveAsync()
     {
         try
         {
-            await _service.SaveAsync(_kindId, _schuljahr, _halbjahr, Gesamt, Unentschuldigt);
+            await _service.SaveAsync(_kindId, _schuljahr, _halbjahr, GesamtWert, UnentschuldigtWert);
+            _dirty = false;
             _saveStatus.MarkSaved();
         }
         catch (EntityValidationException)

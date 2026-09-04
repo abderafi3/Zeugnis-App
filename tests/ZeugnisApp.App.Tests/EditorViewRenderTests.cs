@@ -19,9 +19,9 @@ namespace ZeugnisApp.App.Tests;
 /// Loads the real <see cref="ZeugnisEditorView"/> XAML with a real, initialized view model and
 /// forces a layout pass — this is the part "press Öffnen" exercises that the headless VM tests miss.
 /// </summary>
-public sealed class EditorViewRenderTests
+[Collection("WpfRender")]
+public sealed class EditorViewRenderTests(WpfDispatcherFixture wpf)
 {
-    static EditorViewRenderTests() => SQLitePCL.Batteries_V2.Init();
 
     private sealed class Clock : IClock
     {
@@ -38,6 +38,7 @@ public sealed class EditorViewRenderTests
     {
         public void ShowUebersicht() { }
         public Task EditZeugnisAsync(Guid k, string s, Halbjahr h) => Task.CompletedTask;
+        public Task ShowFoerderempfehlungenAsync(Guid k, string n, string s, Halbjahr h) => Task.CompletedTask;
     }
 
     private sealed class StubSettings : ISchoolSettingsService
@@ -66,17 +67,10 @@ public sealed class EditorViewRenderTests
     {
         Exception? failure = null;
 
-        var thread = new Thread(() =>
+        wpf.Invoke(() =>
         {
             try
             {
-                // Minimal app so App.xaml resources (converters, WPF-UI dictionaries) resolve.
-                if (System.Windows.Application.Current is null)
-                {
-                    var app = new App();
-                    app.InitializeComponent();
-                }
-
                 var vm = BuildInitializedViewModelAsync().GetAwaiter().GetResult();
 
                 var view = new ZeugnisEditorView { DataContext = vm };
@@ -84,17 +78,12 @@ public sealed class EditorViewRenderTests
                 host.Measure(new Size(1000, 1400));
                 host.Arrange(new Rect(0, 0, 1000, 1400));
                 host.UpdateLayout();
-
-                Dispatcher.CurrentDispatcher.InvokeShutdown();
             }
             catch (Exception ex)
             {
                 failure = ex;
             }
         });
-        thread.SetApartmentState(ApartmentState.STA);
-        thread.Start();
-        thread.Join(TimeSpan.FromSeconds(60));
 
         Assert.True(failure is null, failure?.ToString());
     }

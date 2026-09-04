@@ -129,10 +129,64 @@ public class FloskelnServiceTests
         Assert.Equal(3, data.Count);
         Assert.Equal(Klassengruppe.Eingangsstufe, data[0].Klassengruppe);
         Assert.Equal(Klassengruppe.Folgestufe, data[1].Klassengruppe);
-        Assert.Equal(Klassengruppe.Beide, data[2].Klassengruppe);
+        // Blank Klassengruppe cell → derived from Stufe (2 → Eingangsstufe); the school's real file
+        // has no Klassengruppe column at all and relies on this.
+        Assert.Equal(Klassengruppe.Eingangsstufe, data[2].Klassengruppe);
 
         var summary = await new FloskelImportService(db.ContextFactory).CommitAsync(data, uebersprungen: 0);
         Assert.Equal(3, summary.Importiert);
         Assert.Equal(3, (await svc.GetAsync(new FloskelFilter())).Count);
+    }
+
+    [Fact]
+    public async Task Imports_the_schools_native_six_column_phrase_file()
+    {
+        var (db, svc) = await NewAsync();
+        await using var _ = db;
+
+        // Exactly the layout of data/Floskeln.xlsx: Kürzel · Floskeltext · Gruppe · Fach · Niveau · Jahrgang.
+        const string csv =
+            "Kürzel;Floskeltext;Gruppe;Fach;Niveau;Jahrgang\n" +
+            "#ASV001;&Er%Sie& klärt Konflikte friedlich.;ASV;;;\n" +
+            "#D11.00;$Vorname$ liest unbekannte Texte flüssig.;FACH;D;01;E1\n" +
+            "#M44.00;$Vorname$ rechnet im Zahlenraum bis 1000.;FACH;M;04;04\n" +
+            "#FSP01;$Vorname$ wurde im Förderschwerpunkt Lernen gefördert.;FSP;;;\n";
+        using var ms = new MemoryStream(Encoding.UTF8.GetBytes(csv));
+
+        var session = new ImportSession(new TabularImport().FromCsv(ms), ImportProfiles.Floskeln);
+        Assert.True(session.HasHeaderRow);
+        Assert.True(session.AllRequiredMapped);
+
+        var data = session.BuildRows().Where(r => r.IsValid).Select(FloskelImportMapper.Map).ToList();
+        Assert.Equal(4, data.Count);
+
+        var asv = data[0];
+        Assert.Equal("Arbeits- und Sozialverhalten", asv.Bereich);
+        Assert.Equal(0, asv.Stufe);
+        Assert.Equal(0, asv.Niveau);
+        Assert.Equal(Klassengruppe.Beide, asv.Klassengruppe);
+        Assert.Equal("#ASV001", asv.Kuerzel);
+
+        var deutsch = data[1];
+        Assert.Equal("Deutsch", deutsch.Bereich);
+        Assert.Equal(1, deutsch.Stufe);
+        Assert.Equal(1, deutsch.Niveau);
+        Assert.Equal(Klassengruppe.Eingangsstufe, deutsch.Klassengruppe);
+
+        var mathe = data[2];
+        Assert.Equal("Mathematik", mathe.Bereich);
+        Assert.Equal(4, mathe.Stufe);
+        Assert.Equal(4, mathe.Niveau);
+        Assert.Equal(Klassengruppe.Folgestufe, mathe.Klassengruppe);
+
+        Assert.Equal("Förderschwerpunkt", data[3].Bereich);
+
+        var summary = await new FloskelImportService(db.ContextFactory).CommitAsync(data, uebersprungen: 0);
+        Assert.Equal(4, summary.Importiert);
+
+        // Re-importing the same file adds nothing (dedupe by Kürzel).
+        var again = await new FloskelImportService(db.ContextFactory).CommitAsync(data, uebersprungen: 0);
+        Assert.Equal(0, again.Importiert);
+        Assert.Equal(4, (await svc.GetAsync(new FloskelFilter())).Count);
     }
 }

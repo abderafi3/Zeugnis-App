@@ -22,6 +22,7 @@ public sealed class ZeugnisDbContext(DbContextOptions<ZeugnisDbContext> options,
     public DbSet<Fehlzeit> Fehlzeiten => Set<Fehlzeit>();
     public DbSet<Fehltag> Fehltage => Set<Fehltag>();
     public DbSet<Zeugnis> Zeugnisse => Set<Zeugnis>();
+    public DbSet<Foerderempfehlung> Foerderempfehlungen => Set<Foerderempfehlung>();
     public DbSet<AuditTrailEntry> AuditTrail => Set<AuditTrailEntry>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -81,6 +82,7 @@ public sealed class ZeugnisDbContext(DbContextOptions<ZeugnisDbContext> options,
                 .OnDelete(DeleteBehavior.SetNull);
             e.Ignore(x => x.IstVollstaendig);
             e.Ignore(x => x.AnzeigeName);
+            e.Ignore(x => x.EffektivesSchulbesuchsjahr);
             e.HasQueryFilter(x => x.DeletedUtc == null);
         });
 
@@ -89,8 +91,10 @@ public sealed class ZeugnisDbContext(DbContextOptions<ZeugnisDbContext> options,
         {
             e.HasKey(x => x.Id);
             e.Property(x => x.Text).HasMaxLength(2000).IsRequired();
+            e.Property(x => x.Kuerzel).HasMaxLength(40);
             e.Property(x => x.Bereich).HasMaxLength(100);
             e.HasIndex(x => new { x.Bereich, x.Stufe, x.Klassengruppe });
+            e.HasIndex(x => x.Kuerzel);
             e.HasQueryFilter(x => x.DeletedUtc == null);
         });
 
@@ -158,6 +162,21 @@ public sealed class ZeugnisDbContext(DbContextOptions<ZeugnisDbContext> options,
 
             e.HasIndex(x => new { x.KindId, x.FormularId, x.Schuljahr, x.Halbjahr }).IsUnique();
             e.HasQueryFilter(x => x.DeletedUtc == null);
+        });
+
+        // ---------- Foerderempfehlung (Lern- und Förderempfehlung) ----------
+        b.Entity<Foerderempfehlung>(e =>
+        {
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Schuljahr).HasMaxLength(20);
+            e.Property(x => x.Fach).HasMaxLength(100).IsRequired();
+            e.Property(x => x.Beobachtungen).HasMaxLength(4000);
+            e.Property(x => x.SchulischeMassnahmen).HasMaxLength(4000);
+            e.Property(x => x.EmpfehlungenFuerZuhause).HasMaxLength(4000);
+            e.Property(x => x.GeneratedFilePath).HasMaxLength(1000);
+            e.HasOne(x => x.Kind).WithMany().HasForeignKey(x => x.KindId).OnDelete(DeleteBehavior.Cascade);
+            e.HasIndex(x => new { x.KindId, x.Schuljahr, x.Halbjahr, x.Fach }).IsUnique();
+            e.Ignore(x => x.IstInhaltlichVollstaendig);
         });
 
         // ---------- AuditTrailEntry ----------

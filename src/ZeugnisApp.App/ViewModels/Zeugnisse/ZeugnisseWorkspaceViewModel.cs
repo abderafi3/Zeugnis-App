@@ -1,8 +1,6 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using Serilog;
 using ZeugnisApp.App.Resources;
 using ZeugnisApp.App.Services;
-using ZeugnisApp.App.ViewModels.Klassen;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Domain.Enums;
 
@@ -12,10 +10,13 @@ public interface IZeugnisseNavigator
 {
     void ShowUebersicht();
     Task EditZeugnisAsync(Guid kindId, string schuljahr, Halbjahr halbjahr);
+
+    /// <summary>Opens the Lern- und Förderempfehlungen for a child in the given term.</summary>
+    Task ShowFoerderempfehlungenAsync(Guid kindId, string kindName, string schuljahr, Halbjahr halbjahr);
 }
 
 /// <summary>Page-level view model for the Zeugnisse area: overview ↔ editor (plan §Sprint 8).</summary>
-public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugnisseNavigator
+public sealed class ZeugnisseWorkspaceViewModel : WorkspaceViewModelBase, IZeugnisseNavigator
 {
     private readonly IZeugnisService _zeugnisse;
     private readonly IKlassenService _klassen;
@@ -25,14 +26,14 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
     private readonly ISaveStatusService _saveStatus;
     private readonly IDialogService _dialogs;
     private readonly ReportGenerationServices _reporting;
-
-    [ObservableProperty]
-    private ObservableObject? _current;
+    private readonly IFoerderempfehlungService _foerderempfehlungen;
 
     public ZeugnisseWorkspaceViewModel(
         IZeugnisService zeugnisse, IKlassenService klassen, ISchoolSettingsService settings,
         IFloskelnService floskeln, IFloskelPickerService picker, ISaveStatusService saveStatus,
-        IDialogService dialogs, ReportGenerationServices reporting)
+        IDialogService dialogs, ReportGenerationServices reporting,
+        IFoerderempfehlungService foerderempfehlungen, IBusyService busy)
+        : base(busy)
     {
         _zeugnisse = zeugnisse;
         _klassen = klassen;
@@ -42,6 +43,7 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
         _saveStatus = saveStatus;
         _dialogs = dialogs;
         _reporting = reporting;
+        _foerderempfehlungen = foerderempfehlungen;
     }
 
     public override async Task OnNavigatedToAsync()
@@ -66,10 +68,14 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
     }
 
     public void ShowUebersicht()
-        => Swap(new ZeugnisUebersichtViewModel(_zeugnisse, _klassen, _settings, this));
+        => Swap(new ZeugnisUebersichtViewModel(_zeugnisse, _klassen, _settings, this, Busy));
 
     public async Task EditZeugnisAsync(Guid kindId, string schuljahr, Halbjahr halbjahr)
     {
+        // Held across the two loads *and* the swap: pressing "Öffnen" otherwise looks like
+        // nothing happened at all until the editor pops up.
+        using var scope = Busy.Begin(Strings.Busy_Zeugnis_Open);
+
         var ergebnis = await _zeugnisse.GetOrCreateAsync(kindId, schuljahr, halbjahr);
         if (!ergebnis.Erfolg)
         {
@@ -87,32 +93,10 @@ public sealed partial class ZeugnisseWorkspaceViewModel : ViewModelBase, IZeugni
         Swap(new ZeugnisEditorViewModel(full, _zeugnisse, _floskeln, _picker, _saveStatus, this, _reporting));
     }
 
-    private async void Swap(ObservableObject next)
+    public Task ShowFoerderempfehlungenAsync(Guid kindId, string kindName, string schuljahr, Halbjahr halbjahr)
     {
-        if (Current is IAsyncFlushable flushable)
-        {
-            try
-            {
-                await flushable.FlushAsync();
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Autospeichern beim Verlassen fehlgeschlagen");
-            }
-        }
-
-        Current = next;
-
-        if (next is IAsyncInitializable init)
-        {
-            try
-            {
-                await init.InitializeAsync();
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Laden der Ansicht {View} fehlgeschlagen", next.GetType().Name);
-            }
-        }
+        Swap(new FoerderempfehlungenViewModel(
+            _foerderempfehlungen, _saveStatus, _dialogs, this, kindId, kindName, schuljahr, halbjahr));
+        return Task.CompletedTask;
     }
 }

@@ -54,6 +54,13 @@ public sealed partial class KindEditViewModel : ObservableObject, IAsyncInitiali
 
     public Geschlecht? Geschlecht { get => _kind.Geschlecht; set => SetOnEntity(_kind.Geschlecht, value, v => _kind.Geschlecht = v); }
 
+    /// <summary>0 = nicht gesetzt (ComboBox index 0), 1–4 = Schulbesuchsjahr.</summary>
+    public int Schulbesuchsjahr
+    {
+        get => _kind.Schulbesuchsjahr is >= 0 and <= 4 ? _kind.Schulbesuchsjahr : 0;
+        set => SetOnEntity(_kind.Schulbesuchsjahr, Math.Clamp(value, 0, 4), v => _kind.Schulbesuchsjahr = v);
+    }
+
     public Foerderstatus Foerderstatus
     {
         get => _kind.Foerderstatus;

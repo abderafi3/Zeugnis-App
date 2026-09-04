@@ -44,14 +44,15 @@ public static class FormularSuggester
             }
         }
 
-        // 2. Match by year group + term.
-        var candidates = alleFormulare
-            .Where(f => f.Jahrgang == jahrgang)
-            .Where(f => f.GiltFuerHalbjahr is null || f.GiltFuerHalbjahr == halbjahr)
-            .ToList();
-
         var wantsZieldifferent = kind.Foerderstatus is
             Foerderstatus.ZieldifferentLernen or Foerderstatus.ZieldifferentGeistigeEntwicklung;
+
+        // 2. Match by year group + term. A form with Jahrgang 0 ("any year", e.g. the Zeugnis zum
+        // Gemeinsamen Lernen) is only a candidate for a zieldifferent child.
+        var candidates = alleFormulare
+            .Where(f => f.Jahrgang == jahrgang || (f.Jahrgang == 0 && wantsZieldifferent))
+            .Where(f => f.GiltFuerHalbjahr is null || f.GiltFuerHalbjahr == halbjahr)
+            .ToList();
 
         var best = candidates.FirstOrDefault(f => f.IstZieldifferent == wantsZieldifferent)
                    ?? candidates.FirstOrDefault();

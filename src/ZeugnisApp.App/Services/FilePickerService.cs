@@ -17,6 +17,7 @@ public sealed class FilePickerService : IFilePickerService
     public const string ExcelFilter = "Excel-Dateien (*.xlsx;*.xlsm)|*.xlsx;*.xlsm";
     public const string WordFilter = "Word-Dateien (*.docx)|*.docx";
     public const string CsvFilter = "CSV-Dateien (*.csv;*.txt)|*.csv;*.txt";
+    public const string PdfFilter = "PDF-Dateien (*.pdf)|*.pdf";
 
     public string? PickFile(string title, string filter)
     {

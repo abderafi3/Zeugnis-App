@@ -15,6 +15,9 @@
         <DataTemplate DataType="{x:Type vm:ZeugnisEditorViewModel}">
             <zv:ZeugnisEditorView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:FoerderempfehlungenViewModel}">
+            <zv:FoerderempfehlungenView />
+        </DataTemplate>
     </Page.Resources>
 
     <ContentControl Content="{Binding Current}"

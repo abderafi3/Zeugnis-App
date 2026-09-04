@@ -18,6 +18,9 @@ public sealed class KindValidator : AbstractValidator<Kind>
 
         RuleFor(k => k.KlasseId).NotEmpty();
 
+        RuleFor(k => k.Schulbesuchsjahr)
+            .InclusiveBetween(0, 4).WithMessage("Das Schulbesuchsjahr muss zwischen 0 (nicht gesetzt) und 4 liegen.");
+
         RuleFor(k => k.Geburtsdatum)
             .LessThan(_ => DateOnly.FromDateTime(DateTime.Today))
             .When(k => k.Geburtsdatum is not null)

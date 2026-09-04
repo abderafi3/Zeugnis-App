@@ -7,6 +7,10 @@
     <AssemblyName>ZeugnisApp</AssemblyName>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- The school's logo: the .exe icon in Explorer, the taskbar and Alt-Tab, and (as a
+         Resource below) the icon in the window's own title bar. Replace Resources\app.ico
+         to change it — build/make-icon.ps1 turns a high-resolution PNG into the right file. -->
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
     <SatelliteResourceLanguages>de;en</SatelliteResourceLanguages>
     <!-- Sprint 12 packages this self-contained via a dotnet publish profile (RID win-x64,
          SelfContained=true) so a teacher needs no separate .NET install (see plan section 2).
@@ -14,10 +18,48 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\app.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ZeugnisApp.Application\ZeugnisApp.Application.csproj" />
     <ProjectReference Include="..\ZeugnisApp.Domain\ZeugnisApp.Domain.csproj" />
     <ProjectReference Include="..\ZeugnisApp.Infrastructure\ZeugnisApp.Infrastructure.csproj" />
     <ProjectReference Include="..\ZeugnisApp.Reporting\ZeugnisApp.Reporting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="ZeugnisApp.App.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Grundschule Wehringhausen's real, content-control-tagged report forms. Bundled so every
+         standard Formular is linked out of the box (see TemplateBootstrapper); "Vorlage hochladen"
+         is only needed to replace one. LogicalName pins the resource id against MSBuild mangling. -->
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_1_Schulbesuchsjahr.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_1_Schulbesuchsjahr.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_2_Schulbesuchsjahr.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_2_Schulbesuchsjahr.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_Klasse3_1Halbjahr.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_Klasse3_1Halbjahr.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_Klasse3_2Halbjahr.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_Klasse3_2Halbjahr.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_Klasse4_1Halbjahr_mit_Begruendung.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_Klasse4_1Halbjahr_mit_Begruendung.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_Klasse4_2Halbjahr_mit_Begruendung.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_Klasse4_2Halbjahr_mit_Begruendung.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Zeugnis_Gemeinsames_Lernen.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Zeugnis_Gemeinsames_Lernen.docx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\Foerderempfehlung.docx">
+      <LogicalName>ZeugnisApp.App.Templates.Foerderempfehlung.docx</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

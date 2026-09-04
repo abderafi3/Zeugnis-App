@@ -1,0 +1,77 @@
+<UserControl x:Class="ZeugnisApp.App.Views.Zeugnisse.FoerderempfehlungenView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:res="clr-namespace:ZeugnisApp.App.Resources">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="32" MaxWidth="900" HorizontalAlignment="Left">
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                <ui:Button Icon="{ui:SymbolIcon ArrowLeft24}" Content="{x:Static res:Strings.Common_Back}"
+                           Command="{Binding ZurueckCommand}" />
+                <StackPanel Margin="16,0,0,0" VerticalAlignment="Center">
+                    <TextBlock FontSize="22" FontWeight="SemiBold" Text="{Binding Titel}" />
+                    <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Untertitel}" />
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock Margin="0,4,0,12" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                       Text="{x:Static res:Strings.Foerderempfehlungen_Intro}" />
+
+            <!-- Add a subject -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                <ComboBox Width="240" ItemsSource="{Binding FachOptionen}"
+                          SelectedItem="{Binding NeuesFach}" />
+                <ui:Button Margin="8,0,0,0" Appearance="Primary" Icon="{ui:SymbolIcon Add24}"
+                           Content="{x:Static res:Strings.Foerderempfehlungen_AddFach}"
+                           Command="{Binding HinzufuegenCommand}" />
+            </StackPanel>
+
+            <TextBlock Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"
+                       Text="{x:Static res:Strings.Foerderempfehlungen_Empty}"
+                       Visibility="{Binding IstLeer, Converter={StaticResource BoolToVis}}" />
+
+            <ItemsControl ItemsSource="{Binding Empfehlungen}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,16" Padding="20" CornerRadius="8"
+                                BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                                Background="{DynamicResource ControlFillColorDefaultBrush}">
+                            <StackPanel>
+                                <Grid>
+                                    <TextBlock FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"
+                                               Text="{Binding Fach}" />
+                                    <ui:Button HorizontalAlignment="Right" Icon="{ui:SymbolIcon Delete24}"
+                                               ToolTip="{x:Static res:Strings.Common_Delete}"
+                                               AutomationProperties.Name="{x:Static res:Strings.Common_Delete}"
+                                               Command="{Binding LoeschenCommand}" />
+                                </Grid>
+
+                                <TextBlock Margin="0,12,0,4" FontWeight="SemiBold"
+                                           Text="{x:Static res:Strings.Foerderempfehlungen_Beobachtungen}" />
+                                <ui:TextBox Text="{Binding Beobachtungen, UpdateSourceTrigger=PropertyChanged}"
+                                            AcceptsReturn="True" MinLines="2" MaxLines="8" TextWrapping="Wrap" />
+
+                                <TextBlock Margin="0,12,0,4" FontWeight="SemiBold"
+                                           Text="{x:Static res:Strings.Foerderempfehlungen_SchulischeMassnahmen}" />
+                                <ui:TextBox Text="{Binding SchulischeMassnahmen, UpdateSourceTrigger=PropertyChanged}"
+                                            AcceptsReturn="True" MinLines="2" MaxLines="8" TextWrapping="Wrap" />
+
+                                <TextBlock Margin="0,12,0,4" FontWeight="SemiBold"
+                                           Text="{x:Static res:Strings.Foerderempfehlungen_EmpfehlungenZuhause}" />
+                                <ui:TextBox Text="{Binding EmpfehlungenFuerZuhause, UpdateSourceTrigger=PropertyChanged}"
+                                            AcceptsReturn="True" MinLines="2" MaxLines="8" TextWrapping="Wrap" />
+
+                                <ui:ToggleSwitch Margin="0,14,0,0"
+                                                 Content="{x:Static res:Strings.Foerderempfehlungen_Fertig}"
+                                                 IsChecked="{Binding Fertiggestellt}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

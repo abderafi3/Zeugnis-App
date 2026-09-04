@@ -8,11 +8,21 @@ public static class ImportFieldKeys
     public const string Nachname = "nachname";
     public const string Geburtsdatum = "geburtsdatum";
     public const string Geschlecht = "geschlecht";
+    public const string Schulbesuchsjahr = "schulbesuchsjahr";
+
+    // Fehlzeiten import
+    public const string FehlzeitName = "fehlzeit_name";
+    public const string FehlzeitGesamt = "fehlzeit_gesamt";
+    public const string FehlzeitUnentschuldigt = "fehlzeit_unentschuldigt";
 
     // Floskeln import
     public const string FloskelText = "text";
+    public const string FloskelKuerzel = "kuerzel";
     public const string FloskelBereich = "bereich";
+    public const string FloskelGruppe = "gruppe";
+    public const string FloskelFach = "fach";
     public const string FloskelStufe = "stufe";
+    public const string FloskelNiveau = "niveau";
     public const string FloskelKlassengruppe = "klassengruppe";
 }
 

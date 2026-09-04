@@ -19,6 +19,9 @@ public class SchoolSettings : EntityBase
 
     public string Adresse { get; set; } = string.Empty;
 
+    /// <summary>Official school number (printed in every report-form header), e.g. "100189".</summary>
+    public string? Schulnummer { get; set; }
+
     /// <summary>Name of the head teacher, as it should appear on report cards.</summary>
     public string Schulleitung { get; set; } = string.Empty;
 

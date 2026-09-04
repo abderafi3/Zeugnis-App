@@ -14,6 +14,7 @@ public class ImportWizardTests
         public TabularGrid FromExcel(Stream stream) => grid;
         public TabularGrid FromWordTable(Stream stream) => grid;
         public TabularGrid FromCsv(Stream stream) => grid;
+        public TabularGrid FromPdf(Stream stream) => grid;
         public TabularGrid FromDelimitedText(string text) => grid;
     }
 

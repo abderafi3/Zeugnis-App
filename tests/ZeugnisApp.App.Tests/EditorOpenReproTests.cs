@@ -45,6 +45,7 @@ public sealed class EditorOpenReproTests : IAsyncDisposable
     {
         public void ShowUebersicht() { }
         public Task EditZeugnisAsync(Guid kindId, string schuljahr, Halbjahr halbjahr) => Task.CompletedTask;
+        public Task ShowFoerderempfehlungenAsync(Guid kindId, string kindName, string schuljahr, Halbjahr halbjahr) => Task.CompletedTask;
     }
 
     private sealed class StubSettings : ISchoolSettingsService
@@ -72,8 +73,8 @@ public sealed class EditorOpenReproTests : IAsyncDisposable
     }
 
     [Theory]
-    [InlineData(3, Halbjahr.Erstes)]   // "Klasse 3 – 1. Halbjahr" exists
-    [InlineData(1, Halbjahr.Zweites)]  // "Klasse 1 – Schuljahresende" exists
+    [InlineData(3, Halbjahr.Erstes)]   // "Klasse 3 – 1. Halbjahr"
+    [InlineData(1, Halbjahr.Zweites)]  // "Schuleingangsphase – 1. Schulbesuchsjahr"
     public async Task Pressing_oeffnen_opens_the_editor_without_throwing(int jahrgang, Halbjahr halbjahr)
     {
         await _sp.GetRequiredService<DatabaseInitializer>().InitializeAsync();
@@ -140,11 +141,16 @@ public sealed class EditorOpenReproTests : IAsyncDisposable
         await vm.InitializeAsync();
 
         var sozialfeld = vm.Freitexte.First(f => f.Label.Contains("Sozialverhalten", StringComparison.Ordinal));
-        Assert.Equal(2, sozialfeld.Vorschlaege.Count);
-        Assert.Equal("Lena ist stets hilfsbereit.", sozialfeld.Vorschlaege[0].VollText);   // most used first, placeholders resolved
+        // The seeded phrase library also contributes here, so assert on order, not exact count:
+        // the two phrases used in this test come first, most-used before less-used, placeholders resolved.
+        var soziale = sozialfeld.Vorschlaege.Select(v => v.VollText).ToList();
+        Assert.Equal("Lena ist stets hilfsbereit.", soziale[0]);
+        Assert.Equal("Lena arbeitet selbstständig.", soziale[1]);
 
-        var bemerkungen = vm.Freitexte.First(f => f.Label == "Bemerkungen");
-        Assert.Empty(bemerkungen.Vorschlaege);
+        // The Sozialverhalten phrases must not leak into the free-flowing Lernentwicklung field.
+        var lernentwicklung = vm.Freitexte.First(f => f.Label.StartsWith("Lernentwicklung", StringComparison.Ordinal));
+        Assert.DoesNotContain("Lena ist stets hilfsbereit.", lernentwicklung.Vorschlaege.Select(v => v.VollText));
+        Assert.DoesNotContain("Lena arbeitet selbstständig.", lernentwicklung.Vorschlaege.Select(v => v.VollText));
     }
 
     public async ValueTask DisposeAsync()

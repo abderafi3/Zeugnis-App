@@ -29,9 +29,13 @@ public class Zeugnis : EntityBase, ISoftDeletable
     public string? Empfehlung { get; set; }
     public string? EmpfehlungBegruendung { get; set; }
 
-    // --- Absence numbers, copied from Fehlzeit at creation, editable afterwards (plan §Sprint 7) ---
+    // --- Absence numbers (plan §Sprint 7). Mirrored from the child's Fehlzeit row every time the
+    //     editor opens, until the teacher edits them on this report — then the override sticks. ---
     public int? FehlstundenGesamt { get; set; }
     public int? FehlstundenUnentschuldigt { get; set; }
+
+    /// <summary>Set once the teacher changes an absence value here; stops the Fehlzeit auto-refresh.</summary>
+    public bool FehlstundenManuellUeberschrieben { get; set; }
 
     public string? VersetzungsvermerkText { get; set; }
     public string? Bemerkungen { get; set; }

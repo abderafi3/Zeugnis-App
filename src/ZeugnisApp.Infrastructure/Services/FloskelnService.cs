@@ -30,6 +30,12 @@ internal sealed class FloskelnService(IDbContextFactory<ZeugnisDbContext> contex
             query = query.Where(f => f.Stufe == stufe || f.Stufe == 0);
         }
 
+        if (filter.Niveau is { } niveau)
+        {
+            // Niveau 0 = "neutral / ohne Differenzierung" and stays visible under every Niveau filter.
+            query = query.Where(f => f.Niveau == niveau || f.Niveau == 0);
+        }
+
         if (filter.Klassengruppe is { } gruppe)
         {
             query = query.Where(f => f.Klassengruppe == gruppe || f.Klassengruppe == Domain.Enums.Klassengruppe.Beide);
@@ -61,8 +67,10 @@ internal sealed class FloskelnService(IDbContextFactory<ZeugnisDbContext> contex
         }
 
         target.Text = floskel.Text.Trim();
+        target.Kuerzel = string.IsNullOrWhiteSpace(floskel.Kuerzel) ? target.Kuerzel : floskel.Kuerzel.Trim();
         target.Bereich = floskel.Bereich.Trim();
         target.Stufe = floskel.Stufe;
+        target.Niveau = floskel.Niveau;
         target.Klassengruppe = floskel.Klassengruppe;
 
         await db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

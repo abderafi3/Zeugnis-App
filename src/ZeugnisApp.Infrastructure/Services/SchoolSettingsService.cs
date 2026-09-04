@@ -46,6 +46,7 @@ internal sealed class SchoolSettingsService(ZeugnisDbContext db) : ISchoolSettin
         to.Name = from.Name;
         to.Zusatzbezeichnung = from.Zusatzbezeichnung;
         to.Adresse = from.Adresse;
+        to.Schulnummer = from.Schulnummer;
         to.Schulleitung = from.Schulleitung;
         to.Schuljahr = from.Schuljahr;
         to.AktuellesHalbjahr = from.AktuellesHalbjahr;

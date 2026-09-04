@@ -24,6 +24,9 @@
                 <ui:Button Icon="{ui:SymbolIcon DocumentTable24}" Content="{x:Static res:Strings.Import_FromExcel}" Command="{Binding LoadExcelCommand}" />
                 <ui:Button Margin="8,0,0,0" Icon="{ui:SymbolIcon DocumentText24}" Content="{x:Static res:Strings.Import_FromWord}" Command="{Binding LoadWordCommand}" />
                 <ui:Button Margin="8,0,0,0" Icon="{ui:SymbolIcon DocumentText24}" Content="{x:Static res:Strings.Import_FromCsv}" Command="{Binding LoadCsvCommand}" />
+                <ui:Button Margin="8,0,0,0" Icon="{ui:SymbolIcon DocumentPdf24}" Content="{x:Static res:Strings.Import_FromPdf}"
+                           Command="{Binding LoadPdfCommand}"
+                           Visibility="{Binding SupportsPdf, Converter={StaticResource BoolToVis}}" />
                 <ui:Button Margin="8,0,0,0" Appearance="Primary" Icon="{ui:SymbolIcon ClipboardPaste24}" Content="{x:Static res:Strings.Import_FromClipboard}" Command="{Binding PasteFromClipboardCommand}" />
             </StackPanel>
 
@@ -138,6 +141,10 @@
                            Foreground="{DynamicResource ZaSuccessBrush}"
                            Text="{Binding ResultSummary}"
                            Visibility="{Binding ResultSummary, Converter={StaticResource NullToCollapsed}}" />
+                <TextBlock Margin="0,0,0,8" TextWrapping="Wrap"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                           Text="{Binding ImportHinweis}"
+                           Visibility="{Binding ImportHinweis, Converter={StaticResource NullToCollapsed}}" />
                 <StackPanel Orientation="Horizontal">
                     <ui:Button Icon="{ui:SymbolIcon ArrowLeft24}" Content="{x:Static res:Strings.Common_Back}" Command="{Binding BackToMappingCommand}" />
                     <ui:Button Margin="8,0,0,0" Appearance="Primary"

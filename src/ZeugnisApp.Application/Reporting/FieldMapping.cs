@@ -86,6 +86,8 @@ public static class ValueKeys
     public const string SchuleLeitung = "schule.leitung";
     public const string SchuleSchuljahr = "schule.schuljahr";
     public const string SchuleHalbjahr = "schule.halbjahr";
+    public const string SchuleKonferenzdatum = "schule.konferenzdatum";
+    public const string SchuleWiederbeginn = "schule.wiederbeginn";
 
     public const string KlasseName = "klasse.name";
     public const string KlasseLeitung = "klasse.leitung";
@@ -106,6 +108,7 @@ public static class ValueKeys
     public static readonly IReadOnlyList<string> Standard =
     [
         SchuleName, SchuleZusatz, SchuleAdresse, SchuleLeitung, SchuleSchuljahr, SchuleHalbjahr,
+        SchuleKonferenzdatum, SchuleWiederbeginn,
         KlasseName, KlasseLeitung, KlasseZeugnisdatum,
         KindVorname, KindNachname, KindName, KindGeburtsdatum,
         ZeugnisEmpfehlung, ZeugnisEmpfehlungBegruendung, ZeugnisVersetzungsvermerk, ZeugnisBemerkungen,

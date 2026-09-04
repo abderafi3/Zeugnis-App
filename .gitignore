@@ -39,6 +39,11 @@ packages/
 logs/
 *.log
 
+# Real school source documents shared by the product owner — contain pupils' names
+# and sensitive notes. Kept locally only; the phrase library derived from them is bundled
+# as src/ZeugnisApp.Infrastructure/Persistence/SeedData/floskeln.tsv (placeholders only, no pupil data).
+data/
+
 # OS
 Thumbs.db
 Desktop.ini

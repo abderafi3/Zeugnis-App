@@ -30,6 +30,10 @@ public static class Strings
     public static string Nav_Fehlzeiten => Get(nameof(Nav_Fehlzeiten));
     public static string Nav_Einstellungen => Get(nameof(Nav_Einstellungen));
     public static string Nav_Papierkorb => Get(nameof(Nav_Papierkorb));
+    public static string Busy_Loading => Get(nameof(Busy_Loading));
+    public static string Busy_Opening => Get(nameof(Busy_Opening));
+    public static string Busy_Zeugnis_Open => Get(nameof(Busy_Zeugnis_Open));
+    public static string Busy_Floskeln => Get(nameof(Busy_Floskeln));
     public static string Save_Active => Get(nameof(Save_Active));
     public static string Save_Unsaved => Get(nameof(Save_Unsaved));
     public static string Save_At => Get(nameof(Save_At));
@@ -142,6 +146,9 @@ public static class Strings
     public static string KindEdit_Nachname => Get(nameof(KindEdit_Nachname));
     public static string KindEdit_Geburtsdatum => Get(nameof(KindEdit_Geburtsdatum));
     public static string KindEdit_Geschlecht => Get(nameof(KindEdit_Geschlecht));
+    public static string KindEdit_Schulbesuchsjahr => Get(nameof(KindEdit_Schulbesuchsjahr));
+    public static string KindEdit_Schulbesuchsjahr_Hint => Get(nameof(KindEdit_Schulbesuchsjahr_Hint));
+    public static string KindEdit_Schulbesuchsjahr_Unset => Get(nameof(KindEdit_Schulbesuchsjahr_Unset));
     public static string KindEdit_Foerderstatus => Get(nameof(KindEdit_Foerderstatus));
     public static string KindEdit_Foerderschwerpunkt => Get(nameof(KindEdit_Foerderschwerpunkt));
     public static string KindEdit_Foerderschwerpunkt_Ph => Get(nameof(KindEdit_Foerderschwerpunkt_Ph));
@@ -159,6 +166,7 @@ public static class Strings
     public static string Import_FromExcel => Get(nameof(Import_FromExcel));
     public static string Import_FromWord => Get(nameof(Import_FromWord));
     public static string Import_FromCsv => Get(nameof(Import_FromCsv));
+    public static string Import_FromPdf => Get(nameof(Import_FromPdf));
     public static string Import_FromClipboard => Get(nameof(Import_FromClipboard));
     public static string Import_DropHint => Get(nameof(Import_DropHint));
     public static string Import_Error_Empty => Get(nameof(Import_Error_Empty));
@@ -185,12 +193,14 @@ public static class Strings
     public static string Floskeln_Empty => Get(nameof(Floskeln_Empty));
     public static string Floskeln_Filter_Bereich => Get(nameof(Floskeln_Filter_Bereich));
     public static string Floskeln_Filter_Stufe => Get(nameof(Floskeln_Filter_Stufe));
+    public static string Floskeln_Filter_Niveau => Get(nameof(Floskeln_Filter_Niveau));
     public static string Floskeln_Filter_Gruppe => Get(nameof(Floskeln_Filter_Gruppe));
     public static string Floskeln_Filter_Search => Get(nameof(Floskeln_Filter_Search));
     public static string Floskeln_Filter_All => Get(nameof(Floskeln_Filter_All));
     public static string Floskeln_Col_Text => Get(nameof(Floskeln_Col_Text));
     public static string Floskeln_Col_Bereich => Get(nameof(Floskeln_Col_Bereich));
     public static string Floskeln_Col_Stufe => Get(nameof(Floskeln_Col_Stufe));
+    public static string Floskeln_Col_Niveau => Get(nameof(Floskeln_Col_Niveau));
     public static string Floskeln_Col_Gruppe => Get(nameof(Floskeln_Col_Gruppe));
     public static string Floskeln_DeleteConfirm_Title => Get(nameof(Floskeln_DeleteConfirm_Title));
     public static string Floskeln_DeleteConfirm_Body => Get(nameof(Floskeln_DeleteConfirm_Body));
@@ -259,6 +269,8 @@ public static class Strings
     public static string Feld_Schule_Leitung => Get(nameof(Feld_Schule_Leitung));
     public static string Feld_Schule_Schuljahr => Get(nameof(Feld_Schule_Schuljahr));
     public static string Feld_Schule_Halbjahr => Get(nameof(Feld_Schule_Halbjahr));
+    public static string Feld_Schule_Konferenzdatum => Get(nameof(Feld_Schule_Konferenzdatum));
+    public static string Feld_Schule_Wiederbeginn => Get(nameof(Feld_Schule_Wiederbeginn));
     public static string Feld_Klasse_Name => Get(nameof(Feld_Klasse_Name));
     public static string Feld_Klasse_Leitung => Get(nameof(Feld_Klasse_Leitung));
     public static string Feld_Klasse_Zeugnisdatum => Get(nameof(Feld_Klasse_Zeugnisdatum));
@@ -287,6 +299,9 @@ public static class Strings
     public static string Fehlzeiten_Col_Unentschuldigt => Get(nameof(Fehlzeiten_Col_Unentschuldigt));
     public static string Fehlzeiten_Col_Hinweis => Get(nameof(Fehlzeiten_Col_Hinweis));
     public static string Fehlzeiten_Error => Get(nameof(Fehlzeiten_Error));
+    public static string Fehlzeiten_Import_Button => Get(nameof(Fehlzeiten_Import_Button));
+    public static string Fehlzeiten_Import_Title => Get(nameof(Fehlzeiten_Import_Title));
+    public static string Fehlzeiten_Import_Unmatched => Get(nameof(Fehlzeiten_Import_Unmatched));
 
     // ---- Zeugnisse ----
     public static string Zeugnisse_Title => Get(nameof(Zeugnisse_Title));
@@ -318,6 +333,13 @@ public static class Strings
     public static string ZeugnisEditor_Begruendung => Get(nameof(ZeugnisEditor_Begruendung));
     public static string ZeugnisEditor_Fehlstunden_Gesamt => Get(nameof(ZeugnisEditor_Fehlstunden_Gesamt));
     public static string ZeugnisEditor_Fehlstunden_Unentschuldigt => Get(nameof(ZeugnisEditor_Fehlstunden_Unentschuldigt));
+    public static string ZeugnisEditor_Fehlstunden_Hint => Get(nameof(ZeugnisEditor_Fehlstunden_Hint));
+    public static string ZeugnisEditor_Kopf_Klasse => Get(nameof(ZeugnisEditor_Kopf_Klasse));
+    public static string ZeugnisEditor_Kopf_Schuljahr => Get(nameof(ZeugnisEditor_Kopf_Schuljahr));
+    public static string ZeugnisEditor_Kopf_Geburtsdatum => Get(nameof(ZeugnisEditor_Kopf_Geburtsdatum));
+    public static string ZeugnisEditor_Kopf_Zeugnisdatum => Get(nameof(ZeugnisEditor_Kopf_Zeugnisdatum));
+    public static string ZeugnisEditor_Kopf_Konferenzdatum => Get(nameof(ZeugnisEditor_Kopf_Konferenzdatum));
+    public static string ZeugnisEditor_Kopf_Wiederbeginn => Get(nameof(ZeugnisEditor_Kopf_Wiederbeginn));
     public static string ZeugnisEditor_InsertFloskel => Get(nameof(ZeugnisEditor_InsertFloskel));
     public static string ZeugnisEditor_HaeufigGenutzt => Get(nameof(ZeugnisEditor_HaeufigGenutzt));
     public static string ZeugnisEditor_HaeufigGenutzt_Hint => Get(nameof(ZeugnisEditor_HaeufigGenutzt_Hint));
@@ -333,6 +355,21 @@ public static class Strings
     public static string ZeugnisEditor_Erzeugen_Dialog_Title => Get(nameof(ZeugnisEditor_Erzeugen_Dialog_Title));
     public static string ZeugnisEditor_Erzeugen_NoTemplate => Get(nameof(ZeugnisEditor_Erzeugen_NoTemplate));
     public static string ZeugnisEditor_LastGenerated => Get(nameof(ZeugnisEditor_LastGenerated));
+    public static string ZeugnisEditor_Foerderempfehlung => Get(nameof(ZeugnisEditor_Foerderempfehlung));
+
+    // ---- Lern- und Förderempfehlungen ----
+    public static string Foerderempfehlungen_Title => Get(nameof(Foerderempfehlungen_Title));
+    public static string Foerderempfehlungen_Subtitle => Get(nameof(Foerderempfehlungen_Subtitle));
+    public static string Foerderempfehlungen_Intro => Get(nameof(Foerderempfehlungen_Intro));
+    public static string Foerderempfehlungen_AddFach => Get(nameof(Foerderempfehlungen_AddFach));
+    public static string Foerderempfehlungen_AddFach_Ph => Get(nameof(Foerderempfehlungen_AddFach_Ph));
+    public static string Foerderempfehlungen_Empty => Get(nameof(Foerderempfehlungen_Empty));
+    public static string Foerderempfehlungen_Beobachtungen => Get(nameof(Foerderempfehlungen_Beobachtungen));
+    public static string Foerderempfehlungen_SchulischeMassnahmen => Get(nameof(Foerderempfehlungen_SchulischeMassnahmen));
+    public static string Foerderempfehlungen_EmpfehlungenZuhause => Get(nameof(Foerderempfehlungen_EmpfehlungenZuhause));
+    public static string Foerderempfehlungen_Fertig => Get(nameof(Foerderempfehlungen_Fertig));
+    public static string Foerderempfehlungen_DeleteConfirm_Title => Get(nameof(Foerderempfehlungen_DeleteConfirm_Title));
+    public static string Foerderempfehlungen_DeleteConfirm_Body => Get(nameof(Foerderempfehlungen_DeleteConfirm_Body));
 
     // ---- Recovery ----
     public static string Recovery_Title => Get(nameof(Recovery_Title));

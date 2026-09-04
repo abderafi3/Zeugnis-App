@@ -20,7 +20,7 @@
                        Text="{x:Static res:Strings.Fehlzeiten_Intro}" TextWrapping="Wrap" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,16,0,12">
+        <DockPanel Grid.Row="1" Margin="0,16,0,12" LastChildFill="False">
             <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Text="{x:Static res:Strings.Fehlzeiten_Klasse}" />
             <ComboBox Margin="8,0,0,0" MinWidth="180"
                       ItemsSource="{Binding Klassen}" DisplayMemberPath="Name"
@@ -28,7 +28,11 @@
             <TextBlock Margin="24,0,0,0" VerticalAlignment="Center"
                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                        Text="{Binding TermText}" />
-        </StackPanel>
+            <ui:Button DockPanel.Dock="Right"
+                       Icon="{ui:SymbolIcon ArrowImport24}"
+                       Content="{x:Static res:Strings.Fehlzeiten_Import_Button}"
+                       Command="{Binding ImportierenCommand}" />
+        </DockPanel>
 
         <TextBlock Grid.Row="2" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                    Text="{x:Static res:Strings.Fehlzeiten_NoKlasse}"
@@ -42,6 +46,7 @@
                   ItemsSource="{Binding Rows}"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
+                  IsReadOnly="True"
                   HeadersVisibility="Column"
                   GridLinesVisibility="Horizontal"
                   Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}, ConverterParameter=invert}">
@@ -61,18 +66,18 @@
                 <DataGridTemplateColumn Width="160" Header="{x:Static res:Strings.Fehlzeiten_Col_Gesamt}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ui:NumberBox Margin="4,3" Minimum="0" SmallChange="1"
+                            <ui:NumberBox Margin="4,3" Minimum="0" SmallChange="1" MaxDecimalPlaces="0"
                                           ClearButtonEnabled="False"
-                                          Value="{Binding Gesamt, Mode=TwoWay, UpdateSourceTrigger=LostFocus, TargetNullValue=0}" />
+                                          Value="{Binding Gesamt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="180" Header="{x:Static res:Strings.Fehlzeiten_Col_Unentschuldigt}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ui:NumberBox Margin="4,3" Minimum="0" SmallChange="1"
+                            <ui:NumberBox Margin="4,3" Minimum="0" SmallChange="1" MaxDecimalPlaces="0"
                                           ClearButtonEnabled="False"
-                                          Value="{Binding Unentschuldigt, Mode=TwoWay, UpdateSourceTrigger=LostFocus, TargetNullValue=0}" />
+                                          Value="{Binding Unentschuldigt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

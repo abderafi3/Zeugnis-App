@@ -72,6 +72,26 @@ public class ImportPipelineTests
     }
 
     [Fact]
+    public void Class_list_with_a_Schulbesuchsjahr_column_maps_it()
+    {
+        const string csv =
+            "Vorname;Nachname;Geschlecht;SBJ\n" +
+            "Jad;Barhoum;m;2\n" +
+            "Maria;Taneva;w;E1\n" +
+            "Roman;Buhira;m;\n";
+        using var ms = new MemoryStream(Encoding.UTF8.GetBytes(csv));
+
+        var session = new ImportSession(Parser.FromCsv(ms), ImportProfiles.Kinder);
+        Assert.True(session.HasHeaderRow);
+        Assert.Equal(ImportFieldKeys.Schulbesuchsjahr, session.ColumnRoles[3]);
+
+        var data = session.BuildRows().Select(KinderImportMapper.Map).ToList();
+        Assert.Equal(2, data[0].Schulbesuchsjahr);
+        Assert.Equal(1, data[1].Schulbesuchsjahr);   // "E1" → 1
+        Assert.Equal(0, data[2].Schulbesuchsjahr);   // blank → not set
+    }
+
+    [Fact]
     public void Clipboard_tab_separated_text_parses_into_a_grid()
     {
         const string pasted = "Vorname\tNachname\tGeb\nMax\tMustermann\t03.05.2017\n";

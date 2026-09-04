@@ -1,9 +1,11 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Serilog;
 using ZeugnisApp.App.Resources;
+using ZeugnisApp.App.Services;
 using ZeugnisApp.App.ViewModels.Klassen;
 using ZeugnisApp.Application.Abstractions;
 using ZeugnisApp.Domain.Enums;
@@ -11,7 +13,8 @@ using ZeugnisApp.Domain.Enums;
 namespace ZeugnisApp.App.ViewModels.Zeugnisse;
 
 public sealed partial class ZeugnisUebersichtViewModel(
-    IZeugnisService zeugnisse, IKlassenService klassen, ISchoolSettingsService settings, IZeugnisseNavigator navigator)
+    IZeugnisService zeugnisse, IKlassenService klassen, ISchoolSettingsService settings,
+    IZeugnisseNavigator navigator, IBusyService busy)
     : ObservableObject, IAsyncInitializable
 {
     private static readonly Guid AutoFormular = Guid.Empty;
@@ -83,7 +86,9 @@ public sealed partial class ZeugnisUebersichtViewModel(
         }
     }
 
-    private async Task ReloadAsync()
+    // Switching class re-queries every child in it and rebuilds every row, so it runs under
+    // the loading overlay like a navigation does.
+    private Task ReloadAsync() => busy.RunAsync(async () =>
     {
         // Selection changes and the initial load can overlap; only the newest run may
         // touch Rows, and it does so in one shot after its data is ready.
@@ -121,7 +126,7 @@ public sealed partial class ZeugnisUebersichtViewModel(
 
         Loaded = true;
         OnPropertyChanged(nameof(IsEmpty));
-    }
+    });
 }
 
 public sealed partial class ZeugnisUebersichtRowViewModel : ObservableObject
@@ -188,6 +193,15 @@ public sealed partial class ZeugnisUebersichtRowViewModel : ObservableObject
         try
         {
             await _zeugnisse.SetManuellesFormularAsync(_zeile.KindId, value == Guid.Empty ? null : value);
+
+            // The reload rebuilds Rows (and this very ComboBox). Let the ComboBox finish its
+            // selection change first — clearing the list from inside it tears down a live
+            // Selector and throws ("SelectedItems … nur in Mehrfachauswahlmodi").
+            if (System.Windows.Application.Current?.Dispatcher is { } dispatcher)
+            {
+                await dispatcher.InvokeAsync(static () => { }, DispatcherPriority.Background);
+            }
+
             await _reload();
         }
         catch (Exception ex)

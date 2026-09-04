@@ -39,6 +39,7 @@ internal sealed class KinderImportService(IDbContextFactory<ZeugnisDbContext> co
                 Nachname = row.Nachname.Trim(),
                 Geburtsdatum = row.Geburtsdatum,
                 Geschlecht = row.Geschlecht,
+                Schulbesuchsjahr = Math.Clamp(row.Schulbesuchsjahr, 0, 4),
             });
             imported++;
         }

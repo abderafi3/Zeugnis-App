@@ -56,6 +56,7 @@
                                                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                                    Text="{x:Static res:Strings.Zeugnisse_Col_Formular}" />
                                         <ComboBox Margin="8,0,0,0" MinWidth="240"
+                                                  IsSynchronizedWithCurrentItem="False"
                                                   ItemsSource="{Binding FormularOptionen}"
                                                   DisplayMemberPath="Anzeigename"
                                                   SelectedValuePath="Id"

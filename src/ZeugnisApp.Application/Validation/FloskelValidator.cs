@@ -17,5 +17,11 @@ public sealed class FloskelValidator : AbstractValidator<Floskel>
 
         RuleFor(f => f.Stufe)
             .InclusiveBetween(0, 4).WithMessage("Die Stufe muss zwischen 0 (alle) und 4 liegen.");
+
+        RuleFor(f => f.Niveau)
+            .InclusiveBetween(0, 5).WithMessage("Das Niveau muss zwischen 0 (neutral) und 5 liegen.");
+
+        RuleFor(f => f.Kuerzel)
+            .MaximumLength(40);
     }
 }

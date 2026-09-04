@@ -60,6 +60,7 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<INavigationService, NavigationService>();
 
                 // ---- App-wide services ----
+                services.AddSingleton<IBusyService, BusyService>();
                 services.AddSingleton<ISaveStatusService, SaveStatusService>();
                 services.AddSingleton<IDialogService, DialogService>();
                 services.AddSingleton<IFilePickerService, FilePickerService>();
@@ -121,8 +122,8 @@ public partial class App : System.Windows.Application
             // Apply pending migrations before any screen opens (plan §2).
             await _host.Services.GetRequiredService<DatabaseInitializer>().InitializeAsync();
 
-            // Give every Formular a usable Word template (placeholders until the school's files
-            // are uploaded in Sprint 10) so "Zeugnis erzeugen" works from the start.
+            // Link every standard Formular to the school's bundled, tagged .docx (generated
+            // placeholder for any custom form) so "Zeugnis erzeugen" works from the start.
             await _host.Services.GetRequiredService<Services.TemplateBootstrapper>().EnsureTemplatesAsync();
 
             // Purge Papierkorb items past the retention window (plan §Sprint 11).

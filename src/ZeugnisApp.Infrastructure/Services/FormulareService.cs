@@ -139,7 +139,7 @@ internal sealed class FormulareService(IDbContextFactory<ZeugnisDbContext> conte
         }
 
         var alle = await db.Formulare.ToListAsync(cancellationToken).ConfigureAwait(false);
-        return FormularSuggester.Suggest(alle, kind, kind.Klasse?.Jahrgang ?? 0, halbjahr);
+        return FormularSuggester.Suggest(alle, kind, kind.EffektivesSchulbesuchsjahr, halbjahr);
     }
 
     private static void Validate(Formular formular)

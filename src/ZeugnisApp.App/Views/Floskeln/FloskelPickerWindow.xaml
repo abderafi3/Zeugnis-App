@@ -4,6 +4,7 @@
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
                  Title="{x:Static res:Strings.Picker_Title}"
+                 Icon="pack://application:,,,/ZeugnisApp;component/Resources/app.ico"
                  Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                  Width="760"
                  Height="560"
@@ -28,6 +29,28 @@
             <DockPanel Grid.Column="0">
                 <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8">
                     <ComboBox ItemsSource="{Binding Bereiche}" SelectedItem="{Binding SelectedBereich}" />
+                    <Grid Margin="0,8,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Grid.Column="0" SelectedIndex="{Binding StufeFilter}" ToolTip="{x:Static res:Strings.Floskeln_Filter_Stufe}">
+                            <ComboBoxItem Content="{x:Static res:Strings.Floskeln_Filter_Stufe}" />
+                            <ComboBoxItem Content="1" />
+                            <ComboBoxItem Content="2" />
+                            <ComboBoxItem Content="3" />
+                            <ComboBoxItem Content="4" />
+                        </ComboBox>
+                        <ComboBox Grid.Column="2" SelectedIndex="{Binding NiveauFilter}" ToolTip="{x:Static res:Strings.Floskeln_Filter_Niveau}">
+                            <ComboBoxItem Content="{x:Static res:Strings.Floskeln_Filter_Niveau}" />
+                            <ComboBoxItem Content="1" />
+                            <ComboBoxItem Content="2" />
+                            <ComboBoxItem Content="3" />
+                            <ComboBoxItem Content="4" />
+                            <ComboBoxItem Content="5" />
+                        </ComboBox>
+                    </Grid>
                     <ui:TextBox Margin="0,8,0,0"
                                 PlaceholderText="{x:Static res:Strings.Floskeln_Filter_Search}"
                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />

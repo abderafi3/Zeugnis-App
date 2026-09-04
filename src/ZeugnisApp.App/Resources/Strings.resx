@@ -61,6 +61,11 @@
   <data name="Nav_Fehlzeiten"><value>Fehlzeiten</value></data>
   <data name="Nav_Einstellungen"><value>Einstellungen</value></data>
   <data name="Nav_Papierkorb"><value>Papierkorb</value></data>
+  <!-- Shown under the shell spinner while a screen is still loading. -->
+  <data name="Busy_Loading"><value>Wird geladen …</value></data>
+  <data name="Busy_Opening"><value>Wird geöffnet …</value></data>
+  <data name="Busy_Zeugnis_Open"><value>Zeugnis wird geöffnet …</value></data>
+  <data name="Busy_Floskeln"><value>Floskeln werden geladen …</value></data>
   <data name="Save_Active"><value>Automatisches Speichern aktiv</value></data>
   <data name="Save_Unsaved"><value>Nicht gespeicherte Änderungen …</value></data>
   <data name="Save_At"><value>Gespeichert um {0:HH:mm}</value><comment>{0} = local time</comment></data>
@@ -173,6 +178,9 @@
   <data name="KindEdit_Nachname"><value>Nachname</value></data>
   <data name="KindEdit_Geburtsdatum"><value>Geburtsdatum</value></data>
   <data name="KindEdit_Geschlecht"><value>Geschlecht</value></data>
+  <data name="KindEdit_Schulbesuchsjahr"><value>Schulbesuchsjahr</value></data>
+  <data name="KindEdit_Schulbesuchsjahr_Hint"><value>Bestimmt Zeugnisformular und Floskeln – in jahrgangsübergreifenden Klassen wichtig.</value></data>
+  <data name="KindEdit_Schulbesuchsjahr_Unset"><value>— (nicht gesetzt)</value></data>
   <data name="KindEdit_Foerderstatus"><value>Förderstatus</value></data>
   <data name="KindEdit_Foerderschwerpunkt"><value>Förderschwerpunkt</value></data>
   <data name="KindEdit_Foerderschwerpunkt_Ph"><value>z. B. Lernen, Sprache, Emotionale und soziale Entwicklung</value></data>
@@ -190,6 +198,7 @@
   <data name="Import_FromExcel"><value>Excel-Datei …</value></data>
   <data name="Import_FromWord"><value>Word-Datei …</value></data>
   <data name="Import_FromCsv"><value>CSV-Datei …</value></data>
+  <data name="Import_FromPdf"><value>PDF-Datei …</value></data>
   <data name="Import_FromClipboard"><value>Aus Zwischenablage einfügen</value></data>
   <data name="Import_DropHint"><value>Datei hierher ziehen</value></data>
   <data name="Import_Error_Empty"><value>Die Quelle enthält keine lesbare Tabelle.</value></data>
@@ -209,19 +218,21 @@
 
   <!-- ================= Floskeln ================= -->
   <data name="Floskeln_Title"><value>Floskeln-Bibliothek</value></data>
-  <data name="Floskeln_Intro"><value>Textbausteine mit Platzhaltern [Name], [er/sie], [sein/ihr] … Diese werden pro Kind aufgelöst. Bereich leer lassen = gilt für alle Bereiche; Stufe „alle“ = gilt für alle Jahrgänge.</value></data>
+  <data name="Floskeln_Intro"><value>Textbausteine mit Platzhaltern – entweder [Name], [er/sie], [sein/ihr] … oder die Schreibweise der Schule $Vorname$ und &amp;Er%Sie&amp; / &amp;seine/ihre&amp;. Diese werden pro Kind aufgelöst. Bereich leer lassen = gilt für alle Bereiche; Stufe „alle“ = gilt für alle Jahrgänge; Niveau „alle“ = ohne Differenzierung.</value></data>
   <data name="Floskeln_New"><value>Neue Floskel</value></data>
   <data name="Floskeln_Import"><value>Aus Excel importieren</value></data>
   <data name="Floskeln_TestPicker"><value>Auswahl testen</value></data>
   <data name="Floskeln_Empty"><value>Keine Floskeln gefunden.</value></data>
   <data name="Floskeln_Filter_Bereich"><value>Bereich</value></data>
   <data name="Floskeln_Filter_Stufe"><value>Stufe</value></data>
+  <data name="Floskeln_Filter_Niveau"><value>Niveau</value></data>
   <data name="Floskeln_Filter_Gruppe"><value>Klassengruppe</value></data>
   <data name="Floskeln_Filter_Search"><value>Suchen …</value></data>
   <data name="Floskeln_Filter_All"><value>alle</value></data>
   <data name="Floskeln_Col_Text"><value>Text</value></data>
   <data name="Floskeln_Col_Bereich"><value>Bereich</value></data>
   <data name="Floskeln_Col_Stufe"><value>Stufe</value></data>
+  <data name="Floskeln_Col_Niveau"><value>Niveau</value></data>
   <data name="Floskeln_Col_Gruppe"><value>Gruppe</value></data>
   <data name="Floskeln_DeleteConfirm_Title"><value>Floskel löschen?</value></data>
   <data name="Floskeln_DeleteConfirm_Body"><value>Die Floskel wird in den Papierkorb verschoben.</value></data>
@@ -294,6 +305,8 @@
   <data name="Feld_Schule_Leitung"><value>Schulleitung</value></data>
   <data name="Feld_Schule_Schuljahr"><value>Schuljahr</value></data>
   <data name="Feld_Schule_Halbjahr"><value>Halbjahr</value></data>
+  <data name="Feld_Schule_Konferenzdatum"><value>Konferenzdatum</value></data>
+  <data name="Feld_Schule_Wiederbeginn"><value>Wiederbeginn des Unterrichts</value></data>
   <data name="Feld_Klasse_Name"><value>Klassenname</value></data>
   <data name="Feld_Klasse_Leitung"><value>Klassenleitung</value></data>
   <data name="Feld_Klasse_Zeugnisdatum"><value>Zeugnisdatum</value></data>
@@ -322,6 +335,9 @@
   <data name="Fehlzeiten_Col_Unentschuldigt"><value>davon unentschuldigt</value></data>
   <data name="Fehlzeiten_Col_Hinweis"><value>Hinweis</value></data>
   <data name="Fehlzeiten_Error"><value>Unentschuldigte Stunden dürfen die Gesamtstunden nicht übersteigen.</value></data>
+  <data name="Fehlzeiten_Import_Button"><value>Fehlzeiten importieren …</value></data>
+  <data name="Fehlzeiten_Import_Title"><value>Fehlzeiten importieren – {0}</value></data>
+  <data name="Fehlzeiten_Import_Unmatched"><value>Keinem Kind der Klasse zugeordnet: {0}</value></data>
 
   <!-- ================= Zeugnisse ================= -->
   <data name="Zeugnisse_Title"><value>Zeugnisse</value></data>
@@ -354,6 +370,13 @@
   <data name="ZeugnisEditor_Begruendung"><value>Begründung</value></data>
   <data name="ZeugnisEditor_Fehlstunden_Gesamt"><value>Stunden gesamt</value></data>
   <data name="ZeugnisEditor_Fehlstunden_Unentschuldigt"><value>davon unentschuldigt</value></data>
+  <data name="ZeugnisEditor_Fehlstunden_Hint"><value>Wird aus der Fehlzeiten-Tabelle übernommen. Zum Ändern dort bearbeiten.</value></data>
+  <data name="ZeugnisEditor_Kopf_Klasse"><value>Klasse</value></data>
+  <data name="ZeugnisEditor_Kopf_Schuljahr"><value>Schuljahr</value></data>
+  <data name="ZeugnisEditor_Kopf_Geburtsdatum"><value>Geburtsdatum</value></data>
+  <data name="ZeugnisEditor_Kopf_Zeugnisdatum"><value>Zeugnisdatum</value></data>
+  <data name="ZeugnisEditor_Kopf_Konferenzdatum"><value>Konferenzdatum</value></data>
+  <data name="ZeugnisEditor_Kopf_Wiederbeginn"><value>Wiederbeginn Unterricht</value></data>
   <data name="ZeugnisEditor_InsertFloskel"><value>Floskel einfügen</value></data>
   <data name="ZeugnisEditor_HaeufigGenutzt"><value>Häufig genutzt</value></data>
   <data name="ZeugnisEditor_HaeufigGenutzt_Hint"><value>Anklicken, um die Floskel in das jeweilige Feld zu übernehmen.</value></data>
@@ -369,6 +392,21 @@
   <data name="ZeugnisEditor_Erzeugen_Dialog_Title"><value>Zeugnis speichern unter</value></data>
   <data name="ZeugnisEditor_Erzeugen_NoTemplate"><value>Für dieses Formular ist noch keine Word-Vorlage hinterlegt.</value></data>
   <data name="ZeugnisEditor_LastGenerated"><value>Zuletzt erzeugt: {0}</value></data>
+  <data name="ZeugnisEditor_Foerderempfehlung"><value>Lern- und Förderempfehlung …</value></data>
+
+  <!-- ================= Lern- und Förderempfehlungen ================= -->
+  <data name="Foerderempfehlungen_Title"><value>Lern- und Förderempfehlungen – {0}</value></data>
+  <data name="Foerderempfehlungen_Subtitle"><value>{0}, {1}</value></data>
+  <data name="Foerderempfehlungen_Intro"><value>Die Lern- und Förderempfehlung ergänzt das Zeugnis fachweise, wenn die Leistungen in einem Fach schwach sind oder die Versetzung gefährdet ist.</value></data>
+  <data name="Foerderempfehlungen_AddFach"><value>Fach hinzufügen</value></data>
+  <data name="Foerderempfehlungen_AddFach_Ph"><value>Fach wählen …</value></data>
+  <data name="Foerderempfehlungen_Empty"><value>Noch keine Förderempfehlung angelegt. Oben ein Fach wählen und „Fach hinzufügen“.</value></data>
+  <data name="Foerderempfehlungen_Beobachtungen"><value>Beobachtungen</value></data>
+  <data name="Foerderempfehlungen_SchulischeMassnahmen"><value>Schulische Maßnahmen</value></data>
+  <data name="Foerderempfehlungen_EmpfehlungenZuhause"><value>Empfehlungen für Zuhause</value></data>
+  <data name="Foerderempfehlungen_Fertig"><value>Fertiggestellt</value></data>
+  <data name="Foerderempfehlungen_DeleteConfirm_Title"><value>Förderempfehlung löschen?</value></data>
+  <data name="Foerderempfehlungen_DeleteConfirm_Body"><value>Die Förderempfehlung für dieses Fach wird endgültig gelöscht.</value></data>
 
   <!-- ================= Datenschlüssel / Recovery ================= -->
   <data name="Recovery_Title"><value>Datenschlüssel</value></data>

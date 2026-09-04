@@ -22,6 +22,43 @@
                     </StackPanel>
                 </StackPanel>
 
+                <!-- Kopfdaten: read-only, from the class / Einstellungen; written into the .docx -->
+                <Border Margin="0,0,0,12" Padding="14,10" CornerRadius="6"
+                        Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="0,0,28,0">
+                            <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Static res:Strings.ZeugnisEditor_Kopf_Klasse}" />
+                            <TextBlock Text="{Binding KopfKlasse}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,28,0">
+                            <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Static res:Strings.ZeugnisEditor_Kopf_Schuljahr}" />
+                            <TextBlock Text="{Binding KopfSchuljahr}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,28,0">
+                            <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Static res:Strings.ZeugnisEditor_Kopf_Geburtsdatum}" />
+                            <TextBlock Text="{Binding KopfGeburtsdatum}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,28,0">
+                            <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Static res:Strings.ZeugnisEditor_Kopf_Zeugnisdatum}" />
+                            <TextBlock Text="{Binding KopfZeugnisdatum}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,28,0" Visibility="{Binding KopfKonferenzdatum, Converter={StaticResource NullToCollapsed}}">
+                            <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Static res:Strings.ZeugnisEditor_Kopf_Konferenzdatum}" />
+                            <TextBlock Text="{Binding KopfKonferenzdatum}" />
+                        </StackPanel>
+                        <StackPanel Visibility="{Binding KopfWiederbeginn, Converter={StaticResource NullToCollapsed}}">
+                            <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Static res:Strings.ZeugnisEditor_Kopf_Wiederbeginn}" />
+                            <TextBlock Text="{Binding KopfWiederbeginn}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
                 <ui:InfoBar Margin="0,0,0,12" Severity="Informational" IsClosable="True"
                             IsOpen="{Binding ZieldifferentHinweisEingefuegt}"
                             Message="{x:Static res:Strings.ZeugnisEditor_ZieldifferentAdded}" />
@@ -79,6 +116,7 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{Binding Fach}" />
                                     <ComboBox Grid.Column="1" IsEditable="True"
+                                              IsSynchronizedWithCurrentItem="False"
                                               ItemsSource="{Binding Optionen}"
                                               Text="{Binding Note, UpdateSourceTrigger=LostFocus}" />
                                 </Grid>
@@ -107,7 +145,7 @@
                               Text="{Binding VersetzungsvermerkText, UpdateSourceTrigger=LostFocus}" />
                 </StackPanel>
 
-                <!-- Fehlstunden -->
+                <!-- Fehlstunden: read-only, mirrored from the Fehlzeiten-Tabelle -->
                 <TextBlock FontSize="16" FontWeight="SemiBold" Margin="0,12,0,8" Text="{x:Static res:Strings.ZeugnisEditor_Section_Fehlstunden}" />
                 <Grid MaxWidth="480" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
@@ -116,14 +154,19 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <TextBlock Text="{x:Static res:Strings.ZeugnisEditor_Fehlstunden_Gesamt}" Margin="0,0,0,4" />
-                        <ui:NumberBox Value="{Binding FehlstundenGesamt}" Minimum="0" SmallChange="1" />
+                        <TextBlock Text="{x:Static res:Strings.ZeugnisEditor_Fehlstunden_Gesamt}"
+                                   FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        <TextBlock FontSize="18" Text="{Binding FehlstundenGesamtAnzeige}" />
                     </StackPanel>
                     <StackPanel Grid.Column="2">
-                        <TextBlock Text="{x:Static res:Strings.ZeugnisEditor_Fehlstunden_Unentschuldigt}" Margin="0,0,0,4" />
-                        <ui:NumberBox Value="{Binding FehlstundenUnentschuldigt}" Minimum="0" SmallChange="1" />
+                        <TextBlock Text="{x:Static res:Strings.ZeugnisEditor_Fehlstunden_Unentschuldigt}"
+                                   FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        <TextBlock FontSize="18" Text="{Binding FehlstundenUnentschuldigtAnzeige}" />
                     </StackPanel>
                 </Grid>
+                <TextBlock Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                           Text="{x:Static res:Strings.ZeugnisEditor_Fehlstunden_Hint}" />
 
                 <!-- Bemerkungen -->
                 <TextBlock FontSize="16" FontWeight="SemiBold" Margin="0,12,0,8" Text="{x:Static res:Strings.ZeugnisEditor_Section_Bemerkungen}" />
@@ -139,6 +182,9 @@
                     <StackPanel>
                         <ui:ToggleSwitch Content="{x:Static res:Strings.ZeugnisEditor_Fertiggestellt}"
                                          IsChecked="{Binding Fertiggestellt}" />
+                        <ui:Button Margin="0,12,0,0" HorizontalAlignment="Left" Icon="{ui:SymbolIcon ClipboardTaskListLtr24}"
+                                   Content="{x:Static res:Strings.ZeugnisEditor_Foerderempfehlung}"
+                                   Command="{Binding FoerderempfehlungOeffnenCommand}" />
                         <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
                             <ui:ProgressRing IsIndeterminate="True" Width="20" Height="20" Margin="0,0,8,0"
                                              VerticalAlignment="Center"
