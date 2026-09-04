@@ -7,11 +7,19 @@
     <AssemblyName>ZeugnisApp</AssemblyName>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- The school's logo: the .exe icon in Explorer, the taskbar and Alt-Tab, and (as a
+         Resource below) the icon in the window's own title bar. Replace Resources\app.ico
+         to change it — build/make-icon.ps1 turns a high-resolution PNG into the right file. -->
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
     <SatelliteResourceLanguages>de;en</SatelliteResourceLanguages>
     <!-- Sprint 12 packages this self-contained via a dotnet publish profile (RID win-x64,
          SelfContained=true) so a teacher needs no separate .NET install (see plan section 2).
          Kept out of the csproj so day-to-day build and 'dotnet ef' stay framework-dependent and fast. -->
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\app.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ZeugnisApp.Application\ZeugnisApp.Application.csproj" />

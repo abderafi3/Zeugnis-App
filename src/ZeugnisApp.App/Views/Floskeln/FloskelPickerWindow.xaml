@@ -4,6 +4,7 @@
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:res="clr-namespace:ZeugnisApp.App.Resources"
                  Title="{x:Static res:Strings.Picker_Title}"
+                 Icon="pack://application:,,,/ZeugnisApp;component/Resources/app.ico"
                  Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                  Width="760"
                  Height="560"

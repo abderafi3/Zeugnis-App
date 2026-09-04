@@ -7,6 +7,12 @@ Definition of Done aus `plan.md` §Sprint 12.
 - [ ] `dotnet test Zeugnis-App.slnx -c Release` — **alle Tests grün**, inkl. der Fidelitäts-Regression
       in `ZeugnisApp.Reporting.Tests` (plan §5.4 / §6, MVP-Release-Gate).
 - [ ] Version in `Directory.Build.props` (`<Version>`) und `build/ZeugnisApp.iss` (`#define AppVersion`) angeglichen.
+- [ ] **App-Symbol:** `src/ZeugnisApp.App/Resources/app.ico` ist aus `data/logo.png` erzeugt mit
+      `pwsh build/make-icon.ps1 -Source data\logo.png -RemoveBackground -Backdrop White`
+      (16–256 px). Der weiße Kreis hinter dem Logo ist Absicht: die dunkle Strichzeichnung wäre
+      sonst auf einer dunklen Taskleiste praktisch unsichtbar.
+      Offen: `data/logo.png` ist nur 222 × 237 px, das 256-px-Bild ist also hochskaliert und leicht
+      unscharf. Für das Release eine Vorlage ab 512 px von der Schule anfordern und neu erzeugen.
 - [ ] `docs/datenschutzkonzept.md`, `docs/schnellstart.md`, `docs/neues-formular-workflow.md` von der Schule gegengelesen.
 - [ ] Offene Punkte für die Schule geklärt (siehe unten).
 

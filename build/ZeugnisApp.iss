@@ -8,6 +8,7 @@
 #define AppVersion "0.1.0"
 #define AppExeName "ZeugnisApp.exe"
 #define PayloadDir "..\publish\win-x64"
+#define IconFile "..\src\ZeugnisApp.App\Resources\app.ico"
 
 [Setup]
 AppId={{7E3B2A10-6C4D-4F2E-9A1B-2C7D8E5F0A31}
@@ -21,6 +22,7 @@ OutputBaseFilename=ZeugnisApp-Setup-{#AppVersion}
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
+SetupIconFile={#IconFile}
 PrivilegesRequiredOverridesAllowed=dialog
 ArchitecturesInstallIn64BitMode=x64compatible
 ArchitecturesAllowed=x64compatible

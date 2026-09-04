@@ -331,6 +331,7 @@ Assumptions: **2-week sprints**, a small team (1–2 developers + part-time teac
 ### Sprint 12 — Härtung & Release
 - Accessibility pass (contrast, keyboard nav, screen-reader labels), performance pass on realistic multi-year data volumes.
 - Installer (Inno Setup, self-contained .NET publish); **Authenticode code-signing** of the app and installer `.exe` (or a signed-off written acceptance if the school declines the certificate); optional MSIX packaging stretch goal.
+- **App icon**: the school's logo ships as `src/ZeugnisApp.App/Resources/app.ico` (16–256 px) — the `.exe` icon, every window's title bar and taskbar entry, and the installer. Generated from `data/logo.png` by `build/make-icon.ps1`, which keys out the flat white background and puts a white **disc** back behind the mark: the logo is dark line art meant for a light ground, so a fully transparent icon disappears on a dark taskbar and a white square reads as a pasted sticker. The source is 222 × 237, so the 256 px frame is upscaled — ask the school for a ≥ 512 px original before release.
 - **Datenschutzkonzept** deliverable: technical & organisational measures, Papierkorb retention, "local single-device, no processor", deleting leavers' data, and the passphrase/recovery-key policy.
 - Workflow/documentation for "school receives a new official form" (still developer-assisted for MVP, but documented step-by-step using the Sprint 10 wizard).
 - Bug-fix buffer, user-facing quick-start guide.
