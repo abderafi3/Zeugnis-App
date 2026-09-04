@@ -60,6 +60,7 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<INavigationService, NavigationService>();
 
                 // ---- App-wide services ----
+                services.AddSingleton<IBusyService, BusyService>();
                 services.AddSingleton<ISaveStatusService, SaveStatusService>();
                 services.AddSingleton<IDialogService, DialogService>();
                 services.AddSingleton<IFilePickerService, FilePickerService>();

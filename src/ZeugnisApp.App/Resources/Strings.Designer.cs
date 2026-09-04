@@ -30,6 +30,10 @@ public static class Strings
     public static string Nav_Fehlzeiten => Get(nameof(Nav_Fehlzeiten));
     public static string Nav_Einstellungen => Get(nameof(Nav_Einstellungen));
     public static string Nav_Papierkorb => Get(nameof(Nav_Papierkorb));
+    public static string Busy_Loading => Get(nameof(Busy_Loading));
+    public static string Busy_Opening => Get(nameof(Busy_Opening));
+    public static string Busy_Zeugnis_Open => Get(nameof(Busy_Zeugnis_Open));
+    public static string Busy_Floskeln => Get(nameof(Busy_Floskeln));
     public static string Save_Active => Get(nameof(Save_Active));
     public static string Save_Unsaved => Get(nameof(Save_Unsaved));
     public static string Save_At => Get(nameof(Save_At));

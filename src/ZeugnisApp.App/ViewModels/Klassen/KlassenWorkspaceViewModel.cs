@@ -1,5 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using Serilog;
 using ZeugnisApp.App.Services;
 using ZeugnisApp.App.ViewModels.Import;
 using ZeugnisApp.Application.Abstractions;
@@ -7,22 +5,21 @@ using ZeugnisApp.Application.Abstractions;
 namespace ZeugnisApp.App.ViewModels.Klassen;
 
 /// <summary>
-/// Page-level view model for the Klassen area. Owns the currently shown sub-view model and the
+/// Page-level view model for the Klassen area. Owns the currently shown sub view model and the
 /// navigation between the four steps (plan §Sprint 2). No NavigationView drill-down — a single
 /// hosted <c>ContentControl</c> keeps the flow testable.
 /// </summary>
-public sealed partial class KlassenWorkspaceViewModel : ViewModelBase, IKlassenNavigator
+public sealed class KlassenWorkspaceViewModel : WorkspaceViewModelBase, IKlassenNavigator
 {
     private readonly IKlassenService _service;
     private readonly IDialogService _dialogs;
     private readonly ISaveStatusService _saveStatus;
     private readonly Services.ImportServices _import;
 
-    [ObservableProperty]
-    private ObservableObject? _current;
-
     public KlassenWorkspaceViewModel(
-        IKlassenService service, IDialogService dialogs, ISaveStatusService saveStatus, Services.ImportServices import)
+        IKlassenService service, IDialogService dialogs, ISaveStatusService saveStatus,
+        Services.ImportServices import, IBusyService busy)
+        : base(busy)
     {
         _service = service;
         _dialogs = dialogs;
@@ -55,36 +52,6 @@ public sealed partial class KlassenWorkspaceViewModel : ViewModelBase, IKlassenN
     public void ImportKinder(Guid klasseId, string klasseName)
         => Swap(new KinderImportWizardViewModel(
             _import.Parser, _import.KinderCommitter, _import.FilePicker, _import.Clipboard, this, klasseId, klasseName));
-
-    private async void Swap(ObservableObject next)
-    {
-        // Persist any buffered edits from the screen we are leaving.
-        if (Current is IAsyncFlushable flushable)
-        {
-            try
-            {
-                await flushable.FlushAsync();
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Autospeichern beim Verlassen der Seite fehlgeschlagen");
-            }
-        }
-
-        Current = next;
-
-        if (next is IAsyncInitializable init)
-        {
-            try
-            {
-                await init.InitializeAsync();
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Laden der Ansicht {View} fehlgeschlagen", next.GetType().Name);
-            }
-        }
-    }
 }
 
 /// <summary>Sub view models that load data when they become the current view.</summary>

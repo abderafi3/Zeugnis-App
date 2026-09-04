@@ -61,6 +61,11 @@
   <data name="Nav_Fehlzeiten"><value>Fehlzeiten</value></data>
   <data name="Nav_Einstellungen"><value>Einstellungen</value></data>
   <data name="Nav_Papierkorb"><value>Papierkorb</value></data>
+  <!-- Shown under the shell spinner while a screen is still loading. -->
+  <data name="Busy_Loading"><value>Wird geladen …</value></data>
+  <data name="Busy_Opening"><value>Wird geöffnet …</value></data>
+  <data name="Busy_Zeugnis_Open"><value>Zeugnis wird geöffnet …</value></data>
+  <data name="Busy_Floskeln"><value>Floskeln werden geladen …</value></data>
   <data name="Save_Active"><value>Automatisches Speichern aktiv</value></data>
   <data name="Save_Unsaved"><value>Nicht gespeicherte Änderungen …</value></data>
   <data name="Save_At"><value>Gespeichert um {0:HH:mm}</value><comment>{0} = local time</comment></data>

@@ -24,7 +24,8 @@ public sealed partial class FehlzeitenViewModel(
     IFehlzeitenService fehlzeitenService,
     ISchoolSettingsService settingsService,
     ISaveStatusService saveStatus,
-    ImportServices import)
+    ImportServices import,
+    IBusyService busy)
     : ViewModelBase, IAsyncFlushable
 {
     private string _schuljahr = string.Empty;
@@ -81,7 +82,9 @@ public sealed partial class FehlzeitenViewModel(
         }
     }
 
-    private async Task ReloadRowsAsync()
+    // Switching class rebuilds a row per child — around 200 of them in this school — which is
+    // the same kind of wait as opening the screen, so it gets the same loading overlay.
+    private Task ReloadRowsAsync() => busy.RunAsync(async () =>
     {
         // Overlapping selection changes: only the newest run writes Rows, and in one step.
         var generation = ++_reloadGeneration;
@@ -117,7 +120,7 @@ public sealed partial class FehlzeitenViewModel(
 
         Loaded = true;
         OnPropertyChanged(nameof(IsEmpty));
-    }
+    });
 
     /// <summary>Persist any pending row edits before the screen is left (autosave is debounced).</summary>
     public Task FlushAsync() => Task.WhenAll(Rows.Select(r => r.FlushAsync()));

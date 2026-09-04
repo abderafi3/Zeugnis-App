@@ -41,6 +41,38 @@ public sealed class WpfDispatcherFixture : IDisposable
     /// <summary>Runs <paramref name="action"/> on the shared STA/dispatcher thread and propagates exceptions.</summary>
     public void Invoke(Action action) => _dispatcher.Invoke(action);
 
+    /// <summary>
+    /// Keeps the shared dispatcher pumping for <paramref name="duration"/>. A plain
+    /// <c>Thread.Sleep</c> on the test thread leaves this one parked in <c>GetMessage</c>, so
+    /// DispatcherTimers never tick; posting work to it is what lets time-based UI code run.
+    /// </summary>
+    public void Pump(TimeSpan duration)
+    {
+        var deadline = DateTime.UtcNow + duration;
+        while (DateTime.UtcNow < deadline)
+        {
+            _dispatcher.Invoke(static () => { }, DispatcherPriority.Background);
+            Thread.Sleep(10);
+        }
+    }
+
+    /// <summary>Pumps until <paramref name="condition"/> (evaluated on the UI thread) holds, or the timeout passes.</summary>
+    public void PumpUntil(Func<bool> condition, TimeSpan timeout)
+    {
+        var deadline = DateTime.UtcNow + timeout;
+        while (DateTime.UtcNow < deadline)
+        {
+            var met = false;
+            _dispatcher.Invoke(() => met = condition(), DispatcherPriority.Background);
+            if (met)
+            {
+                return;
+            }
+
+            Thread.Sleep(10);
+        }
+    }
+
     public void Dispose()
     {
         _dispatcher.InvokeShutdown();

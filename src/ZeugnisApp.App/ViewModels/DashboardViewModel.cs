@@ -31,7 +31,6 @@ public sealed partial class DashboardViewModel(
 
     public override async Task OnNavigatedToAsync()
     {
-        IsBusy = true;
         try
         {
             var settings = await settingsService.GetAsync();
@@ -56,10 +55,6 @@ public sealed partial class DashboardViewModel(
         catch (Exception ex)
         {
             Log.Error(ex, "Dashboard konnte nicht geladen werden");
-        }
-        finally
-        {
-            IsBusy = false;
         }
     }
 
